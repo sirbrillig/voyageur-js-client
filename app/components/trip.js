@@ -18,11 +18,14 @@ export default React.createClass( {
     };
   },
 
+  renderTripHelp() {
+    if ( ! this.props.areThereLocations || this.props.tripLocations.length > 1 ) return;
+    if ( this.props.tripLocations.length === 1 ) return <div className="alert alert-info"><span className="glyphicon glyphicon-hand-left" /> Add another location from your library!</div>;
+    return <div className="alert alert-info"><span className="glyphicon glyphicon-hand-left" /> Click "Add" next to a location in your list to add it to this trip!</div>;
+  },
+
   renderTripLocations() {
     if ( this.props.tripLocations.length > 0 ) return <ul>{ this.props.tripLocations.map( this.renderTripLocation ) }</ul>;
-    if ( ! this.props.areThereLocations ) return;
-    if ( this.props.tripLocations.length === 1 ) return <div className="alert alert-info"><span className="glyphicon glyphicon-hand-left" />Add another location from your library!</div>;
-    return <div className="alert alert-info"><span className="glyphicon glyphicon-hand-left" /> Click "Add" next to a location in your list to add it to this trip!</div>;
   },
 
   renderTripLocation( tripLocation ) {
@@ -38,6 +41,7 @@ export default React.createClass( {
     return (
       <div className="trip">
         { this.renderTripLocations() }
+        { this.renderTripHelp() }
       </div>
     );
   }
