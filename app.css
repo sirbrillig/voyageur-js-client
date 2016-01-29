@@ -159,10 +159,11 @@ ul {
   text-align: left;
   padding: 2px 0;
   margin: 4px 0px;
+  border-width: 2px;
 }
 
 .library-location--selected {
-  background-color: #CCE7FF;
+  border: 2px solid #03BD4F;
 }
 
 .library-location--droppable {
