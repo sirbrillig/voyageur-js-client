@@ -9,6 +9,7 @@ const Library = React.createClass( {
     onDrop: React.PropTypes.func.isRequired,
     onEditLocation: React.PropTypes.func.isRequired,
     selectedLocation: React.PropTypes.number,
+    lastTripLocationId: React.PropTypes.object,
   },
 
   getDefaultProps() {
@@ -16,6 +17,7 @@ const Library = React.createClass( {
       locations: [],
       visibleLocations: [],
       selectedLocation: 0,
+      lastTripLocationId: null,
     };
   },
 
@@ -39,6 +41,7 @@ const Library = React.createClass( {
         onAddToTrip={ this.props.onAddToTrip }
         onDrop={ this.props.onDrop }
         isSelected={ this.props.selectedLocation === index }
+        isDisabled={ this.props.lastTripLocationId === location._id }
       />
     );
   },

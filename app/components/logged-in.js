@@ -77,6 +77,9 @@ const LoggedIn = React.createClass( {
 
   addSelectedLocationToTrip() {
     const location = this.props.visibleLocations[ this.props.selectedLocation ];
+    const lastTripLocation = ( this.props.trip.length > 0 ? this.props.trip[ this.props.trip.length - 1 ].location : null );
+    const lastTripLocationId = ( lastTripLocation ? lastTripLocation._id || lastTripLocation : null );
+    if ( lastTripLocationId === location._id ) return;
     this.props.dispatch( addToTrip( location ) );
   },
 
@@ -183,6 +186,7 @@ const LoggedIn = React.createClass( {
   },
 
   renderMain() {
+    const lastTripLocationId = ( this.props.trip.length > 0 ? this.props.trip[ this.props.trip.length - 1 ].location : null );
     return (
       <div className="row">
         <div className="col-xs-6">
@@ -190,12 +194,13 @@ const LoggedIn = React.createClass( {
           { this.renderAddLocationForm() }
           { this.renderSearchField() }
           <Library
-          locations={ this.props.library }
-          visibleLocations={ this.props.visibleLocations }
-          onAddToTrip={ this.onAddToTrip }
-          onEditLocation={ this.onEditLocation }
-          onDrop={ this.onLibraryDrop }
-          selectedLocation={ this.props.selectedLocation }
+            locations={ this.props.library }
+            visibleLocations={ this.props.visibleLocations }
+            onAddToTrip={ this.onAddToTrip }
+            onEditLocation={ this.onEditLocation }
+            onDrop={ this.onLibraryDrop }
+            selectedLocation={ this.props.selectedLocation }
+            lastTripLocationId={ lastTripLocationId ? lastTripLocationId._id || lastTripLocationId : null }
           />
         </div>
         <div className="col-xs-6">
