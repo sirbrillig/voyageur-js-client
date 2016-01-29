@@ -2,7 +2,7 @@ import request from 'superagent';
 import { Promise } from 'es6-promise';
 import authVars from '../../auth0-variables';
 
-const baseUrl = `http://${authVars.VOYAGEUR_API_SERVER}`;
+const baseUrl = `${authVars.VOYAGEUR_API_SERVER}`;
 
 export function listTripLocations( token ) {
   return new Promise( ( resolve, reject ) => {
