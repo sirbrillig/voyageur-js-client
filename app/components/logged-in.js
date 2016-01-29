@@ -200,6 +200,7 @@ const LoggedIn = React.createClass( {
           { this.renderMap() }
           <Distance meters={ this.props.distance } />
           <Trip
+            areThereLocations={ ( this.props.library.length > 0 ) }
             tripLocations={ this.props.trip }
             getLocationById={ this.getLocationById }
             onRemoveTripLocation={ this.onRemoveTripLocation }
