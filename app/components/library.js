@@ -9,6 +9,7 @@ const Library = React.createClass( {
     onDrop: React.PropTypes.func.isRequired,
     onEditLocation: React.PropTypes.func.isRequired,
     selectedLocation: React.PropTypes.number,
+    lastTripLocationId: React.PropTypes.object,
   },
 
   getDefaultProps() {
@@ -16,24 +17,13 @@ const Library = React.createClass( {
       locations: [],
       visibleLocations: [],
       selectedLocation: 0,
+      lastTripLocationId: null,
     };
   },
 
-  renderNoLocations() {
-    return <div className="alert alert-info">No locations added yet!</div>;
-  },
-
-  renderMoreLocations() {
-    return <div className="alert alert-info">Add another location to start getting distances!</div>;
-  },
-
   renderHelpBox() {
-    if ( this.props.locations.length === 0 ) {
-      return this.renderNoLocations();
-    }
-    if ( this.props.locations.length === 1 ) {
-      return this.renderMoreLocations();
-    }
+    if ( this.props.locations.length === 0 ) return <div className="alert alert-info">No locations added yet! Add one with the link above. <span className="glyphicon glyphicon-hand-up" /></div>;
+    if ( this.props.locations.length === 1 ) return <div className="alert alert-info">Add another location to start getting distances! <span className="glyphicon glyphicon-hand-up" /></div>;
   },
 
   renderLocations() {
@@ -51,6 +41,7 @@ const Library = React.createClass( {
         onAddToTrip={ this.props.onAddToTrip }
         onDrop={ this.props.onDrop }
         isSelected={ this.props.selectedLocation === index }
+        isDisabled={ this.props.lastTripLocationId === location._id }
       />
     );
   },

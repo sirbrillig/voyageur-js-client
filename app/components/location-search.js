@@ -44,7 +44,12 @@ export default React.createClass( {
   },
 
   render() {
-    return <div className="location-search"><input ref={ this.inputWasMounted } value={ this.state.searchString } className="form-control" type="text" placeholder="Search" onChange={ event => this.onChange( event.target.value ) } /></div>;
+    return (
+      <div className="location-search">
+        <input ref={ this.inputWasMounted } value={ this.state.searchString } className="form-control" type="text" placeholder="Search" onChange={ event => this.onChange( event.target.value ) } />
+        <div className="location-search__help alert">Press '/' to Search, 'esc' to clear, up/down to select and 'enter' to add.</div>
+      </div>
+    );
   }
 } );
 

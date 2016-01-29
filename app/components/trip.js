@@ -8,12 +8,20 @@ export default React.createClass( {
     getLocationById: React.PropTypes.func.isRequired,
     onRemoveTripLocation: React.PropTypes.func.isRequired,
     onDrop: React.PropTypes.func.isRequired,
+    areThereLocations: React.PropTypes.bool,
   },
 
   getDefaultProps() {
     return {
       tripLocations: [],
+      areThereLocations: false,
     };
+  },
+
+  renderTripHelp() {
+    if ( ! this.props.areThereLocations || this.props.tripLocations.length > 1 ) return;
+    if ( this.props.tripLocations.length === 1 ) return <div className="alert alert-info"><span className="glyphicon glyphicon-hand-left" /> Add another location from your library!</div>;
+    return <div className="alert alert-info"><span className="glyphicon glyphicon-hand-left" /> Click "Add" next to a location in your list to add it to this trip!</div>;
   },
 
   renderTripLocations() {
@@ -33,6 +41,7 @@ export default React.createClass( {
     return (
       <div className="trip">
         { this.renderTripLocations() }
+        { this.renderTripHelp() }
       </div>
     );
   }

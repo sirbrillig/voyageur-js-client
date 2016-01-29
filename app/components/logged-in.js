@@ -3,6 +3,7 @@ import Library from './library';
 import WideButton from './wide-button';
 import Trip from './trip';
 import TripMap from './trip-map';
+import Distance from './distance';
 import AddLocationForm from './add-location-form';
 import EditLocationForm from './edit-location-form';
 import LocationSearch from './location-search';
@@ -25,8 +26,6 @@ import { clearTrip, addToTrip, removeTripLocation, moveTripLocation, fetchTrip }
 import flow from 'lodash.flow';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-
-const Distance = ( props ) => <div className="distance well well-sm">{ ( props.meters * 0.000621371192 ).toFixed( 1 ) } miles</div>;
 
 const LoggedIn = React.createClass( {
   propTypes: {
@@ -78,6 +77,9 @@ const LoggedIn = React.createClass( {
 
   addSelectedLocationToTrip() {
     const location = this.props.visibleLocations[ this.props.selectedLocation ];
+    const lastTripLocation = ( this.props.trip.length > 0 ? this.props.trip[ this.props.trip.length - 1 ].location : null );
+    const lastTripLocationId = ( lastTripLocation ? lastTripLocation._id || lastTripLocation : null );
+    if ( lastTripLocationId === location._id ) return;
     this.props.dispatch( addToTrip( location ) );
   },
 
@@ -179,20 +181,26 @@ const LoggedIn = React.createClass( {
     );
   },
 
+  renderSearchField() {
+    if ( this.props.library.length > 1 ) return <LocationSearch onChange={ this.onSearch } onClearSearch={ this.onClearSearch } />;
+  },
+
   renderMain() {
+    const lastTripLocationId = ( this.props.trip.length > 0 ? this.props.trip[ this.props.trip.length - 1 ].location : null );
     return (
       <div className="row">
         <div className="col-xs-6">
           { this.renderAddLocationButton() }
           { this.renderAddLocationForm() }
-          <LocationSearch onChange={ this.onSearch } onClearSearch={ this.onClearSearch } />
+          { this.renderSearchField() }
           <Library
-          locations={ this.props.library }
-          visibleLocations={ this.props.visibleLocations }
-          onAddToTrip={ this.onAddToTrip }
-          onEditLocation={ this.onEditLocation }
-          onDrop={ this.onLibraryDrop }
-          selectedLocation={ this.props.selectedLocation }
+            locations={ this.props.library }
+            visibleLocations={ this.props.visibleLocations }
+            onAddToTrip={ this.onAddToTrip }
+            onEditLocation={ this.onEditLocation }
+            onDrop={ this.onLibraryDrop }
+            selectedLocation={ this.props.selectedLocation }
+            lastTripLocationId={ lastTripLocationId ? lastTripLocationId._id || lastTripLocationId : null }
           />
         </div>
         <div className="col-xs-6">
@@ -200,6 +208,7 @@ const LoggedIn = React.createClass( {
           { this.renderMap() }
           <Distance meters={ this.props.distance } />
           <Trip
+            areThereLocations={ ( this.props.library.length > 0 ) }
             tripLocations={ this.props.trip }
             getLocationById={ this.getLocationById }
             onRemoveTripLocation={ this.onRemoveTripLocation }

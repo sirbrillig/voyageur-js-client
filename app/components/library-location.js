@@ -14,6 +14,7 @@ const LibraryLocation = React.createClass( {
     connectDropTarget: React.PropTypes.func.isRequired,
     isOver: React.PropTypes.bool.isRequired,
     onDrop: React.PropTypes.func.isRequired,
+    isDisabled: React.PropTypes.bool,
   },
 
   renderControls() {
@@ -23,7 +24,7 @@ const LibraryLocation = React.createClass( {
     return (
       <div className="btn-group btn-group-sm" role="group">
         <button className="btn btn-default" onClick={ () => this.props.onEditLocation( this.props.location ) }>Edit</button>
-        <button className="btn btn-primary" onClick={ () => this.props.onAddToTrip( this.props.location ) }>Add</button>
+        <button disabled={ this.props.isDisabled } className="btn btn-primary" onClick={ () => this.props.onAddToTrip( this.props.location ) }>Add <span className="glyphicon glyphicon-arrow-right" /></button>
       </div>
     );
   },
