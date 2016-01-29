@@ -1,0 +1,280 @@
+body {
+  font-family: "proxima-nova", sans-serif;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 100;
+}
+h1,
+h2,
+h3 {
+  font-weight: 100;
+}
+
+ul {
+  padding: 0;
+}
+
+/**
+ * LogInBox
+ */
+.log-in-box {
+  padding: 100px 0;
+}
+
+.log-in-box__logo {
+  width: 200px;
+}
+
+.log-in-box__title {
+  font-size: 2em;
+}
+
+.log-in-box__button {
+  font-size: 140%;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: 0;
+  background-color: #16214D;
+  color: white;
+}
+
+.log-in-box__button:hover {
+  background-color: #44C7F4;
+}
+
+.log-in-box__button:focus {
+  outline: none !important;
+}
+
+.log-in-box__button.btn-lg {
+  padding: 20px 30px;
+}
+
+@media( min-width: 755px ) {
+  .log-in-box__button {
+    width: 720px;
+    margin: auto;
+  }
+}
+
+/**
+ * LoggedIn
+ */
+.logged-in__error {
+  padding: 100px 0;
+}
+
+.logged-in__error__logo {
+  width: 200px;
+}
+
+.logged-in_error__button {
+  font-size: 140%;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: 0;
+  background-color: #16214D;
+  color: white;
+}
+
+.logged-in_error__button:hover {
+  background-color: #44C7F4;
+}
+
+.logged-in_error__button:focus {
+  outline: none !important;
+}
+
+.logged-in_error__button.btn-lg {
+  padding: 20px 30px;
+}
+
+@media( min-width: 755px ) {
+  .logged-in__error__button {
+    width: 720px;
+    margin: auto;
+  }
+}
+
+/**
+ * Header
+ */
+.header {
+  margin: 0 -15px;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+}
+
+.header__logo {
+  width: 85px;
+}
+
+.header__title {
+  font-size: 2em;
+  margin-top: 0px;
+}
+
+.header__buttons {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.admin-button {
+  margin: 0 2px;
+}
+
+.notices {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background-color: #fff;
+  z-index: 1001;
+}
+
+.notices__notice {
+  margin-bottom: 5px;
+}
+
+.notices__clear {
+  margin-bottom: 5px;
+}
+
+/**
+ * Library
+ */
+.library__title {
+  font-size: 1.2em;
+}
+
+.add-location-button {
+  margin-bottom: 10px;
+}
+
+.library-location {
+  list-style: none;
+  text-align: left;
+  padding: 2px 0;
+  margin: 4px 0px;
+}
+
+.library-location--selected {
+  background-color: #CCE7FF;
+}
+
+.library-location--droppable {
+  background-color: #47A067;
+}
+
+.library-location__controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+}
+
+.library-location__loading {
+  color: #999;
+}
+
+.library-location__description__name {
+  margin: 10px 0px;
+}
+
+.edit-location-form {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  z-index: 1000;
+}
+
+.glyphicon-spin {
+  -webkit-animation: spin 1000ms infinite linear;
+  animation: spin 1800ms infinite linear;
+  font-size: 18px;
+}
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+
+/**
+ * Trip
+ */
+.trip__title {
+  font-size: 1.2em;
+}
+
+.trip-location {
+  list-style: none;
+  text-align: left;
+  padding: 2px 0;
+  margin: 4px 0px;
+}
+
+.trip-location--droppable {
+  background-color: #47A067;
+}
+
+.trip-location__controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+}
+
+.trip-location__loading {
+  color: #999;
+}
+
+.trip-location__description__name {
+  margin: 10px 0px;
+}
+
+.trip-map {
+  height: 150px;
+  margin-top: 10px;
+}
+
+.distance {
+  margin: 0;
+  font-weight: 600;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/**
+ * Footer
+ */
+.footer {
+  font-size: 1em;
+}
+
+/**
+ * Admin
+ */
+.admin-main {
+  text-align: left;
+}
