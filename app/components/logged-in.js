@@ -3,6 +3,7 @@ import Library from './library';
 import WideButton from './wide-button';
 import Trip from './trip';
 import TripMap from './trip-map';
+import Distance from './distance';
 import AddLocationForm from './add-location-form';
 import EditLocationForm from './edit-location-form';
 import LocationSearch from './location-search';
@@ -25,8 +26,6 @@ import { clearTrip, addToTrip, removeTripLocation, moveTripLocation, fetchTrip }
 import flow from 'lodash.flow';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-
-const Distance = ( props ) => <div className="distance well well-sm">{ ( props.meters * 0.000621371192 ).toFixed( 1 ) } miles</div>;
 
 const LoggedIn = React.createClass( {
   propTypes: {
