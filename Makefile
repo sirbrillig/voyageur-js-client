@@ -1,14 +1,14 @@
-WATCHIFY = ./node_modules/.bin/watchify
-BROWSERIFY = ./node_modules/.bin/browserify
-NODEMON = ./node_modules/.bin/nodemon
+NODE_BIN = node_modules/.bin
+WATCHIFY = $(NODE_BIN)/watchify
+BROWSERIFY = $(NODE_BIN)/browserify
+NODEMON = $(NODE_BIN)/nodemon
 NPM = npm
 NODE ?= node
 BUILD_DIR = build
 APP_JS = app/boot.js
 APP_BUNDLE_JS = $(BUILD_DIR)/bundle.js
 BABELIFY_PLUGIN = [ babelify --presets [ es2015 react ] ]
-BROWSERIFY_EXCLUDE = ""
-BROWSERIFY_OPTIONS = --verbose -u $(BROWSERIFY_EXCLUDE) $(APP_JS) -d -t $(BABELIFY_PLUGIN) -o $(APP_BUNDLE_JS)
+BROWSERIFY_OPTIONS = --verbose $(APP_JS) --debug -t $(BABELIFY_PLUGIN) -o $(APP_BUNDLE_JS)
 
 build: install build-app
 

@@ -4,6 +4,7 @@
   "description": "An app for calculating driving distances between multiple locations",
   "main": "build/bundle.js",
   "scripts": {
+    "build": "make build-app",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Payton Swick <payton@foolord.com>",
