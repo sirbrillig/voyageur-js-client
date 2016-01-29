@@ -8,7 +8,7 @@ BUILD_DIR = build
 APP_JS = app/boot.js
 APP_BUNDLE_JS = $(BUILD_DIR)/bundle.js
 BABELIFY_PLUGIN = [ babelify --presets [ es2015 react ] ]
-BROWSERIFY_OPTIONS = --verbose $(APP_JS) --debug -t $(BABELIFY_PLUGIN) -o $(APP_BUNDLE_JS)
+BROWSERIFY_OPTIONS = $(APP_JS) --debug -t $(BABELIFY_PLUGIN) -o $(APP_BUNDLE_JS)
 
 build: install build-app
 
