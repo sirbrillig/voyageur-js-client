@@ -19,21 +19,9 @@ const Library = React.createClass( {
     };
   },
 
-  renderNoLocations() {
-    return <div className="alert alert-info">No locations added yet! Add one with the link above. <span className="glyphicon glyphicon-hand-up" /></div>;
-  },
-
-  renderMoreLocations() {
-    return <div className="alert alert-info">Add another location to start getting distances! <span className="glyphicon glyphicon-hand-up" /></div>;
-  },
-
   renderHelpBox() {
-    if ( this.props.locations.length === 0 ) {
-      return this.renderNoLocations();
-    }
-    if ( this.props.locations.length === 1 ) {
-      return this.renderMoreLocations();
-    }
+    if ( this.props.locations.length === 0 ) return <div className="alert alert-info">No locations added yet! Add one with the link above. <span className="glyphicon glyphicon-hand-up" /></div>;
+    if ( this.props.locations.length === 1 ) return <div className="alert alert-info">Add another location to start getting distances! <span className="glyphicon glyphicon-hand-up" /></div>;
   },
 
   renderLocations() {

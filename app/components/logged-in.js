@@ -179,13 +179,17 @@ const LoggedIn = React.createClass( {
     );
   },
 
+  renderSearchField() {
+    if ( this.props.library.length > 1 ) return <LocationSearch onChange={ this.onSearch } onClearSearch={ this.onClearSearch } />;
+  },
+
   renderMain() {
     return (
       <div className="row">
         <div className="col-xs-6">
           { this.renderAddLocationButton() }
           { this.renderAddLocationForm() }
-          <LocationSearch onChange={ this.onSearch } onClearSearch={ this.onClearSearch } />
+          { this.renderSearchField() }
           <Library
           locations={ this.props.library }
           visibleLocations={ this.props.visibleLocations }

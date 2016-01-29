@@ -184,6 +184,13 @@ ul {
   margin: 10px 0px;
 }
 
+.location-search__help {
+  padding: 2px 0;
+  font-size: 0.9em;
+  margin: 0;
+  text-align: left;
+}
+
 .edit-location-form {
   position: absolute;
   top: 0;
