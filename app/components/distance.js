@@ -1,22 +1,37 @@
 import React from 'react';
+import noop from 'lodash.noop';
+import classNames from 'classnames';
 
 export default React.createClass( {
   propTypes: {
     meters: React.PropTypes.number.isRequired,
+    useMiles: React.PropTypes.bool,
+    onClickUnits: React.PropTypes.func,
+  },
+
+  getDefaultProps() {
+    return {
+      meters: 0,
+      useMiles: true,
+      onClickUnits: noop,
+    };
   },
 
   getDistanceText() {
-    return 'Your trip is ' + ( this.props.meters * 0.000621371192 ).toFixed( 1 ) + ' miles';
+    if ( this.props.useMiles ) return 'Your trip is ' + ( this.props.meters * 0.000621371192 ).toFixed( 1 ) + ' miles';
+    return 'Your trip is ' + ( this.props.meters / 1000 ).toFixed( 1 ) + ' km';
   },
 
   renderButtons() {
+    const milesClassNames = classNames( 'btn btn-primary', { active: this.props.useMiles } );
+    const kmClassNames = classNames( 'btn btn-primary', { active: ! this.props.useMiles } );
     return (
       <span className="btn-group btn-group-xs" data-toggle="buttons">
-        <label className="btn btn-primary active">
-          <input type="radio" name="scale" id="scale-miles" defaultChecked={ true } />Miles
+        <label className={ milesClassNames }>
+          <input type="radio" name="scale" id="scale-miles" checked={ this.props.useMiles } onChange={ () => this.props.onClickUnits( 'miles' ) } />Miles
         </label>
-        <label className="btn btn-primary">
-          <input type="radio" name="scale" id="scale-km" />Km
+        <label className={ kmClassNames }>
+          <input type="radio" name="scale" id="scale-km" checked={ ! this.props.useMiles } onChange={ () => this.props.onClickUnits( 'km' ) } />Km
         </label>
       </span>
     );

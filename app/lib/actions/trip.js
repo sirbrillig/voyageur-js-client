@@ -83,3 +83,7 @@ export function moveTripLocation( tripLocationId, targetLocationId ) {
     } ) ) );
   }
 }
+
+export function changeUnits( unit ) {
+  return { type: 'UNITS_CHANGE', unit };
+}

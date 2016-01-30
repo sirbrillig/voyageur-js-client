@@ -1,4 +1,4 @@
-const initialState = { isShowingAddLocation: false, searchString: '', selectedLocation: 0, editingLocation: null };
+const initialState = { isShowingAddLocation: false, searchString: '', selectedLocation: 0, editingLocation: null, useMiles: true };
 export default function auth( state = initialState, action ) {
   switch ( action.type ) {
     case 'LIBRARY_GOT_NEW_LOCATION':
@@ -19,6 +19,8 @@ export default function auth( state = initialState, action ) {
       return Object.assign( {}, state, { editingLocation: action.location } );
     case 'LIBRARY_HIDE_EDIT_LOCATION':
       return Object.assign( {}, state, { editingLocation: null } );
+    case 'UNITS_CHANGE':
+      return Object.assign( {}, state, { useMiles: action.unit === 'miles' } );
   }
   return state;
 }
