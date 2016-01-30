@@ -38,7 +38,7 @@ export default React.createClass( {
   },
 
   render() {
-    if ( this.props.meters === 0 ) return <div className="distance well well-sm">0 miles</div>;
+    if ( this.props.meters === 0 ) return <div className="distance well well-sm">0 { this.props.useMiles ? 'miles' : 'km' }</div>;
     return <div className="distance well well-sm"><span className="glyphicon glyphicon-road" /> { this.getDistanceText() } { this.renderButtons() }</div>;
   }
 } );
