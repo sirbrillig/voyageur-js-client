@@ -43,12 +43,14 @@ export default React.createClass( {
 
   render() {
     return (
-      <div className="header">
-        <h1 className="header__title">Voyageur</h1>
-        <img className="header__logo" src="/assets/logo.png" />
-        <div className="header__buttons">
-          { this.renderAdminButton() }
-          <button className="btn btn-default log-out-button" onClick={ this.props.onLogOut }>Log out</button>
+      <div className="header navbar navbar-default">
+        <div className="container">
+          <h1 className="header__title">Voyageur</h1>
+          <img className="header__logo navbar-brand" src="/assets/logo.png" />
+          <div className="header__buttons">
+            { this.renderAdminButton() }
+            <button className="btn btn-default log-out-button navbar-btn" onClick={ this.props.onLogOut }>Log out</button>
+          </div>
         </div>
         { this.renderNotices() }
       </div>
