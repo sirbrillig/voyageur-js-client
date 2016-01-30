@@ -100,19 +100,21 @@ ul {
  * Header
  */
 .header {
-  margin: 0 -15px;
+  margin: 5px -15px;
+  padding: 5px;
   padding-bottom: 20px;
-  margin-bottom: 20px;
   border-bottom: 1px solid #ccc;
 }
 
 .header__logo {
   width: 85px;
+  margin: 5px;
 }
 
 .header__title {
   font-size: 2em;
   margin-top: 0px;
+  display: none;
 }
 
 .header__buttons {
