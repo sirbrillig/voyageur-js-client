@@ -1,15 +1,21 @@
-# Auth0 + React + API Seed
+![Voyageur logo](https://cldup.com/iu86nhnHUS.png)
 
-This is the seed project you need to use if you're going to create an app that will use Auth0, React and an API that you're going to be developing. That API can be in any language.
+# Voyageur
+#### A web app for calculating driving distances between multiple locations.
 
-To see the example working, just go to [http://auth0.github.io/auth0-react/examples/redirect-lock-with-api/](http://auth0.github.io/auth0-react/examples/redirect-lock-with-api/)
+## What's This?
 
-## Running the example
+Create a list of addresses that you commonly drive to. Then add those addresses to your current trip, in the order you plan on visiting them. Voyageur will calculate the total driving distance of the trip.
 
-In order to run the example you need to just start a server. What we suggest is doing the following:
+This is the client for the app. The server is at
+https://github.com/sirbrillig/voyageur-js-server
 
-1. Install node
-2. run `npm install -g serve`
-3. run `serve` in the directory of this project.
+## Features
 
-Go to `http://localhost:3000` and you'll see the app running :).
+The trip addresses can be re-ordered easily by dragging and dropping, and you can always see a small map of your trip displayed at the top. You can even include an address more than once if you plan to return at some point during the trip!
+
+For quickly entering a trip, there are keyboard shortcuts and a very fast search.
+
+---
+
+Logo design by [Cole McDermott](http://colevanzandt.design)
