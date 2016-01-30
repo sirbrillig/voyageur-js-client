@@ -22,7 +22,7 @@ import {
   showAddLocation,
   moveLibraryLocation,
 } from '../lib/actions/library';
-import { clearTrip, addToTrip, removeTripLocation, moveTripLocation, fetchTrip } from '../lib/actions/trip';
+import { clearTrip, addToTrip, removeTripLocation, moveTripLocation, fetchTrip, changeUnits } from '../lib/actions/trip';
 import flow from 'lodash.flow';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -137,6 +137,10 @@ const LoggedIn = React.createClass( {
     this.props.dispatch( deleteLocation( location ) );
   },
 
+  onClickUnits( unit ) {
+    if ( unit === 'km' || unit === 'miles' ) this.props.dispatch( changeUnits( unit ) );
+  },
+
   onLibraryDrop( location, targetLocation ) {
     this.props.dispatch( moveLibraryLocation( location, targetLocation ) );
   },
@@ -206,7 +210,11 @@ const LoggedIn = React.createClass( {
         <div className="col-xs-6">
           <WideButton className="clear-trip-button" text="Clear trip" onClick={ this.onClearTrip } />
           { this.renderMap() }
-          <Distance meters={ this.props.distance } />
+          <Distance
+            meters={ this.props.distance }
+            useMiles={ this.props.useMiles }
+            onClickUnits={ this.onClickUnits }
+          />
           <Trip
             areThereLocations={ ( this.props.library.length > 0 ) }
             tripLocations={ this.props.trip }
@@ -237,6 +245,7 @@ function mapStateToProps( state ) {
     searchString: ui.searchString,
     selectedLocation: ui.selectedLocation,
     editingLocation: ui.editingLocation,
+    useMiles: ui.useMiles,
   };
 }
 
