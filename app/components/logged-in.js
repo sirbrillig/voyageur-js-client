@@ -104,11 +104,12 @@ const LoggedIn = React.createClass( {
     }, null );
   },
 
-  toggleAddLocationForm() {
-    if ( this.props.isShowingAddLocation ) {
-      return this.props.dispatch( hideAddLocation() );
-    }
+  onShowAddLocation() {
     this.props.dispatch( showAddLocation() );
+  },
+
+  onCancelAddLocation() {
+    this.props.dispatch( hideAddLocation() );
   },
 
   onAddLocation( params ) {
@@ -177,12 +178,11 @@ const LoggedIn = React.createClass( {
   },
 
   renderAddLocationForm() {
-    if ( this.props.isShowingAddLocation ) return <AddLocationForm onAddLocation={ this.onAddLocation }/>;
+    if ( this.props.isShowingAddLocation ) return <AddLocationForm onAddLocation={ this.onAddLocation } onCancelAddLocation={ this.onCancelAddLocation } />;
   },
 
   renderAddLocationButton() {
-    const text = this.props.isShowingAddLocation ? 'Cancel adding location' : 'Add a new location';
-    return <WideButton className="add-location-button" text={ text } onClick={ this.toggleAddLocationForm } />
+    return <WideButton className="add-location-button" text="Add a new location" onClick={ this.onShowAddLocation } />
   },
 
   renderLoading() {
@@ -204,7 +204,6 @@ const LoggedIn = React.createClass( {
         <div className="logged-in__main-column col-xs-6">
           <div className="library-control-area">
             { this.renderAddLocationButton() }
-            { this.renderAddLocationForm() }
             { this.renderSearchField() }
           </div>
           <Library
@@ -235,6 +234,7 @@ const LoggedIn = React.createClass( {
             onDrop={ this.onTripDrop }
           />
         </div>
+        { this.renderAddLocationForm() }
         { this.renderEditLocationForm() }
       </div>
     );

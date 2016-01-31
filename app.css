@@ -214,6 +214,7 @@ ul {
   text-align: left;
 }
 
+.add-location-form,
 .edit-location-form {
   position: absolute;
   top: 0;
