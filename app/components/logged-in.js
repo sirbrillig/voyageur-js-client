@@ -192,7 +192,7 @@ const LoggedIn = React.createClass( {
     const lastTripLocationId = ( this.props.trip.length > 0 ? this.props.trip[ this.props.trip.length - 1 ].location : null );
     return (
       <div className="row">
-        <div className="col-xs-6">
+        <div className="logged-in__main-column col-xs-6">
           <div className="library-control-area">
             { this.renderAddLocationButton() }
             { this.renderAddLocationForm() }
@@ -208,7 +208,7 @@ const LoggedIn = React.createClass( {
             lastTripLocationId={ lastTripLocationId ? lastTripLocationId._id || lastTripLocationId : null }
           />
         </div>
-        <div className="col-xs-6">
+        <div className="logged-in__main-column col-xs-6">
           <div className="trip-control-area">
             <WideButton className="clear-trip-button" text="Clear trip" onClick={ this.onClearTrip } />
             { this.renderMap() }

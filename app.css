@@ -96,6 +96,10 @@ ul {
   }
 }
 
+.logged-in__main-column {
+  padding: 0 2px;
+}
+
 /**
  * Header
  */
@@ -256,6 +260,7 @@ ul {
   text-align: left;
   padding: 2px 0;
   margin: 4px 0px;
+  border-width: 2px;
 }
 
 .trip-location--droppable {
