@@ -163,8 +163,7 @@ const LoggedIn = React.createClass( {
   },
 
   renderAddLocationForm() {
-    if ( ! this.props.isShowingAddLocation ) return;
-    return <AddLocationForm onAddLocation={ this.onAddLocation }/>;
+    if ( this.props.isShowingAddLocation ) return <AddLocationForm onAddLocation={ this.onAddLocation }/>;
   },
 
   renderAddLocationButton() {
@@ -186,7 +185,7 @@ const LoggedIn = React.createClass( {
   },
 
   renderSearchField() {
-    if ( this.props.library.length > 1 ) return <LocationSearch onChange={ this.onSearch } onClearSearch={ this.onClearSearch } />;
+    if ( this.props.library.length > 1 && ! this.props.isShowingAddLocation ) return <LocationSearch onChange={ this.onSearch } onClearSearch={ this.onClearSearch } />;
   },
 
   renderMain() {
