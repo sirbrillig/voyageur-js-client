@@ -77,7 +77,7 @@ export default React.createClass( {
   },
 
   handleMapClick() {
-    const mapUrl = 'https://www.google.com/maps/dir/' + this.getAddresses().reduce( ( previous, address ) => {
+    const mapUrl = 'https://www.google.com/maps/dir/' + this.getAddresses( this.props.tripLocations ).reduce( ( previous, address ) => {
       return previous + encodeURIComponent( address ) + '/';
     }, '' );
     window.location = mapUrl;
