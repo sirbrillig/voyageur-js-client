@@ -7,10 +7,17 @@ import debugFactory from 'debug';
 
 const debug = debugFactory( 'voyageur:store' );
 
+function storeSlicer() {
+  return state => {
+    let { auth, ui } = state;
+    return { auth, ui: { useMiles: ui.useMiles } };
+  };
+}
+
 const createStoreWithMiddleware = compose(
   applyMiddleware( thunk ),
   applyMiddleware( Debug( debug ) ),
-  persistState( 'auth', { key: 'voyageur' } )
+  persistState( null, { key: 'voyageur', slicer: storeSlicer } )
 )( createStore );
 
 export default createStoreWithMiddleware( reducers );
