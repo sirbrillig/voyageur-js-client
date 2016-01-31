@@ -97,7 +97,7 @@ ul {
 }
 
 .logged-in__main-column {
-  padding: 0 2px;
+  padding: 0;
 }
 
 /**
@@ -150,12 +150,16 @@ ul {
 /**
  * Library
  */
+.library {
+  margin: 5px;
+}
+
 .library-control-area {
-  margin: 0px -15px 5px -15px;
+  margin: 0px;
   background-color: #f5f5f5;
   border-bottom: 1px solid #ccc;
   height: 220px;
-  padding: 0 10px;
+  padding: 0 15px;
 }
 
 .library__title {
@@ -243,12 +247,16 @@ ul {
 /**
  * Trip
  */
+.trip {
+  margin: 5px;
+}
+
 .trip-control-area {
-  margin: 0px -15px 5px -15px;
+  margin: 0px;
   background-color: #f5f5f5;
   border-bottom: 1px solid #ccc;
   height: 220px;
-  padding: 0 10px;
+  padding: 0 15px;
 }
 
 .trip__title {
@@ -261,6 +269,7 @@ ul {
   padding: 2px 0;
   margin: 4px 0px;
   border-width: 2px;
+  background-color: #E3EEF7;
 }
 
 .trip-location--droppable {
