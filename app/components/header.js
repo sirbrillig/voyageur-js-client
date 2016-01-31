@@ -45,7 +45,7 @@ export default React.createClass( {
     return (
       <div className="header">
         <h1 className="header__title">Voyageur</h1>
-        <Link to="/"><img className="header__logo" src="/assets/logo.png" /></Link>
+        <Link to="/"><img className="header__logo" src="/assets/logo-small.png" /></Link>
         <div className="header__buttons">
           { this.renderAdminButton() }
           <button className="btn btn-default log-out-button" onClick={ this.props.onLogOut }>Log out</button>
