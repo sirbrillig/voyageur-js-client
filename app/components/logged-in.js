@@ -33,6 +33,7 @@ const LoggedIn = React.createClass( {
     library: React.PropTypes.array,
     visibleLocations: React.PropTypes.array,
     trip: React.PropTypes.array,
+    prefs: React.PropTypes.object,
     isShowingAddLocation: React.PropTypes.bool,
     editingLocation: React.PropTypes.object,
     searchString: React.PropTypes.string,
@@ -47,34 +48,37 @@ const LoggedIn = React.createClass( {
   },
 
   componentDidMount() {
-    this.listenForKeys();
+    if ( ! window ) return;
+    window.document.body.addEventListener( 'keydown', this.mainKeyListener );
   },
 
-  listenForKeys() {
+  componentWillUnmount() {
     if ( ! window ) return;
-    window.document.body.addEventListener( 'keydown', ( evt ) => {
-      switch ( evt.keyCode ) {
-        case 40:
-          // pressing up and down changes the selected location
+    window.document.body.removeEventListener( 'keydown', this.mainKeyListener );
+  },
+
+  mainKeyListener( evt ) {
+    if ( this.props.isShowingAddLocation || this.props.editingLocation ) return;
+    switch ( evt.keyCode ) {
+      case 40:
+        // pressing up and down changes the selected location
+        evt.preventDefault();
+        return this.moveSelectDown();
+      case 38:
+        evt.preventDefault();
+        return this.moveSelectUp();
+      case 27:
+        // pressing shift-esc clears the trip
+        if ( evt.shiftKey ) {
           evt.preventDefault();
-          return this.moveSelectDown();
-        case 38:
-          evt.preventDefault();
-          return this.moveSelectUp();
-        case 27:
-          // pressing shift-esc clears the trip
-          if ( evt.shiftKey ) {
-            evt.preventDefault();
-            return this.onClearTrip();
-          }
-          return;
-        case 13:
-          // pressing enter adds the selected location
-          evt.preventDefault();
-          return this.addSelectedLocationToTrip();
-        case 8:
-      }
-    } );
+          return this.onClearTrip();
+        }
+        return;
+      case 13:
+        // pressing enter adds the selected location
+        evt.preventDefault();
+        return this.addSelectedLocationToTrip();
+    }
   },
 
   moveSelectDown() {
@@ -87,6 +91,7 @@ const LoggedIn = React.createClass( {
 
   addSelectedLocationToTrip() {
     const location = this.props.visibleLocations[ this.props.selectedLocation ];
+    if ( ! location ) return;
     const lastTripLocation = ( this.props.trip.length > 0 ? this.props.trip[ this.props.trip.length - 1 ].location : null );
     const lastTripLocationId = ( lastTripLocation ? lastTripLocation._id || lastTripLocation : null );
     if ( lastTripLocationId === location._id ) return;
@@ -195,7 +200,7 @@ const LoggedIn = React.createClass( {
   },
 
   renderSearchField() {
-    if ( this.props.library.length > 1 && ! this.props.isShowingAddLocation ) return <LocationSearch onChange={ this.onSearch } onClearSearch={ this.onClearSearch } />;
+    if ( this.props.library.length > 1 && ! this.props.isShowingAddLocation && ! this.props.editingLocation ) return <LocationSearch onChange={ this.onSearch } onClearSearch={ this.onClearSearch } />;
   },
 
   renderMain() {
@@ -224,7 +229,7 @@ const LoggedIn = React.createClass( {
             { this.renderMap() }
             <Distance
               meters={ this.props.distance }
-              useMiles={ this.props.useMiles }
+              useMiles={ this.props.prefs.useMiles }
               onClickUnits={ this.onClickUnits }
               isLoading={ this.props.isLoadingTrip }
             />
@@ -248,7 +253,7 @@ const LoggedIn = React.createClass( {
 } );
 
 function mapStateToProps( state ) {
-  const { library, trip, ui, distance } = state;
+  const { library, trip, ui, prefs, distance } = state;
   return {
     isLoading: library.isLoading,
     library: library.locations,
@@ -259,7 +264,7 @@ function mapStateToProps( state ) {
     searchString: ui.searchString,
     selectedLocation: ui.selectedLocation,
     editingLocation: ui.editingLocation,
-    useMiles: ui.useMiles,
+    prefs,
     isLoadingTrip: trip.some( l => l.isLoading ),
   };
 }

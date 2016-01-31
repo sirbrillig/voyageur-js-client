@@ -14,14 +14,21 @@ export default React.createClass( {
 
   componentDidMount() {
     if ( ! window ) return;
-    window.document.body.addEventListener( 'keyup', ( evt ) => {
-      // pressing forward slash focuses the search field
-      if ( evt.keyCode === 191 ) this.focusSearchField();
-      // pressing escape clears the search field
-      if ( evt.keyCode === 27 ) this.clearSearch();
-      // pressing enter also clears the search (after adding takes place)
-      if ( evt.keyCode === 13 ) this.clearSearch();
-    } );
+    window.document.body.addEventListener( 'keyup', this.searchKeyListener );
+  },
+
+  searchKeyListener( evt ) {
+    // pressing forward slash focuses the search field
+    if ( evt.keyCode === 191 ) this.focusSearchField();
+    // pressing escape clears the search field
+    if ( evt.keyCode === 27 ) this.clearSearch();
+    // pressing enter also clears the search (after adding takes place)
+    if ( evt.keyCode === 13 ) this.clearSearch();
+  },
+
+  componentWillUnmount() {
+    if ( ! window ) return;
+    window.document.body.removeEventListener( 'keyup', this.searchKeyListener );
   },
 
   clearSearch() {
