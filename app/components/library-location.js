@@ -17,6 +17,14 @@ const LibraryLocation = React.createClass( {
     isDisabled: React.PropTypes.bool,
   },
 
+  componentDidUpdate() {
+    if ( this.props.isSelected ) this.scrollIntoView();
+  },
+
+  scrollIntoView() {
+    if ( window && this.domElement ) window.scrollTo( 0, this.domElement.offsetTop - ( window.innerHeight / 2 ) );
+  },
+
   renderControls() {
     if ( this.props.location.isLoading ) {
       return <span className="library-location__loading glyphicon glyphicon-refresh glyphicon-spin" />;
@@ -35,7 +43,7 @@ const LibraryLocation = React.createClass( {
       'library-location--droppable': this.props.isOver,
     } );
     return this.props.connectDropTarget( this.props.connectDragSource(
-      <li className={ locationClassNames } >
+      <li className={ locationClassNames } ref={ el => this.domElement = el }>
         <div className="library-location__description col-xs-8" >
           <h3 className="library-location__description__name">{ this.props.location.name }</h3>
           <p className="library-location__description__address">{ this.props.location.address }</p>
