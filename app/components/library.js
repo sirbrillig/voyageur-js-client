@@ -9,7 +9,7 @@ const Library = React.createClass( {
     onDrop: React.PropTypes.func.isRequired,
     onEditLocation: React.PropTypes.func.isRequired,
     selectedLocation: React.PropTypes.number,
-    lastTripLocationId: React.PropTypes.object,
+    lastTripLocationId: React.PropTypes.string,
   },
 
   getDefaultProps() {
