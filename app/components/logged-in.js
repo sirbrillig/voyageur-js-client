@@ -61,9 +61,18 @@ const LoggedIn = React.createClass( {
         case 38:
           evt.preventDefault();
           return this.moveSelectUp();
+        case 27:
+          // pressing shift-esc clears the trip
+          if ( evt.shiftKey ) {
+            evt.preventDefault();
+            return this.onClearTrip();
+          }
+          return;
         case 13:
           // pressing enter adds the selected location
+          evt.preventDefault();
           return this.addSelectedLocationToTrip();
+        case 8:
       }
     } );
   },

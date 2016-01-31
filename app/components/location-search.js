@@ -47,7 +47,7 @@ export default React.createClass( {
     return (
       <div className="location-search">
         <input ref={ this.inputWasMounted } value={ this.state.searchString } className="form-control" type="text" placeholder="Search" onChange={ event => this.onChange( event.target.value ) } />
-        <div className="location-search__help alert">Press '/' to Search, 'esc' to clear, up/down to select and 'enter' to add.</div>
+        <div className="location-search__help alert">Press '/' to Search, up/down to select, 'enter' to add, shift-esc to clear trip.</div>
       </div>
     );
   }
