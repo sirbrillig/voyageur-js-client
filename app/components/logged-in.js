@@ -2,7 +2,6 @@ import React from 'react';
 import Library from './library';
 import WideButton from './wide-button';
 import Trip from './trip';
-import TripMap from './trip-map';
 import Distance from './distance';
 import AddLocationForm from './add-location-form';
 import EditLocationForm from './edit-location-form';
@@ -105,11 +104,12 @@ const LoggedIn = React.createClass( {
     }, null );
   },
 
-  toggleAddLocationForm() {
-    if ( this.props.isShowingAddLocation ) {
-      return this.props.dispatch( hideAddLocation() );
-    }
+  onShowAddLocation() {
     this.props.dispatch( showAddLocation() );
+  },
+
+  onCancelAddLocation() {
+    this.props.dispatch( hideAddLocation() );
   },
 
   onAddLocation( params ) {
@@ -178,17 +178,11 @@ const LoggedIn = React.createClass( {
   },
 
   renderAddLocationForm() {
-    if ( this.props.isShowingAddLocation ) return <AddLocationForm onAddLocation={ this.onAddLocation }/>;
+    if ( this.props.isShowingAddLocation ) return <AddLocationForm onAddLocation={ this.onAddLocation } onCancelAddLocation={ this.onCancelAddLocation } />;
   },
 
   renderAddLocationButton() {
-    const text = this.props.isShowingAddLocation ? 'Cancel adding location' : 'Add a new location';
-    return <WideButton className="add-location-button" text={ text } onClick={ this.toggleAddLocationForm } />
-  },
-
-  renderMap() {
-    if ( this.props.trip.length < 2 ) return;
-    return <TripMap tripLocations={ this.props.trip } getLocationById={ this.getLocationById } />;
+    return <WideButton className="add-location-button" text="Add a new location" onClick={ this.onShowAddLocation } />
   },
 
   renderLoading() {
@@ -210,7 +204,6 @@ const LoggedIn = React.createClass( {
         <div className="logged-in__main-column col-xs-6">
           <div className="library-control-area">
             { this.renderAddLocationButton() }
-            { this.renderAddLocationForm() }
             { this.renderSearchField() }
           </div>
           <Library
@@ -226,7 +219,6 @@ const LoggedIn = React.createClass( {
         <div className="logged-in__main-column col-xs-6">
           <div className="trip-control-area">
             <WideButton className="clear-trip-button" text="Clear trip" onClick={ this.onClearTrip } />
-            { this.renderMap() }
             <Distance
               meters={ this.props.distance }
               useMiles={ this.props.prefs.useMiles }
@@ -242,6 +234,7 @@ const LoggedIn = React.createClass( {
             onDrop={ this.onTripDrop }
           />
         </div>
+        { this.renderAddLocationForm() }
         { this.renderEditLocationForm() }
       </div>
     );

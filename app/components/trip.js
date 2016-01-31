@@ -1,4 +1,5 @@
 import React from 'react';
+import TripMap from './trip-map';
 import TripLocation from './trip-location';
 
 export default React.createClass( {
@@ -37,9 +38,15 @@ export default React.createClass( {
     return <TripLocation key={ tripLocation._id } tripLocation={ tripLocation } onRemoveTripLocation={ this.props.onRemoveTripLocation } onDrop={ this.props.onDrop } />;
   },
 
+  renderMap() {
+    if ( this.props.tripLocations.length < 2 ) return;
+    return <TripMap tripLocations={ this.props.tripLocations } getLocationById={ this.props.getLocationById } />;
+  },
+
   render() {
     return (
       <div className="trip">
+        { this.renderMap() }
         { this.renderTripLocations() }
         { this.renderTripHelp() }
       </div>
