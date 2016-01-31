@@ -194,9 +194,11 @@ const LoggedIn = React.createClass( {
     return (
       <div className="row">
         <div className="col-xs-6">
-          { this.renderAddLocationButton() }
-          { this.renderAddLocationForm() }
-          { this.renderSearchField() }
+          <div className="library-control-area">
+            { this.renderAddLocationButton() }
+            { this.renderAddLocationForm() }
+            { this.renderSearchField() }
+          </div>
           <Library
             locations={ this.props.library }
             visibleLocations={ this.props.visibleLocations }
@@ -208,13 +210,15 @@ const LoggedIn = React.createClass( {
           />
         </div>
         <div className="col-xs-6">
-          <WideButton className="clear-trip-button" text="Clear trip" onClick={ this.onClearTrip } />
-          { this.renderMap() }
-          <Distance
-            meters={ this.props.distance }
-            useMiles={ this.props.useMiles }
-            onClickUnits={ this.onClickUnits }
-          />
+          <div className="trip-control-area">
+            <WideButton className="clear-trip-button" text="Clear trip" onClick={ this.onClearTrip } />
+            { this.renderMap() }
+            <Distance
+              meters={ this.props.distance }
+              useMiles={ this.props.useMiles }
+              onClickUnits={ this.onClickUnits }
+            />
+          </div>
           <Trip
             areThereLocations={ ( this.props.library.length > 0 ) }
             tripLocations={ this.props.trip }
