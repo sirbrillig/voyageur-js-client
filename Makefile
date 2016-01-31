@@ -1,6 +1,7 @@
 NODE_BIN = node_modules/.bin
 WATCHIFY = $(NODE_BIN)/watchify
 BROWSERIFY = $(NODE_BIN)/browserify
+UGLIFY = $(NODE_BIN)/uglifyjs
 NODEMON = $(NODE_BIN)/nodemon
 SURGE = surge
 NPM = npm
@@ -12,7 +13,8 @@ APP_JS = app/boot.js
 APP_BUNDLE_JS = $(BUILD_DIR)/bundle.js
 STATIC_FILES = index.html 200.html assets app.css
 BABELIFY_PLUGIN = [ babelify --presets [ es2015 react ] ]
-BROWSERIFY_OPTIONS = $(APP_JS) --debug -t $(BABELIFY_PLUGIN) -o $(APP_BUNDLE_JS)
+BROWSERIFY_OPTIONS = $(APP_JS) --debug -t $(BABELIFY_PLUGIN)
+UGLIFY_OPTIONS = -o $(APP_BUNDLE_JS)
 
 build: install build-app copy-to-dist
 
@@ -32,7 +34,7 @@ install: npm node-version
 build-app:
 	@echo "Building app..."
 	mkdir -p $(BUILD_DIR)
-	$(BROWSERIFY) $(BROWSERIFY_OPTIONS)
+	$(BROWSERIFY) $(BROWSERIFY_OPTIONS) | $(UGLIFY) $(UGLIFY_OPTIONS)
 
 copy-to-dist:
 	@echo "Copying files to dist directory..."
@@ -41,7 +43,7 @@ copy-to-dist:
 
 watchify:
 	@echo "Running Browserify on your files and watching for changes... (Press CTRL-C to stop)"
-	$(WATCHIFY) $(BROWSERIFY_OPTIONS)
+	$(WATCHIFY) $(BROWSERIFY_OPTIONS) -o $(APP_BUNDLE_JS)
 
 clean:
 	@rm -rf node_modules $(BUILD_DIR)
