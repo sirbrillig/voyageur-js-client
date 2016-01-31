@@ -2,7 +2,6 @@ import React from 'react';
 import Library from './library';
 import WideButton from './wide-button';
 import Trip from './trip';
-import TripMap from './trip-map';
 import Distance from './distance';
 import AddLocationForm from './add-location-form';
 import EditLocationForm from './edit-location-form';
@@ -186,11 +185,6 @@ const LoggedIn = React.createClass( {
     return <WideButton className="add-location-button" text={ text } onClick={ this.toggleAddLocationForm } />
   },
 
-  renderMap() {
-    if ( this.props.trip.length < 2 ) return;
-    return <TripMap tripLocations={ this.props.trip } getLocationById={ this.getLocationById } />;
-  },
-
   renderLoading() {
     return (
       <div className="loading">
@@ -226,7 +220,6 @@ const LoggedIn = React.createClass( {
         <div className="logged-in__main-column col-xs-6">
           <div className="trip-control-area">
             <WideButton className="clear-trip-button" text="Clear trip" onClick={ this.onClearTrip } />
-            { this.renderMap() }
             <Distance
               meters={ this.props.distance }
               useMiles={ this.props.prefs.useMiles }
