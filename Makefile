@@ -13,7 +13,7 @@ APP_JS = app/boot.js
 APP_BUNDLE_JS = $(BUILD_DIR)/bundle.js
 STATIC_FILES = index.html 200.html assets app.css
 BABELIFY_PLUGIN = [ babelify --presets [ es2015 react ] ]
-BROWSERIFY_OPTIONS = $(APP_JS) --debug -t $(BABELIFY_PLUGIN)
+BROWSERIFY_OPTIONS = $(APP_JS) --debug -t $(BABELIFY_PLUGIN) -t envify -t uglifyify
 UGLIFY_OPTIONS = -o $(APP_BUNDLE_JS)
 
 build: install build-app copy-to-dist
