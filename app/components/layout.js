@@ -4,7 +4,7 @@ import { clearNotices } from '../lib/actions/general';
 import { logOut } from '../lib/actions/auth';
 import Header from './header';
 
-const Footer = () => <div className="footer">Made by Payton</div>;
+const Footer = () => <div className="footer">Made by <a href="http://foolord.com/">Payton</a>. Code on <a href="https://github.com/sirbrillig/voyageur-js-client">GitHub</a>. Logo by <a href="http://colemcdermott.co/">Cole</a>.</div>;
 
 const LoggedIn = React.createClass( {
   propTypes: {
