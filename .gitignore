@@ -34,3 +34,6 @@ auth0-variables.js
 
 # The compiled source
 build
+
+# The dist directory
+dist

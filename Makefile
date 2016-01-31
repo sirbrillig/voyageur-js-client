@@ -5,12 +5,14 @@ NODEMON = $(NODE_BIN)/nodemon
 NPM = npm
 NODE ?= node
 BUILD_DIR = build
+DIST_DIR = dist
 APP_JS = app/boot.js
 APP_BUNDLE_JS = $(BUILD_DIR)/bundle.js
+STATIC_FILES = index.html 200.html assets app.css
 BABELIFY_PLUGIN = [ babelify --presets [ es2015 react ] ]
 BROWSERIFY_OPTIONS = $(APP_JS) --debug -t $(BABELIFY_PLUGIN) -o $(APP_BUNDLE_JS)
 
-build: install build-app
+build: install build-app copy-to-dist
 
 run: build watchify
 
@@ -30,6 +32,11 @@ build-app:
 	mkdir -p $(BUILD_DIR)
 	$(BROWSERIFY) $(BROWSERIFY_OPTIONS)
 
+copy-to-dist:
+	@echo "Copying files to dist directory..."
+	mkdir -p $(DIST_DIR)
+	cp -a $(BUILD_DIR) $(STATIC_FILES) $(DIST_DIR)/
+
 watchify:
 	@echo "Running Browserify on your files and watching for changes... (Press CTRL-C to stop)"
 	$(WATCHIFY) $(BROWSERIFY_OPTIONS)
@@ -37,4 +44,4 @@ watchify:
 clean:
 	@rm -rf node_modules $(BUILD_DIR)
 
-.PHONY: run watchify install npm node-version build-app clean
+.PHONY: run watchify install npm node-version build-app clean copy-to-dist
