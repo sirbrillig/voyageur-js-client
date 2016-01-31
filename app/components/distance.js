@@ -7,6 +7,7 @@ export default React.createClass( {
     meters: React.PropTypes.number.isRequired,
     useMiles: React.PropTypes.bool,
     onClickUnits: React.PropTypes.func,
+    isLoading: React.PropTypes.bool,
   },
 
   getDefaultProps() {
@@ -14,10 +15,12 @@ export default React.createClass( {
       meters: 0,
       useMiles: true,
       onClickUnits: noop,
+      isLoading: false,
     };
   },
 
   getDistanceText() {
+    if ( this.props.isLoading ) return 'Loading...';
     if ( this.props.useMiles ) return 'Your trip is ' + ( this.props.meters * 0.000621371192 ).toFixed( 1 ) + ' miles';
     return 'Your trip is ' + ( this.props.meters / 1000 ).toFixed( 1 ) + ' km';
   },

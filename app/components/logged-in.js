@@ -38,6 +38,7 @@ const LoggedIn = React.createClass( {
     searchString: React.PropTypes.string,
     distance: React.PropTypes.number,
     selectedLocation: React.PropTypes.number,
+    isLoadingTrip: React.PropTypes.bool,
   },
 
   componentWillMount() {
@@ -216,6 +217,7 @@ const LoggedIn = React.createClass( {
               meters={ this.props.distance }
               useMiles={ this.props.useMiles }
               onClickUnits={ this.onClickUnits }
+              isLoading={ this.props.isLoadingTrip }
             />
           </div>
           <Trip
@@ -249,6 +251,7 @@ function mapStateToProps( state ) {
     selectedLocation: ui.selectedLocation,
     editingLocation: ui.editingLocation,
     useMiles: ui.useMiles,
+    isLoadingTrip: trip.some( l => l.isLoading ),
   };
 }
 
