@@ -2,10 +2,12 @@ NODE_BIN = node_modules/.bin
 WATCHIFY = $(NODE_BIN)/watchify
 BROWSERIFY = $(NODE_BIN)/browserify
 NODEMON = $(NODE_BIN)/nodemon
+SURGE = surge
 NPM = npm
 NODE ?= node
 BUILD_DIR = build
 DIST_DIR = dist
+DEPLOY_SERVER = voyageur.surge.sh
 APP_JS = app/boot.js
 APP_BUNDLE_JS = $(BUILD_DIR)/bundle.js
 STATIC_FILES = index.html 200.html assets app.css
@@ -44,4 +46,8 @@ watchify:
 clean:
 	@rm -rf node_modules $(BUILD_DIR)
 
-.PHONY: run watchify install npm node-version build-app clean copy-to-dist
+deploy: build
+	@echo "Deploying..."
+	$(SURGE) --domain $(DEPLOY_SERVER) --project $(DIST_DIR)
+
+.PHONY: run watchify install npm node-version build-app clean copy-to-dist deploy
