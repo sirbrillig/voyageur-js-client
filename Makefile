@@ -8,10 +8,9 @@ NPM = npm
 NODE ?= node
 BUILD_DIR = build
 DIST_DIR = dist
-DEPLOY_SERVER = voyageur.surge.sh
 APP_JS = app/boot.js
 APP_BUNDLE_JS = $(BUILD_DIR)/bundle.js
-STATIC_FILES = index.html 200.html assets app.css
+STATIC_FILES = index.html 200.html assets app.css CNAME
 BABELIFY_PLUGIN = [ babelify --presets [ es2015 react ] ]
 BROWSERIFY_OPTIONS = $(APP_JS) --debug -t $(BABELIFY_PLUGIN) -t envify -t uglifyify
 UGLIFY_OPTIONS = -o $(APP_BUNDLE_JS)
@@ -50,6 +49,6 @@ clean:
 
 deploy: build
 	@echo "Deploying..."
-	$(SURGE) --domain $(DEPLOY_SERVER) --project $(DIST_DIR)
+	$(SURGE) --project $(DIST_DIR)
 
 .PHONY: run watchify install npm node-version build-app clean copy-to-dist deploy
