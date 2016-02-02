@@ -1,6 +1,7 @@
 import { gotError } from './general';
 import * as api from '../api/locations';
 import { reorderModels } from '../helpers';
+import { fetchTrip } from './trip';
 
 export function addLocation( params ) {
   return function( dispatch, getState ) {
@@ -80,7 +81,10 @@ export function gotUpdatedLocation( location ) {
 export function deleteLocation( location ) {
   return function( dispatch, getState ) {
     api.deleteLocationFromLibrary( getState().auth.token, location )
-    .then( () => dispatch( fetchLibrary() ) )
+    .then( () => {
+      dispatch( fetchLibrary() );
+      dispatch( fetchTrip() );
+    } )
     .catch( ( err ) => dispatch( gotError( err ) ) );
     dispatch( gotDeletedLocation( location ) );
     dispatch( hideEditLocation() );
