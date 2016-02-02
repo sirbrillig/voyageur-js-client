@@ -227,7 +227,7 @@ const LoggedIn = React.createClass( {
             />
           </div>
           <Trip
-            areThereLocations={ ( this.props.library.length > 0 ) }
+            areThereLocations={ ( this.props.library.length > 1 ) }
             tripLocations={ this.props.trip }
             getLocationById={ this.getLocationById }
             onRemoveTripLocation={ this.onRemoveTripLocation }
