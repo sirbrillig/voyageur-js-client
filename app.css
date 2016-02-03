@@ -342,3 +342,10 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image img {
 .admin-main {
   text-align: left;
 }
+
+.admin-main table td,
+.admin-main table th {
+  max-width: 140px;
+  word-wrap: break-word;
+  font-size: 1.4rem;
+}
