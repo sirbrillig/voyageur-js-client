@@ -1,6 +1,6 @@
 function matchesSearch( searchString, location ) {
   if ( searchString.length < 2 ) return true;
-  return ( ~ location.name.toLowerCase().indexOf( searchString ) || ~ location.address.toLowerCase().indexOf( searchString ) );
+  return ( ~ location.name.toLowerCase().indexOf( searchString.toLowerCase() ) || ~ location.address.toLowerCase().indexOf( searchString.toLowerCase() ) );
 }
 
 // Find the element in state.locations that matches the ID in action.location,
