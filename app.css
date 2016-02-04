@@ -185,6 +185,7 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image img {
   margin: 4px 0px;
   border-width: 2px;
   height: 95px;
+  overflow: hidden;
 }
 
 .library-location--selected {
@@ -318,6 +319,7 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image img {
   border-width: 2px;
   background-color: #E3EEF7;
   height: 95px;
+  overflow: hidden;
 }
 
 .trip-location--droppable {
