@@ -226,10 +226,31 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image img {
 .edit-location-form {
   position: absolute;
   top: 0;
-  left: 0;
   width: 50%;
   height: 100%;
   z-index: 1000;
+}
+
+.add-location-form-container-leave {
+  left: 0;
+}
+
+.add-location-form-container-leave-active {
+  position: absolute;
+  top: 0;
+  left: -50%;
+  transition: all 0.2s ease-in;
+}
+
+.add-location-form-container-enter {
+  left: -50%;
+}
+
+.add-location-form-container-enter-active {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: all 0.2s ease-in;
 }
 
 .glyphicon-spin {

@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import Library from './library';
 import WideButton from './wide-button';
 import Trip from './trip';
@@ -168,6 +169,7 @@ const LoggedIn = React.createClass( {
     if ( this.props.editingLocation ) {
       return (
         <EditLocationForm
+          key="edit-location-form"
           location={ this.props.editingLocation }
           onSaveLocation={ this.onSaveLocation }
           onCancelEditLocation={ this.onCancelEditLocation }
@@ -178,7 +180,7 @@ const LoggedIn = React.createClass( {
   },
 
   renderAddLocationForm() {
-    if ( this.props.isShowingAddLocation ) return <AddLocationForm onAddLocation={ this.onAddLocation } onCancelAddLocation={ this.onCancelAddLocation } />;
+    if ( this.props.isShowingAddLocation ) return <AddLocationForm key="add-location-form" onAddLocation={ this.onAddLocation } onCancelAddLocation={ this.onCancelAddLocation } />;
   },
 
   renderAddLocationButton() {
@@ -234,8 +236,12 @@ const LoggedIn = React.createClass( {
             onDrop={ this.onTripDrop }
           />
         </div>
-        { this.renderAddLocationForm() }
-        { this.renderEditLocationForm() }
+        <ReactCSSTransitionGroup transitionName="add-location-form-container" transitionEnterTimeout={ 300 } transitionLeaveTimeout={ 300 }>
+          { this.renderAddLocationForm() }
+        </ReactCSSTransitionGroup>
+        <ReactCSSTransitionGroup transitionName="add-location-form-container" transitionEnterTimeout={ 300 } transitionLeaveTimeout={ 300 }>
+          { this.renderEditLocationForm() }
+        </ReactCSSTransitionGroup>
       </div>
     );
   },
