@@ -67,6 +67,7 @@ const dragSpec = {
     const source = props.location._id;
     const result = monitor.getDropResult();
     if ( ! result ) return;
+    if ( result.trip ) return props.onAddToTrip( source );
     const target = result.location;
     if ( source === target ) return;
     props.onDrop( source, target );

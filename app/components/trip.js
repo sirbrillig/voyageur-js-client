@@ -1,8 +1,10 @@
 import React from 'react';
+import { DropTarget } from 'react-dnd';
 import TripMap from './trip-map';
 import TripLocation from './trip-location';
+import classNames from 'classnames';
 
-export default React.createClass( {
+const Trip = React.createClass( {
   propTypes: {
     tripLocations: React.PropTypes.array,
     getLocationById: React.PropTypes.func.isRequired,
@@ -10,12 +12,15 @@ export default React.createClass( {
     onRemoveTripLocation: React.PropTypes.func.isRequired,
     onDrop: React.PropTypes.func.isRequired,
     areThereLocations: React.PropTypes.bool,
+    connectDropTarget: React.PropTypes.func.isRequired,
+    isOver: React.PropTypes.bool,
   },
 
   getDefaultProps() {
     return {
       tripLocations: [],
       areThereLocations: false,
+      isOver: false,
     };
   },
 
@@ -44,8 +49,9 @@ export default React.createClass( {
   },
 
   render() {
-    return (
-      <div className="trip">
+    const tripClassNames = classNames( 'trip', { 'trip--droppable': this.props.isOver } );
+    return this.props.connectDropTarget(
+      <div className={ tripClassNames }>
         { this.renderMap() }
         { this.renderTripLocations() }
         { this.renderTripHelp() }
@@ -54,3 +60,17 @@ export default React.createClass( {
   }
 } );
 
+const dropSpec = {
+  drop() {
+    return { trip: true };
+  }
+};
+
+function collectDrop( connect, monitor ) {
+  return {
+    connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver()
+  }
+}
+
+export default DropTarget( 'LOCATION', dropSpec, collectDrop )( Trip );
