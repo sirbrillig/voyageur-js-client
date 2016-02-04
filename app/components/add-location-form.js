@@ -10,7 +10,6 @@ export default React.createClass( {
   getInitialState() {
     return {
       name: '',
-      address: '',
     };
   },
 
@@ -18,12 +17,9 @@ export default React.createClass( {
     this.setState( { name: event.target.value } );
   },
 
-  onChangeAddress( event ) {
-    this.setState( { address: event.target.value } );
-  },
-
   onAddLocation() {
-    const { name, address } = this.state;
+    const { name } = this.state;
+    const address = this.addressField.value;
     this.props.onAddLocation( { name, address } );
   },
 
@@ -34,6 +30,7 @@ export default React.createClass( {
 
   attachAutocomplete( input ) {
     if ( ! input || ! window ) return;
+    this.addressField = input;
     this.autocomplete = new window.google.maps.places.Autocomplete( input );
   },
 
@@ -49,7 +46,7 @@ export default React.createClass( {
         <div className="form-group">
           <label htmlFor="inputAddLocationAddress" className="col-sm-2 control-label">Address</label>
           <div className="col-sm-10">
-            <input type="text" className="form-control" id="inputAddLocationAddress" placeholder="Address" ref={ this.attachAutocomplete } onBlur={ this.onChangeAddress } onChange={ this.onChangeAddress } value={ this.state.address } />
+            <input type="text" className="form-control" id="inputAddLocationAddress" placeholder="Address" ref={ this.attachAutocomplete } />
           </div>
         </div>
         <div className="form-group">
