@@ -28,7 +28,13 @@ export default React.createClass( {
   },
 
   focusInput( input ) {
-    if ( input ) input.focus();
+    if ( ! input ) return;
+    input.focus();
+  },
+
+  attachAutocomplete( input ) {
+    if ( ! input || ! window ) return;
+    this.autocomplete = new window.google.maps.places.Autocomplete( input );
   },
 
   render() {
@@ -43,7 +49,7 @@ export default React.createClass( {
         <div className="form-group">
           <label htmlFor="inputAddLocationAddress" className="col-sm-2 control-label">Address</label>
           <div className="col-sm-10">
-            <input type="text" className="form-control" id="inputAddLocationAddress" placeholder="Address" onChange={ this.onChangeAddress } value={ this.state.address } />
+            <input type="text" className="form-control" id="inputAddLocationAddress" placeholder="Address" ref={ this.attachAutocomplete } onBlur={ this.onChangeAddress } onChange={ this.onChangeAddress } value={ this.state.address } />
           </div>
         </div>
         <div className="form-group">
