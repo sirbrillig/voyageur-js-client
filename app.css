@@ -115,13 +115,15 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image img {
   margin: 0px -15px 0px -15px;
   background-color: #f5f5f5;
   background-image: url( '/assets/map-and-items.jpeg' );
+  border-bottom: 20px solid #f5f5f5;
 }
 
 .header__logo {
-  width: 90px;
+  width: auto;
   height: 90px;
-  margin: 10px;
   padding: 0;
+  position: relative;
+  top: 8px;
 }
 
 .header__title {
