@@ -10,6 +10,7 @@ export function importLocations( data ) {
     if ( ! locations.map ) return dispatch( gotError( 'Only an array of Location objects can be submitted' ) );
     Promise.all( locations.map( params => api.createNewLocation( getState().auth.token, params ) ) )
     .then( () => dispatch( fetchLibrary() ) )
+    .then( () => gotError( 'Import complete!' ) )
     .catch( err => dispatch( gotError( err ) ) );
   }
 }
