@@ -2,6 +2,17 @@ import { gotError } from './general';
 import * as api from '../api/locations';
 import { reorderModels } from '../helpers';
 import { fetchTrip } from './trip';
+import { Promise } from 'es6-promise';
+
+export function importLocations( data ) {
+  return function( dispatch, getState ) {
+    const locations = JSON.parse( data );
+    if ( ! locations.map ) return dispatch( gotError( 'Only an array of Location objects can be submitted' ) );
+    Promise.all( locations.map( params => api.createNewLocation( getState().auth.token, params ) ) )
+    .then( () => dispatch( fetchLibrary() ) )
+    .catch( err => dispatch( gotError( err ) ) );
+  }
+}
 
 export function addLocation( params ) {
   return function( dispatch, getState ) {

@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
-const importLocations = ( data ) => ( { type: 'LIBRARY_IMPORT', data } );
+import { importLocations } from '../lib/actions/library';
 
 const ImportPanel = React.createClass( {
   onImport() {
