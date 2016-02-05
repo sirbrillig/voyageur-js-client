@@ -386,3 +386,14 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image img {
   word-wrap: break-word;
   font-size: 1.4rem;
 }
+
+/**
+ * Import
+ */
+.import {}
+
+.import__text {
+}
+
+.import__text__label {
+}
