@@ -3,6 +3,7 @@ WATCHIFY = $(NODE_BIN)/watchify
 BROWSERIFY = $(NODE_BIN)/browserify
 UGLIFY = $(NODE_BIN)/uglifyjs
 NODEMON = $(NODE_BIN)/nodemon
+WEBSERVER = $(NODE_BIN)/ws
 SURGE = surge
 NPM = npm
 NODE ?= node
@@ -17,7 +18,7 @@ UGLIFY_OPTIONS = -o $(APP_BUNDLE_JS)
 
 build: install build-app copy-to-dist
 
-run: build watchify
+run: build webserver watchify
 
 node-version: npm
 	@if [ "$(shell $(NODE) --version | sed 's/[^0-9]//g')" -lt 400 ]; then echo "Please upgrade your version of Node.js: https://nodejs.org/"; exit 1; fi
@@ -25,6 +26,10 @@ node-version: npm
 npm:
 	@echo "Checking for npm..."
 	@command -v npm >/dev/null 2>&1 || { echo >&2 "Please install Node.js: https://nodejs.org/"; exit 1; }
+
+webserver:
+	@echo "Starting server..."
+	$(WEBSERVER) --port 3000 --spa 200.html &
 
 install: npm node-version
 	@echo "Checking dependencies..."
@@ -51,4 +56,4 @@ deploy: build
 	@echo "Deploying..."
 	$(SURGE) --project $(DIST_DIR)
 
-.PHONY: run watchify install npm node-version build-app clean copy-to-dist deploy
+.PHONY: run watchify install npm node-version build-app clean copy-to-dist deploy webserver
