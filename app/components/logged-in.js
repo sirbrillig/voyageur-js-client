@@ -204,6 +204,7 @@ const LoggedIn = React.createClass( {
     return (
       <div className="row">
         <div className="logged-in__main-column col-sm-6">
+          <a className="logged-in__trip-jump btn btn-info visible-xs-block" href="#trip-column">View Trip</a>
           <div className="library-control-area">
             { this.renderAddLocationButton() }
             { this.renderSearchField() }
@@ -218,7 +219,7 @@ const LoggedIn = React.createClass( {
             lastTripLocationId={ lastTripLocationId ? lastTripLocationId._id || lastTripLocationId : null }
           />
         </div>
-        <div className="logged-in__main-column col-sm-6">
+        <div id="trip-column" className="logged-in__main-column col-sm-6">
           <div className="trip-control-area">
             <WideButton className="clear-trip-button" text="Clear trip" onClick={ this.onClearTrip } />
             <Distance

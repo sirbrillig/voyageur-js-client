@@ -108,6 +108,10 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image img {
   padding: 0;
 }
 
+.logged-in__trip-jump {
+  margin: 10px;
+}
+
 /**
  * Header
  */
