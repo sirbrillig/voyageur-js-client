@@ -19,6 +19,7 @@ const AdminDashboard = React.createClass( {
 
   onChangePage() {
     const page = parseInt( this.pageField.value, 10 ) - 1;
+    if ( page < 0 ) return;
     this.props.dispatch( fetchEvents( { page } ) );
   },
 
@@ -73,7 +74,7 @@ const AdminDashboard = React.createClass( {
       <div className="form-inline">
         <div className="form-group">
           <label htmlFor="eventPage" className="control-label admin-controls__label">Page</label>
-          <input type="number" className="form-control" id="eventPage" ref={ i => this.pageField = i } onChange={ this.onChangePage } defaultValue={ 1 } />
+          <input type="number" min={ 1 } className="form-control" id="eventPage" ref={ i => this.pageField = i } onChange={ this.onChangePage } defaultValue={ 1 } />
         </div>
       </div>
     );
