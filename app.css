@@ -391,6 +391,10 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image img {
   font-size: 1.4rem;
 }
 
+.admin-controls__label {
+  margin-right: 5px;
+}
+
 /**
  * Import
  */

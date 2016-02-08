@@ -1,9 +1,9 @@
 import { gotError } from './general';
 import * as api from '../api/admin';
 
-export function fetchEvents() {
+export function fetchEvents( opts ) {
   return function( dispatch, getState ) {
-    api.fetchEvents( getState().auth.token )
+    api.fetchEvents( getState().auth.token, opts )
     .then( events => dispatch( gotEvents( events ) ) )
     .catch( err => dispatch( gotError( err ) ) );
   }

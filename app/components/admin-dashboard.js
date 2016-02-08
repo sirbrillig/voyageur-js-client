@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import { connect } from 'react-redux';
 import { fetchEvents } from '../lib/actions/admin.js';
 import classNames from 'classnames';
@@ -16,6 +17,11 @@ const AdminDashboard = React.createClass( {
     this.props.dispatch( fetchEvents() );
   },
 
+  onChangePage() {
+    const page = parseInt( this.pageField.value, 10 ) - 1;
+    this.props.dispatch( fetchEvents( { page } ) );
+  },
+
   renderEvent( event ) {
     const method = event.event.toLowerCase();
     const classes = classNames( {
@@ -28,7 +34,7 @@ const AdminDashboard = React.createClass( {
     debug( 'showing log event', event );
     return (
       <tr key={ event._id } className={ classes }>
-        <td>{ eventDate.toString() }</td>
+        <td>{ moment( eventDate.toString() ).fromNow() }</td>
         <td>{ event.userId }</td>
         <td>{ event.userName }</td>
         <td>{ event.ip }</td>
@@ -62,12 +68,24 @@ const AdminDashboard = React.createClass( {
     );
   },
 
+  renderEventControls() {
+    return (
+      <div className="form-inline">
+        <div className="form-group">
+          <label htmlFor="eventPage" className="control-label admin-controls__label">Page</label>
+          <input type="number" className="form-control" id="eventPage" ref={ i => this.pageField = i } onChange={ this.onChangePage } defaultValue={ 1 } />
+        </div>
+      </div>
+    );
+  },
+
   render() {
     if ( ! this.props.isAdmin ) return <h1>Unauthorized</h1>;
     return (
       <div className="admin">
         <h1>Admin Dashboard</h1>
         <div className="admin-main">
+          { this.renderEventControls() }
           { this.renderEventLog() }
         </div>
       </div>
