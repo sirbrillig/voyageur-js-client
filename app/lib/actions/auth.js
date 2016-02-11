@@ -1,17 +1,16 @@
-import { createHistory } from 'history';
+import { browserHistory } from 'react-router';
 import Auth0Lock from 'auth0-lock';
 import { gotError } from './general';
 import authVars from '../../auth0-variables';
 import debugFactory from 'debug';
 
 const debug = debugFactory( 'voyageur:actions' );
-const history = createHistory();
 
 function removeTokenFromUrl() {
   if ( ! window ) return;
   const newUrl = window.location.pathname;
   debug( 'replacing history location with', newUrl );
-  history.replace( newUrl );
+  browserHistory.replace( newUrl );
 }
 
 export function doAuth() {
