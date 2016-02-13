@@ -6,6 +6,10 @@ import Layout from './layout';
 import LogInBox from './log-in-box';
 
 const App = React.createClass( {
+  propTypes: {
+    auth: React.PropTypes.object.isRequired,
+  },
+
   componentWillMount() {
     if ( ! this.props.auth.token ) {
       this.props.dispatch( parseAuthToken() );

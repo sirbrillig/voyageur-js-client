@@ -405,3 +405,33 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image img {
 
 .import__text__label {
 }
+
+/**
+ * LoadingPanel
+ */
+.loading-panel {
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #fff;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url( 'assets/map-full.jpeg' );
+}
+.loading-panel__content {
+}
+.loading-panel__logo {
+  animation-delay: 0.8s;
+}
+.loading-panel__text-area {
+  animation-delay: 1.8s;
+}
+.loading-panel__text {
+  animation-delay: 3s;
+  font-weight: 400;
+  color: #fff;
+}

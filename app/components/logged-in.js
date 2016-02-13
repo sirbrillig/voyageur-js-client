@@ -7,6 +7,7 @@ import Distance from './distance';
 import AddLocationForm from './add-location-form';
 import EditLocationForm from './edit-location-form';
 import LocationSearch from './location-search';
+import LoadingPanel from './loading-panel';
 import { connect } from 'react-redux';
 import {
   saveLocation,
@@ -188,11 +189,7 @@ const LoggedIn = React.createClass( {
   },
 
   renderLoading() {
-    return (
-      <div className="loading">
-        <h2>Loading...</h2>
-      </div>
-    );
+    return <LoadingPanel />;
   },
 
   renderSearchField() {
