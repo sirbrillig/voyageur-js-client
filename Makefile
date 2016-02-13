@@ -16,12 +16,16 @@ BABELIFY_PLUGIN = [ babelify --presets [ es2015 react ] ]
 BROWSERIFY_OPTIONS = $(APP_JS) --debug -t $(BABELIFY_PLUGIN) -t envify -t uglifyify
 BROWSERIFY_DIST_OPTIONS = $(APP_JS) -t $(BABELIFY_PLUGIN) -t envify -t uglifyify
 UGLIFY_OPTIONS = -o $(APP_BUNDLE_JS)
+CONFIG_FILE = app/auth0-variables.js
 
 build: install build-app copy-to-dist
 
 build-dist: install build-app-dist copy-to-dist
 
 run: build webserver watchify
+
+config:
+	@if [ ! -e $(CONFIG_FILE) ]; then echo "Please configure the app by creating $(CONFIG_FILE). There is an example in the app directory."; exit 1; fi
 
 node-version: npm
 	@if [ "$(shell $(NODE) --version | sed 's/[^0-9]//g')" -lt 400 ]; then echo "Please upgrade your version of Node.js: https://nodejs.org/"; exit 1; fi
@@ -34,7 +38,7 @@ webserver:
 	@echo "Starting server..."
 	$(WEBSERVER) --port 3000 --spa 200.html &
 
-install: npm node-version
+install: config npm node-version
 	@echo "Checking dependencies..."
 	@$(NPM) install
 
@@ -64,4 +68,4 @@ deploy: build-dist
 	@echo "Deploying..."
 	$(SURGE) --project $(DIST_DIR)
 
-.PHONY: run watchify install npm node-version build-app clean copy-to-dist deploy webserver build-dist build-app-dist
+.PHONY: run watchify install npm node-version build-app clean copy-to-dist deploy webserver build-dist build-app-dist config
