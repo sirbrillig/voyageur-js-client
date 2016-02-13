@@ -14,9 +14,12 @@ APP_BUNDLE_JS = $(BUILD_DIR)/bundle.js
 STATIC_FILES = index.html 200.html assets app.css CNAME
 BABELIFY_PLUGIN = [ babelify --presets [ es2015 react ] ]
 BROWSERIFY_OPTIONS = $(APP_JS) --debug -t $(BABELIFY_PLUGIN) -t envify -t uglifyify
+BROWSERIFY_DIST_OPTIONS = $(APP_JS) -t $(BABELIFY_PLUGIN) -t envify -t uglifyify
 UGLIFY_OPTIONS = -o $(APP_BUNDLE_JS)
 
 build: install build-app copy-to-dist
+
+build-dist: install build-app-dist copy-to-dist
 
 run: build webserver watchify
 
@@ -40,6 +43,11 @@ build-app:
 	mkdir -p $(BUILD_DIR)
 	$(BROWSERIFY) $(BROWSERIFY_OPTIONS) | $(UGLIFY) $(UGLIFY_OPTIONS)
 
+build-app-dist:
+	@echo "Building app..."
+	mkdir -p $(BUILD_DIR)
+	$(BROWSERIFY) $(BROWSERIFY_DIST_OPTIONS) | $(UGLIFY) $(UGLIFY_OPTIONS)
+
 copy-to-dist:
 	@echo "Copying files to dist directory..."
 	mkdir -p $(DIST_DIR)
@@ -52,8 +60,8 @@ watchify:
 clean:
 	@rm -rf node_modules $(BUILD_DIR)
 
-deploy: build
+deploy: build-dist
 	@echo "Deploying..."
 	$(SURGE) --project $(DIST_DIR)
 
-.PHONY: run watchify install npm node-version build-app clean copy-to-dist deploy webserver
+.PHONY: run watchify install npm node-version build-app clean copy-to-dist deploy webserver build-dist build-app-dist
