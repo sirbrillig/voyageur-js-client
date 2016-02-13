@@ -392,6 +392,7 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image img {
 
 .trip-distance-help {
   font-size: 1.5rem;
+  white-space: normal;
 }
 
 /**
