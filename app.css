@@ -26,15 +26,28 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image img {
  * LogInBox
  */
 .log-in-box {
-  padding: 100px 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: #fff;
+  display: flex;
+  margin-left: -15px;
+  justify-content: center;
+  align-items: center;
+  background-image: url( 'assets/map-full.jpeg' );
 }
 
 .log-in-box__logo {
-  width: 200px;
 }
 
 .log-in-box__title {
-  font-size: 2em;
+  display: none;
+}
+
+.log-in-box__subtitle {
+  font-size: 3rem;
+  font-weight: 400;
+  color: #fff;
+  margin: 20px;
 }
 
 .log-in-box__button {
@@ -42,7 +55,6 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image img {
   text-transform: uppercase;
   letter-spacing: 1px;
   border: 0;
-  background-color: #16214D;
   color: white;
 }
 
@@ -55,12 +67,11 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image img {
 }
 
 .log-in-box__button.btn-lg {
-  padding: 20px 30px;
+  padding: 20px 50px;
 }
 
 @media( min-width: 755px ) {
   .log-in-box__button {
-    width: 720px;
     margin: auto;
   }
 }
