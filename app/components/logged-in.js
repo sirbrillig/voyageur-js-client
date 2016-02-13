@@ -166,6 +166,15 @@ const LoggedIn = React.createClass( {
     this.props.dispatch( moveTripLocation( tripLocation, targetLocation ) );
   },
 
+  renderClearTripButton() {
+    if ( this.props.trip.length === 0 ) return (
+      <span className="trip-distance-help label label-info animated bounce">
+        This is where you will see the total distance of your trip
+      </span>
+    );
+    return <WideButton className="clear-trip-button" text="Clear trip" onClick={ this.onClearTrip } />;
+  },
+
   renderEditLocationForm() {
     if ( this.props.editingLocation ) {
       return (
@@ -218,7 +227,7 @@ const LoggedIn = React.createClass( {
         </div>
         <div id="trip-column" className="logged-in__main-column col-sm-6">
           <div className="trip-control-area">
-            <WideButton className="clear-trip-button" text="Clear trip" onClick={ this.onClearTrip } />
+            { this.renderClearTripButton() }
             <Distance
               meters={ this.props.distance }
               useMiles={ this.props.prefs.useMiles }
