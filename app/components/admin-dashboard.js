@@ -35,7 +35,7 @@ const AdminDashboard = React.createClass( {
     debug( 'showing log event', event );
     return (
       <tr key={ event._id } className={ classes }>
-        <td>{ moment( eventDate.toString() ).fromNow() }</td>
+        <td>{ moment( eventDate ).fromNow() }</td>
         <td>{ event.userId }</td>
         <td>{ event.userName }</td>
         <td>{ event.ip }</td>
