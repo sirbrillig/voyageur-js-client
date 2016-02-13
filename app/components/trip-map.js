@@ -3,7 +3,17 @@ import debugFactory from 'debug';
 import { GoogleMapLoader, GoogleMap, DirectionsRenderer } from 'react-google-maps';
 
 const debug = debugFactory( 'voyageur:trip-map' );
-const gmaps = window.google.maps;
+
+function getGoogleMaps() {
+  if ( window && window.google && window.google.maps ) return window.google.maps;
+  return {};
+}
+
+function LatLng( x, y ) {
+  const gmaps = getGoogleMaps();
+  if ( ! gmaps ) return null;
+  return new gmaps.LatLng( x, y );
+}
 
 export default React.createClass( {
   propTypes: {
@@ -13,8 +23,8 @@ export default React.createClass( {
 
   getInitialState() {
     return {
-      origin: new gmaps.LatLng( 41.8507300, -87.6512600 ),
-      destination: new gmaps.LatLng( 41.8525800, -87.6514100 ),
+      origin: LatLng( 41.8507300, -87.6512600 ),
+      destination: LatLng( 41.8525800, -87.6514100 ),
       directions: null,
     }
   },
@@ -51,6 +61,8 @@ export default React.createClass( {
   },
 
   calculateRoute( tripLocations ) {
+    const gmaps = getGoogleMaps();
+    if ( ! gmaps ) return;
     let addresses = this.getAddresses( tripLocations );
     if ( addresses.length < 2 ) return console.error( 'Not enough addresses' );
     const origin = addresses.shift();
@@ -62,6 +74,8 @@ export default React.createClass( {
   },
 
   requestDirections( request ) {
+    const gmaps = getGoogleMaps();
+    if ( ! gmaps ) return;
     debug( 'requesting updated directions...', JSON.stringify( request ) );
     this.setState( { directions: null } );
     const directionsService = new gmaps.DirectionsService();
@@ -69,6 +83,8 @@ export default React.createClass( {
   },
 
   updateDirectionsOnMap( result, status ) {
+    const gmaps = getGoogleMaps();
+    if ( ! gmaps ) return;
     if ( status === gmaps.DirectionsStatus.OK ) {
       this.setState( { directions: result } );
     } else {
@@ -80,7 +96,7 @@ export default React.createClass( {
     const mapUrl = 'https://www.google.com/maps/dir/' + this.getAddresses( this.props.tripLocations ).reduce( ( previous, address ) => {
       return previous + encodeURIComponent( address ) + '/';
     }, '' );
-    window.location = mapUrl;
+    if ( window ) window.location = mapUrl;
   },
 
   renderDirections() {
