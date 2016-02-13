@@ -249,15 +249,29 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image img {
   font-size: 1.4rem;
   margin: 0;
   text-align: left;
+  display: none;
+}
+
+@media( min-width: 755px ) {
+  .location-search__help {
+    display: block;
+  }
 }
 
 .add-location-form,
 .edit-location-form {
   position: absolute;
   top: 0;
-  width: 50%;
+  width: 100%;
   height: 100%;
   z-index: 1000;
+}
+
+@media( min-width: 755px ) {
+  .add-location-form,
+  .edit-location-form {
+    width: 50%;
+  }
 }
 
 .add-location-form-container-leave {
