@@ -22,6 +22,16 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image img {
   height: 90px;
 }
 
+.help-box {
+  padding: 30px;
+  animation-delay: 1.0s;
+}
+
+.help-box .glyphicon {
+  animation-delay: 3s;
+  animation-iteration-count: 6;
+}
+
 /**
  * LogInBox
  */

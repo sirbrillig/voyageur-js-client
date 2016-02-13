@@ -22,8 +22,8 @@ const Library = React.createClass( {
   },
 
   renderHelpBox() {
-    if ( this.props.locations.length === 0 ) return <div className="alert alert-info">No locations added yet! Add one with the link above. <span className="glyphicon glyphicon-hand-up" /></div>;
-    if ( this.props.locations.length === 1 ) return <div className="alert alert-info">Add another location to start getting distances! <span className="glyphicon glyphicon-hand-up" /></div>;
+    if ( this.props.locations.length === 0 ) return <div className="help-box alert alert-info animated bounceIn">No locations added yet! Add one with the link above. <span className="animated pulse glyphicon glyphicon-hand-up" /></div>;
+    if ( this.props.locations.length === 1 ) return <div className="help-box alert alert-info animated pulse">Add another location to start getting distances! <span className="animated pulse glyphicon glyphicon-hand-up" /></div>;
   },
 
   renderLocations() {

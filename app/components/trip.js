@@ -26,8 +26,8 @@ const Trip = React.createClass( {
 
   renderTripHelp() {
     if ( ! this.props.areThereLocations || this.props.tripLocations.length > 1 ) return;
-    if ( this.props.tripLocations.length === 1 ) return <div className="alert alert-info"><span className="glyphicon glyphicon-hand-left" /> Add another location from your library!</div>;
-    return <div className="alert alert-info"><span className="glyphicon glyphicon-hand-left" /> Click "Add" next to a location in your list to add it to this trip!</div>;
+    if ( this.props.tripLocations.length === 1 ) return <div className="help-box alert alert-info animated pulse"><span className="glyphicon glyphicon-hand-left" /> Add another location from your library!</div>;
+    return <div className="help-box alert alert-info animated bounceInRight"><span className="glyphicon glyphicon-hand-left" /> Click "Add" next to a location in your list to add it to this trip!</div>;
   },
 
   renderTripLocations() {
