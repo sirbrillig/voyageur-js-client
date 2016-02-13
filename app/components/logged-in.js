@@ -199,7 +199,7 @@ const LoggedIn = React.createClass( {
   renderMain() {
     const lastTripLocationId = ( this.props.trip.length > 0 ? this.props.trip[ this.props.trip.length - 1 ].location : null );
     return (
-      <div className="row">
+      <div key="logged-in__main-row" className="row">
         <div className="logged-in__main-column col-sm-6">
           <a className="logged-in__trip-jump btn btn-info visible-xs-block" href="#trip-column">View Trip</a>
           <div className="library-control-area">
@@ -245,7 +245,11 @@ const LoggedIn = React.createClass( {
   },
 
   render() {
-    return this.props.isLoading ? this.renderLoading() : this.renderMain();
+    return (
+      <ReactCSSTransitionGroup transitionName="loading-panel" transitionEnterTimeout={ 0 } transitionLeaveTimeout={ 500 }>
+        { this.props.isLoading ? this.renderLoading() : this.renderMain() }
+      </ReactCSSTransitionGroup>
+    );
   }
 } );
 

@@ -422,16 +422,25 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image img {
   align-items: center;
   background-image: url( 'assets/map-full.jpeg' );
 }
+
 .loading-panel__content {
 }
+
 .loading-panel__logo {
   animation-delay: 0.8s;
 }
+
 .loading-panel__text-area {
   animation-delay: 1.8s;
 }
+
 .loading-panel__text {
   animation-delay: 3s;
   font-weight: 400;
   color: #fff;
+}
+
+.loading-panel-leave-active {
+  top: -100vh;
+  transition: all 500ms;
 }
