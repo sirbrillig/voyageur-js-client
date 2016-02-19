@@ -13,9 +13,9 @@ APP_JS = app/boot.js
 APP_BUNDLE_JS = $(BUILD_DIR)/bundle.js
 STATIC_FILES = index.html 200.html assets app.css CNAME
 BABELIFY_PLUGIN = [ babelify --presets [ es2015 react ] ]
-BROWSERIFY_OPTIONS = $(APP_JS) --debug -t $(BABELIFY_PLUGIN) -t envify -t uglifyify
-BROWSERIFY_DIST_OPTIONS = $(APP_JS) -t $(BABELIFY_PLUGIN) -t envify -t uglifyify
-UGLIFY_OPTIONS = -o $(APP_BUNDLE_JS)
+BROWSERIFY_OPTIONS = $(APP_JS) --debug -t $(BABELIFY_PLUGIN)
+BROWSERIFY_DIST_OPTIONS = $(APP_JS) -t $(BABELIFY_PLUGIN) -t uglifyify
+UGLIFY_OPTIONS = --compress --mangle -o $(APP_BUNDLE_JS)
 CONFIG_FILE = app/auth0-variables.js
 
 build: install build-app copy-to-dist
@@ -40,17 +40,17 @@ webserver:
 
 install: config npm node-version
 	@echo "Checking dependencies..."
-	@$(NPM) install
+	$(NPM) install
 
 build-app:
 	@echo "Building app..."
 	mkdir -p $(BUILD_DIR)
-	$(BROWSERIFY) $(BROWSERIFY_OPTIONS) | $(UGLIFY) $(UGLIFY_OPTIONS)
+	$(BROWSERIFY) $(BROWSERIFY_OPTIONS)
 
 build-app-dist:
 	@echo "Building app..."
 	mkdir -p $(BUILD_DIR)
-	$(BROWSERIFY) $(BROWSERIFY_DIST_OPTIONS) | $(UGLIFY) $(UGLIFY_OPTIONS)
+	NODE_ENV=production $(BROWSERIFY) $(BROWSERIFY_DIST_OPTIONS) | $(UGLIFY) $(UGLIFY_OPTIONS)
 
 copy-to-dist:
 	@echo "Copying files to dist directory..."
