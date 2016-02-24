@@ -93,7 +93,7 @@ const LoggedIn = React.createClass( {
   addSelectedLocationToTrip() {
     const location = this.props.visibleLocations[ this.props.selectedLocation ];
     if ( ! location ) return;
-    const lastTripLocation = ( this.props.trip.length > 0 ? this.props.trip[ this.props.trip.length - 1 ].location : null );
+    const lastTripLocation = ( this.props.trip.length > 0 ? this.props.trip[ this.props.trip.length - 1 ] : null );
     const lastTripLocationId = ( lastTripLocation ? lastTripLocation._id || lastTripLocation : null );
     if ( lastTripLocationId === location._id ) return;
     this.props.dispatch( addToTrip( location ) );
@@ -206,7 +206,7 @@ const LoggedIn = React.createClass( {
   },
 
   renderMain() {
-    const lastTripLocationId = ( this.props.trip.length > 0 ? this.props.trip[ this.props.trip.length - 1 ].location : null );
+    const lastTripLocationId = ( this.props.trip.length > 0 ? this.props.trip[ this.props.trip.length - 1 ] : null );
     return (
       <div key="logged-in__main-row" className="row">
         <div className="logged-in__main-column col-sm-6">

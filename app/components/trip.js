@@ -8,7 +8,6 @@ const Trip = React.createClass( {
   propTypes: {
     tripLocations: React.PropTypes.array,
     getLocationById: React.PropTypes.func.isRequired,
-    getLocationById: React.PropTypes.func.isRequired,
     onRemoveTripLocation: React.PropTypes.func.isRequired,
     onDrop: React.PropTypes.func.isRequired,
     areThereLocations: React.PropTypes.bool,
@@ -35,12 +34,9 @@ const Trip = React.createClass( {
   },
 
   renderTripLocation( tripLocation ) {
-    if ( ! tripLocation.location.name ) {
-      const location = this.props.getLocationById( tripLocation.location );
-      if ( ! location ) return; // Don't render tripLocations without a corresponding location
-      tripLocation.location = location;
-    }
-    return <TripLocation key={ tripLocation._id } tripLocation={ tripLocation } onRemoveTripLocation={ this.props.onRemoveTripLocation } onDrop={ this.props.onDrop } />;
+    const location = this.props.getLocationById( tripLocation );
+    if ( ! location ) return; // Don't render tripLocations without a corresponding location
+    return <TripLocation key={ 'tripLocation-' + location._id } tripLocation={ location } onRemoveTripLocation={ this.props.onRemoveTripLocation } onDrop={ this.props.onDrop } />;
   },
 
   renderMap() {
