@@ -16,6 +16,7 @@ export function addToTrip( location ) {
   return function( dispatch, getState ) {
     const locationId = location._id || location;
     if ( ! locationId ) return dispatch( gotError( 'Error adding location to trip; I could not find the location!' ) );
+    dispatch( fetchingDistance() );
     const ids = [ ...getState().trip, locationId ];
     api.reorderTrip( getState().auth.token, ids )
     .then( () => dispatch( fetchTrip() ) )
@@ -71,6 +72,7 @@ export function moveTripLocation( tripLocationId, targetLocationId ) {
   return function( dispatch, getState ) {
     const newTrip = reorderModels( getState().trip, tripLocationId, targetLocationId );
     if ( ! newTrip ) return dispatch( gotError( 'Could not find tripLocation data to move it' ) );
+    dispatch( fetchingDistance() );
 
     api.reorderTrip( getState().auth.token, newTrip )
     .then( updatedTrip => dispatch( gotTrip( updatedTrip ) ) )
