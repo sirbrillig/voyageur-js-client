@@ -4,10 +4,11 @@ import { reorderModels } from '../helpers';
 
 export function removeTripLocation( tripLocationId ) {
   return function( dispatch, getState ) {
-    api.deleteTripLocation( getState().auth.token, tripLocationId )
+    const ids = getState().trip.filter( id => id !== tripLocationId );
+    api.reorderTrip( getState().auth.token, ids )
     .then( () => dispatch( fetchTrip() ) )
-    .catch( ( err ) => dispatch( gotError( err ) ) );
-    dispatch( gotRemovedTripLocation( tripLocationId ) );
+    .catch( err => dispatch( gotError( err ) ) );
+    dispatch( gotTrip( ids ) );
   }
 }
 
@@ -21,10 +22,6 @@ export function addToTrip( location ) {
     .catch( err => dispatch( gotError( err ) ) );
     dispatch( gotTrip( ids ) );
   }
-}
-
-export function gotNewTripLocation( tripLocation ) {
-  return { type: 'TRIP_GOT_NEW_TRIP_LOCATION', tripLocation };
 }
 
 export function fetchTrip() {
@@ -55,10 +52,6 @@ export function gotDistance( distance ) {
 
 export function gotTrip( trip ) {
   return { type: 'TRIP_GOT_TRIP_LOCATIONS', trip };
-}
-
-export function gotRemovedTripLocation( tripLocationId ) {
-  return { type: 'TRIP_GOT_REMOVE_TRIP_LOCATION', tripLocationId };
 }
 
 export function clearTrip() {
