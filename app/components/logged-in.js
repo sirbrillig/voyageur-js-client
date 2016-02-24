@@ -275,7 +275,7 @@ function mapStateToProps( state ) {
     selectedLocation: ui.selectedLocation,
     editingLocation: ui.editingLocation,
     prefs,
-    isLoadingTrip: trip.some( l => l.isLoading ),
+    isLoadingTrip: distance.isLoading || trip.some( l => l.isLoading ),
   };
 }
 
