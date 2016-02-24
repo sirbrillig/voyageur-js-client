@@ -79,7 +79,7 @@ export function reorderTrip( token, ids ) {
   return new Promise( ( resolve, reject ) => {
     const url = `${baseUrl}/secured/trip-locations`;
     request.put( url )
-    .send( { tripLocationIds: ids } )
+    .send( { tripLocationIds: ids, date: Date.now() } )
     .set( 'Authorization', `Bearer ${token}` )
     .end( ( err, res ) => {
       if ( err ) return reject( err );

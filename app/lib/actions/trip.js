@@ -13,11 +13,11 @@ export function removeTripLocation( tripLocationId ) {
 
 export function addToTrip( location ) {
   return function( dispatch, getState ) {
-    api.createNewTripLocation( getState().auth.token, { location } )
+    const ids = [ ...getState().trip, location._id ];
+    api.reorderTrip( getState().auth.token, ids )
     .then( () => dispatch( fetchTrip() ) )
-    .catch( ( err ) => dispatch( gotError( err ) ) );
-    const tripLocation = Object.assign( { _id: 'new-trip-location_' + Date.now(), isLoading: true, location } );
-    dispatch( gotNewTripLocation( tripLocation ) );
+    .catch( err => dispatch( gotError( err ) ) );
+    dispatch( gotTrip( ids ) );
   }
 }
 
