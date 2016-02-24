@@ -45,7 +45,7 @@ install: config npm node-version
 build-app:
 	@echo "Building app..."
 	mkdir -p $(BUILD_DIR)
-	$(BROWSERIFY) $(BROWSERIFY_OPTIONS)
+	$(BROWSERIFY) $(BROWSERIFY_OPTIONS) -o $(APP_BUNDLE_JS)
 
 build-app-dist:
 	@echo "Building app..."
