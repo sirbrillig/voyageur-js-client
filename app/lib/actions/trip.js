@@ -72,15 +72,17 @@ export function moveTripLocation( tripLocationId, targetLocationId ) {
     const newTrip = reorderModels( getState().trip, tripLocationId, targetLocationId );
     if ( ! newTrip ) return dispatch( gotError( 'Could not find tripLocation data to move it' ) );
 
-    api.reorderTrip( getState().auth.token, newTrip.map( x => x._id ) )
+    api.reorderTrip( getState().auth.token, newTrip )
     .then( updatedTrip => dispatch( gotTrip( updatedTrip ) ) )
     .catch( err => dispatch( gotError( err ) ) );
 
+    dispatch( gotTrip( newTrip ) );
     // Optimistically update and mark all tripLocations isLoading
-    dispatch( gotTrip( newTrip.map( x => {
-      x.isLoading = true;
-      return x;
-    } ) ) );
+    // TODO: how do we do this now since tripLocations are just IDs?
+    //dispatch( gotTrip( newTrip.map( x => {
+      //x.isLoading = true;
+      //return x;
+    //} ) ) );
   }
 }
 
