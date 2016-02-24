@@ -36,10 +36,15 @@ export function fetchTrip() {
 
 export function fetchDistance() {
   return function( dispatch, getState ) {
+    dispatch( fetchingDistance() );
     api.getTripDistance( getState().auth.token )
     .then( data => dispatch( gotDistance( data.distance ) ) )
     .catch( err => dispatch( gotError( err ) ) );
   }
+}
+
+export function fetchingDistance() {
+  return { type: 'TRIP_FETCHING_DISTANCE' };
 }
 
 export function gotDistance( distance ) {
