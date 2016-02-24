@@ -13,7 +13,9 @@ export function removeTripLocation( tripLocationId ) {
 
 export function addToTrip( location ) {
   return function( dispatch, getState ) {
-    const ids = [ ...getState().trip, location._id ];
+    const locationId = location._id || location;
+    if ( ! locationId ) return dispatch( gotError( 'Error adding location to trip; I could not find the location!' ) );
+    const ids = [ ...getState().trip, locationId ];
     api.reorderTrip( getState().auth.token, ids )
     .then( () => dispatch( fetchTrip() ) )
     .catch( err => dispatch( gotError( err ) ) );

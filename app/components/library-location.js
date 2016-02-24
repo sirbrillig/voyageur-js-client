@@ -67,6 +67,7 @@ const dragSpec = {
     const source = props.location._id;
     const result = monitor.getDropResult();
     if ( ! result ) return;
+    if ( ! source ) return console.warn( 'Could not find drag source information from', props );
     if ( result.trip ) return props.onAddToTrip( source );
     const target = result.location;
     if ( source === target ) return;
