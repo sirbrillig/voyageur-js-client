@@ -162,8 +162,8 @@ const LoggedIn = React.createClass( {
     this.props.dispatch( moveLibraryLocation( location, targetLocation ) );
   },
 
-  onTripDrop( tripLocation, targetLocation ) {
-    this.props.dispatch( moveTripLocation( tripLocation, targetLocation ) );
+  onTripDrop( tripLocationIndex, targetLocationIndex ) {
+    this.props.dispatch( moveTripLocation( tripLocationIndex, targetLocationIndex ) );
   },
 
   renderClearTripButton() {

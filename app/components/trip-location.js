@@ -6,6 +6,7 @@ import flow from 'lodash.flow';
 const TripLocation = React.createClass( {
   propTypes: {
     tripLocation: React.PropTypes.object.isRequired,
+    index: React.PropTypes.number.isRequired,
     onRemoveTripLocation: React.PropTypes.func.isRequired,
     connectDragSource: React.PropTypes.func.isRequired,
     isDragging: React.PropTypes.bool.isRequired,
@@ -46,11 +47,11 @@ const TripLocation = React.createClass( {
 
 const dragSpec = {
   beginDrag( props ) {
-    return { tripLocation: props.tripLocation._id };
+    return { tripLocation: props.index };
   },
 
   endDrag( props, monitor ) {
-    const source = props.tripLocation._id;
+    const source = props.index;
     const result = monitor.getDropResult();
     if ( ! result ) return;
     const target = result.tripLocation;
@@ -68,7 +69,7 @@ function collectDrag( connect, monitor ) {
 
 const dropSpec = {
   drop( props ) {
-    return { tripLocation: props.tripLocation._id };
+    return { tripLocation: props.index };
   }
 };
 

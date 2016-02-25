@@ -1,6 +1,6 @@
 import { gotError } from './general';
 import * as api from '../api/trip';
-import { reorderModels } from '../helpers';
+import { reorderArray } from '../helpers';
 
 export function removeTripLocation( tripLocationId ) {
   return function( dispatch, getState ) {
@@ -68,9 +68,9 @@ export function gotClearedTrip() {
   return { type: 'TRIP_CLEAR' };
 }
 
-export function moveTripLocation( tripLocationId, targetLocationId ) {
+export function moveTripLocation( tripLocationIndex, targetLocationIndex ) {
   return function( dispatch, getState ) {
-    const newTrip = reorderModels( getState().trip, tripLocationId, targetLocationId );
+    const newTrip = reorderArray( getState().trip, tripLocationIndex, targetLocationIndex );
     if ( ! newTrip ) return dispatch( gotError( 'Could not find tripLocation data to move it' ) );
     dispatch( fetchingDistance() );
 
