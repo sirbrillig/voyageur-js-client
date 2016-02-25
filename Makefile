@@ -54,6 +54,7 @@ build-app-dist:
 
 copy-to-dist:
 	@echo "Copying files to dist directory..."
+	rm -rf $(DIST_DIR)
 	mkdir -p $(DIST_DIR)
 	cp -a $(BUILD_DIR) $(STATIC_FILES) $(DIST_DIR)/
 
