@@ -75,7 +75,7 @@ export function moveTripLocation( tripLocationIndex, targetLocationIndex ) {
     dispatch( fetchingDistance() );
 
     api.reorderTrip( getState().auth.token, newTrip )
-    .then( updatedTrip => dispatch( gotTrip( updatedTrip ) ) )
+    .then( () => dispatch( fetchTrip() ) )
     .catch( err => dispatch( gotError( err ) ) );
 
     dispatch( gotTrip( newTrip ) );
