@@ -126,8 +126,8 @@ const LoggedIn = React.createClass( {
     this.props.dispatch( startEditLocation( location ) )
   },
 
-  onRemoveTripLocation( tripLocation ) {
-    this.props.dispatch( removeTripLocation( tripLocation ) );
+  onRemoveTripLocation( index ) {
+    this.props.dispatch( removeTripLocation( index ) );
   },
 
   onClearTrip() {

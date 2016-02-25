@@ -2,9 +2,10 @@ import { gotError } from './general';
 import * as api from '../api/trip';
 import { reorderArray } from '../helpers';
 
-export function removeTripLocation( tripLocationId ) {
+export function removeTripLocation( index ) {
   return function( dispatch, getState ) {
-    const ids = getState().trip.filter( id => id !== tripLocationId );
+    let ids = getState().trip.slice( 0 ); // copy the array
+    ids.splice( index, 1 ); // remove the id
     api.reorderTrip( getState().auth.token, ids )
     .then( () => dispatch( fetchTrip() ) )
     .catch( err => dispatch( gotError( err ) ) );

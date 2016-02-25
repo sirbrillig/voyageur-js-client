@@ -21,7 +21,7 @@ const TripLocation = React.createClass( {
     }
     return (
       <div className="btn-group btn-group-sm" role="group">
-        <button className="btn btn-default" onClick={ () => this.props.onRemoveTripLocation( this.props.tripLocation._id ) }>Remove</button>
+        <button className="btn btn-default" onClick={ () => this.props.onRemoveTripLocation( this.props.index ) }>Remove</button>
       </div>
     );
   },
