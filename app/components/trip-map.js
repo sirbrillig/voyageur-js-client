@@ -96,7 +96,6 @@ export default React.createClass( {
     const mapUrl = 'https://www.google.com/maps/dir/' + this.getAddresses( this.props.tripLocations ).reduce( ( previous, address ) => {
       return previous + encodeURIComponent( address ) + '/';
     }, '' );
-    // TODO: allow opening in new window?
     if ( window ) window.location = mapUrl;
   },
 

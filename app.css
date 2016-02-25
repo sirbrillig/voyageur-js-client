@@ -356,7 +356,7 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image {
   margin: 4px 0px;
   border-width: 2px;
   background-color: #E3EEF7;
-  height: 95px;
+  height: 35px;
   overflow: hidden;
 }
 
@@ -368,7 +368,7 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 80px;
+  height: 25px;
 }
 
 .trip-location__loading {
@@ -376,8 +376,8 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image {
 }
 
 .trip-location__description__name {
-  margin: 10px 0px;
-  font-size: 2rem;
+  margin: 5px 0px;
+  font-size: 1.5rem;
 }
 
 .trip-location__description__address {
@@ -389,7 +389,7 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image {
   margin: 4px 0px;
   border-width: 2px;
   background-color: #E3EEF7;
-  height: 95px;
+  height: 194px;
 }
 
 .distance {

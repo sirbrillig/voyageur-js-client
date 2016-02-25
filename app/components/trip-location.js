@@ -15,7 +15,6 @@ const TripLocation = React.createClass( {
   },
 
   renderControls() {
-    // TODO: how do we show loading per tripLocation since it's actually a location?
     if ( this.props.tripLocation.isLoading ) {
       return <span className="trip-location__loading glyphicon glyphicon-refresh glyphicon-spin" />;
     }
@@ -34,7 +33,6 @@ const TripLocation = React.createClass( {
       <li className={ locationClassNames } >
         <div className="trip-location__description col-xs-8" >
           <h3 className="trip-location__description__name">{ this.props.tripLocation.name }</h3>
-          <p className="trip-location__description__address">{ this.props.tripLocation.address }</p>
         </div>
         <div className="col-xs-4" >
           <div className="trip-location__controls" >

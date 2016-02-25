@@ -79,12 +79,6 @@ export function moveTripLocation( tripLocationId, targetLocationId ) {
     .catch( err => dispatch( gotError( err ) ) );
 
     dispatch( gotTrip( newTrip ) );
-    // Optimistically update and mark all tripLocations isLoading
-    // TODO: how do we do this now since tripLocations are just IDs?
-    //dispatch( gotTrip( newTrip.map( x => {
-      //x.isLoading = true;
-      //return x;
-    //} ) ) );
   }
 }
 
