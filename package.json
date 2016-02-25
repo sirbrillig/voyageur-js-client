@@ -5,7 +5,7 @@
   "main": "build/bundle.js",
   "scripts": {
     "build": "make build-app-dist",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --compilers js:babel-register"
   },
   "author": "Payton Swick <payton@foolord.com>",
   "license": "MIT",
@@ -35,11 +35,16 @@
     "superagent": "^1.6.1"
   },
   "devDependencies": {
+    "babel": "^6.5.2",
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
+    "babel-register": "^6.5.2",
     "babelify": "^7.2.0",
     "browserify": "^12.0.1",
+    "chai": "^3.5.0",
     "local-web-server": "^1.1.0",
+    "mocha": "^2.4.5",
+    "react-addons-test-utils": "^0.14.7",
     "uglify-js": "^2.6.1",
     "uglifyify": "^3.0.1",
     "watchify": "^3.6.1"
