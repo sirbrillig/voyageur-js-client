@@ -1,15 +1,11 @@
-import findWhere from 'lodash.findwhere';
-
-export function reorderModels( elements, sourceId, targetId ) {
-  const ids = elements.map( x => x._id );
-  const targetIndex = ids.indexOf( targetId );
+export function reorderModels( ids, sourceId, targetId ) {
   const sourceIndex = ids.indexOf( sourceId );
-  const sourceElement = findWhere( elements, { _id: sourceId } );
-  if ( ! sourceElement || sourceIndex === -1 || targetIndex === -1 ) return null;
+  const targetIndex = ids.indexOf( targetId );
+  if ( sourceIndex === -1 || targetIndex === -1 ) return null;
 
-  let newElements = elements.slice( 0 ); // copy the array
-  newElements.splice( sourceIndex, 1 ); // remove from the old element
-  newElements.splice( targetIndex, 0, sourceElement ); // add the element back
+  let newIds = ids.slice( 0 ); // copy the array
+  newIds.splice( sourceIndex, 1 ); // remove the id
+  newIds.splice( targetIndex, 0, sourceId ); // add the id back
 
-  return newElements;
+  return newIds;
 }

@@ -38,8 +38,8 @@ export default React.createClass( {
   },
 
   hasMapDataChanged( tripLocations ) {
-    const next = JSON.stringify( tripLocations.map( x => x.location._id || x.location ) );
-    const prev = JSON.stringify( this.props.tripLocations.map( x => x.location._id || x.location ) );
+    const next = JSON.stringify( tripLocations.map( x => x._id || x ) );
+    const prev = JSON.stringify( this.props.tripLocations.map( x => x._id || x ) );
     return ( next !== prev );
   },
 
@@ -53,8 +53,8 @@ export default React.createClass( {
 
   getAddresses( tripLocations ) {
     return tripLocations.reduce( ( addrs, tripLocation ) => {
-      if ( tripLocation.location.address ) return addrs.concat( tripLocation.location.address );
-      const location = this.props.getLocationById( tripLocation.location );
+      if ( tripLocation.address ) return addrs.concat( tripLocation.address );
+      const location = this.props.getLocationById( tripLocation );
       if ( ! location ) return addrs;
       return addrs.concat( location.address );
     }, [] );
@@ -64,11 +64,11 @@ export default React.createClass( {
     const gmaps = getGoogleMaps();
     if ( ! gmaps ) return;
     let addresses = this.getAddresses( tripLocations );
-    if ( addresses.length < 2 ) return console.error( 'Not enough addresses' );
+    if ( addresses.length < 2 ) return console.warn( 'Not enough addresses to render trip map' );
     const origin = addresses.shift();
     const destination = addresses.pop();
     const waypoints = addresses.map( location => ( { location, stopover: true } ) );
-    if ( waypoints.length > 8 ) return console.error( 'Too many waypoints' );
+    if ( waypoints.length > 8 ) return console.warn( 'Too many waypoints to render trip map' );
     const request = { origin, destination, waypoints, travelMode: gmaps.TravelMode.DRIVING };
     this.requestDirections( request );
   },

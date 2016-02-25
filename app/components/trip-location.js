@@ -32,8 +32,7 @@ const TripLocation = React.createClass( {
     return this.props.connectDropTarget( this.props.connectDragSource(
       <li className={ locationClassNames } >
         <div className="trip-location__description col-xs-8" >
-          <h3 className="trip-location__description__name">{ this.props.tripLocation.location.name }</h3>
-          <p className="trip-location__description__address">{ this.props.tripLocation.location.address }</p>
+          <h3 className="trip-location__description__name">{ this.props.tripLocation.name }</h3>
         </div>
         <div className="col-xs-4" >
           <div className="trip-location__controls" >
