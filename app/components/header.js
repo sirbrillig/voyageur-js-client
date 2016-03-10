@@ -19,12 +19,27 @@ export default React.createClass( {
     }
   },
 
+  onClickReload() {
+    if ( window ) window.location.reload();
+  },
+
   renderNotices() {
     if ( this.props.errors.length === 0 ) return;
     return (
       <div className="notices well">
-      { this.renderClearNotices() }
-      { this.props.errors.map( this.renderError ) }
+        <h1 className="notices__title">Sorry! Something went wrong!</h1>
+        <div className="notices__help">
+          <p>If the problem was temporary, you can try to keep working. Otherwise you can try to reload and see if that helps.</p>
+          <p>If you keep seeing errors, send an email to <a className="label label-primary" href="mailto:payton+voyageurhelp@foolord.com">payton+voyageurhelp@foolord.com</a> and I'll see what I can do.</p>
+        </div>
+        { this.renderButtons() }
+        <div className="notices__errors">
+          <div className="notices__help">
+            <h3 className="notices__help__title">Here's the raw error I saw:</h3>
+            <p>Don't worry if you don't understand it; if it keeps happening just send it to me in an email.</p>
+          </div>
+          { this.props.errors.map( this.renderError ) }
+        </div>
       </div>
     );
   },
@@ -33,8 +48,13 @@ export default React.createClass( {
     return <div key={ 'notices__error__' + error + key } className="notices__notice alert alert-warning" role="alert">{ error }</div>;
   },
 
-  renderClearNotices() {
-    return <button className="notices__clear btn btn-block btn-default" onClick={ this.props.onClearNotices }>clear notices</button>;
+  renderButtons() {
+    return (
+      <div className="notices__buttons">
+        <button className="notices__clear btn btn-block btn-primary" onClick={ this.props.onClearNotices }>keep going</button>
+        <button className="notices__reload btn btn-block btn-warning" onClick={ this.onClickReload }>try reloading</button>
+      </div>
+    );
   },
 
   renderAdminButton() {
