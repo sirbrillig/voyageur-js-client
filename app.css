@@ -171,11 +171,31 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image {
   z-index: 1001;
 }
 
+.notices__title {
+  font-size: 3rem;
+}
+
+.notices__help {
+  font-size: 1.5rem;
+  max-width: 90%;
+  margin: auto;
+  text-align: left;
+}
+
+.notices__help__title {
+  font-size: 2rem;
+}
+
+.notices__errors {
+  margin-top: 10px;
+}
+
 .notices__notice {
   margin-bottom: 5px;
 }
 
-.notices__clear {
+.notices__clear,
+.notices__reload {
   margin-bottom: 5px;
 }
 
