@@ -7,10 +7,8 @@ export function removeTripLocation( index ) {
   return function( dispatch, getState ) {
     const ids = getState().trip.slice( 0 ); // copy the array
     ids.splice( index, 1 ); // remove the id
-    api.reorderTrip( getState().auth.token, ids )
-    .then( () => dispatch( fetchTrip() ) )
-    .catch( err => dispatch( gotError( err ) ) );
     dispatch( gotTrip( ids ) );
+    dispatch( updateDistance() );
   };
 }
 
@@ -20,9 +18,6 @@ export function addToTrip( location ) {
     if ( ! locationId ) return dispatch( gotError( 'Error adding location to trip; I could not find the location!' ) );
     dispatch( fetchingDistance() );
     const ids = [ ...getState().trip, locationId ];
-    //api.reorderTrip( getState().auth.token, ids )
-    //.then( () => dispatch( fetchTrip() ) )
-    //.catch( err => dispatch( gotError( err ) ) );
     dispatch( gotTrip( ids ) );
     dispatch( updateDistance() );
   };
@@ -56,24 +51,6 @@ export function gotDistanceBetween( start, dest, distance ) {
   };
 }
 
-export function fetchTrip() {
-  return function( dispatch, getState ) {
-    api.listTripLocations( getState().auth.token )
-    .then( tripLocations => dispatch( gotTrip( tripLocations ) ) )
-    .then( () => dispatch( fetchDistance() ) )
-    .catch( err => dispatch( gotError( err ) ) );
-  };
-}
-
-export function fetchDistance() {
-  return function( dispatch, getState ) {
-    dispatch( fetchingDistance() );
-    api.getTripDistance( getState().auth.token )
-    .then( data => dispatch( gotDistance( data.distance ) ) )
-    .catch( err => dispatch( gotError( err ) ) );
-  };
-}
-
 export function fetchingDistance() {
   return { type: 'TRIP_FETCHING_DISTANCE' };
 }
@@ -87,10 +64,7 @@ export function gotTrip( trip ) {
 }
 
 export function clearTrip() {
-  return function( dispatch, getState ) {
-    api.removeAllTripLocations( getState().auth.token )
-    .then( data => dispatch( gotTrip( data ) ) )
-    .catch( err => dispatch( gotError( err ) ) );
+  return function( dispatch ) {
     dispatch( gotClearedTrip() );
   };
 }
@@ -104,12 +78,8 @@ export function moveTripLocation( tripLocationIndex, targetLocationIndex ) {
     const newTrip = reorderArray( getState().trip, tripLocationIndex, targetLocationIndex );
     if ( ! newTrip ) return dispatch( gotError( 'Could not find tripLocation data to move it' ) );
     dispatch( fetchingDistance() );
-
-    api.reorderTrip( getState().auth.token, newTrip )
-    .then( () => dispatch( fetchTrip() ) )
-    .catch( err => dispatch( gotError( err ) ) );
-
     dispatch( gotTrip( newTrip ) );
+    dispatch( updateDistance() );
   };
 }
 

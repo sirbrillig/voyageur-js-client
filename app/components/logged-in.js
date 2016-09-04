@@ -24,7 +24,7 @@ import {
   showAddLocation,
   moveLibraryLocation,
 } from '../lib/actions/library';
-import { clearTrip, addToTrip, removeTripLocation, moveTripLocation, fetchTrip, changeUnits } from '../lib/actions/trip';
+import { clearTrip, addToTrip, removeTripLocation, moveTripLocation, changeUnits } from '../lib/actions/trip';
 import flow from 'lodash.flow';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -46,7 +46,6 @@ const LoggedIn = React.createClass( {
 
   componentWillMount() {
     this.props.dispatch( fetchLibrary() );
-    this.props.dispatch( fetchTrip() );
   },
 
   componentDidMount() {
