@@ -12,7 +12,8 @@ export function getLocationById( state, id ) {
 }
 
 export function getLocationsForTrip( state ) {
-  return state.trip.map( id => getLocationById( state, id ) );
+  return state.trip.map( id => getLocationById( state, id ) )
+  .filter( location => !! location );
 }
 
 export function getAddressesForTrip( state ) {
