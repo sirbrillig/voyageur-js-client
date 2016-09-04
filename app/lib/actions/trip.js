@@ -1,6 +1,6 @@
 import { gotError } from './general';
 import * as api from '../api/trip';
-import { reorderArray, getHashFor } from '../helpers';
+import { reorderArray, getKeyForAddresses } from '../helpers';
 import { getAddressPairs, getDistanceForKey } from '../selectors';
 
 export function removeTripLocation( index ) {
@@ -33,7 +33,7 @@ export function updateDistance() {
     // split trip into pairs
     const addrPairs = getAddressPairs( getState() );
     // find cached pairs
-    const uncached = addrPairs.filter( pair => ! getDistanceForKey( getState(), getHashFor( pair.start + pair.dest ) ) );
+    const uncached = addrPairs.filter( pair => ! getDistanceForKey( getState(), getKeyForAddresses( pair.start, pair.dest ) ) );
     // fetch distance for each uncached pair
     uncached.map( pair => dispatch( fetchDistanceBetween( pair.start, pair.dest ) ) );
   };

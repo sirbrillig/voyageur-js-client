@@ -1,4 +1,4 @@
-import { getHashFor } from './helpers';
+import { getKeyForAddresses } from './helpers';
 
 export function getLocations( state ) {
   return state.library.locations;
@@ -30,7 +30,7 @@ export function getAddressPairs( state ) {
 
 export function getTripDistances( state ) {
   const pairs = getAddressPairs( state );
-  return pairs.map( pair => getDistanceForKey( state, getHashFor( pair.start + pair.dest ) ) );
+  return pairs.map( pair => getDistanceForKey( state, getKeyForAddresses( pair.start, pair.dest ) ) );
 }
 
 export function getTotalTripDistance( state ) {
