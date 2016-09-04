@@ -1,4 +1,5 @@
 import findWhere from 'lodash.findwhere';
+import crypto from 'crypto';
 
 export function reorderArray( ids, sourceIndex, targetIndex ) {
   if ( sourceIndex === -1 || targetIndex === -1 ) return null;
@@ -22,4 +23,8 @@ export function reorderModels( elements, sourceId, targetId ) {
   newElements.splice( targetIndex, 0, sourceElement ); // add the element back
 
   return newElements;
+}
+
+export function getHashFor( str ) {
+  return crypto.createHash( 'md5' ).update( str ).digest( 'hex' );
 }

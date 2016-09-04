@@ -60,3 +60,18 @@ export function reorderTrip( token, ids ) {
     } );
   } );
 }
+
+export function getDistanceBetween( token, start, dest ) {
+  return new Promise( ( resolve, reject ) => {
+    const url = `${baseUrl}/secured/distances`;
+    request.post( url )
+    .send( { start, dest } )
+    .set( 'Authorization', `Bearer ${token}` )
+    .end( ( err, res ) => {
+      if ( err ) return reject( err );
+      const data = res.body;
+      if ( ! data ) return reject( 'No data found in response' );
+      return resolve( data );
+    } );
+  } );
+}

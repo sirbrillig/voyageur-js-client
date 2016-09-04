@@ -9,6 +9,7 @@ import EditLocationForm from './edit-location-form';
 import LocationSearch from './location-search';
 import LoadingPanel from './loading-panel';
 import { connect } from 'react-redux';
+import { getTripDistances, getTotalTripDistance } from '../lib/selectors';
 import {
   saveLocation,
   deleteLocation,
@@ -123,7 +124,7 @@ const LoggedIn = React.createClass( {
   },
 
   onEditLocation( location ) {
-    this.props.dispatch( startEditLocation( location ) )
+    this.props.dispatch( startEditLocation( location ) );
   },
 
   onRemoveTripLocation( index ) {
@@ -194,7 +195,7 @@ const LoggedIn = React.createClass( {
   },
 
   renderAddLocationButton() {
-    return <WideButton className="add-location-button" text="Add a new location" onClick={ this.onShowAddLocation } />
+    return <WideButton className="add-location-button" text="Add a new location" onClick={ this.onShowAddLocation } />;
   },
 
   renderLoading() {
@@ -263,19 +264,20 @@ const LoggedIn = React.createClass( {
 } );
 
 function mapStateToProps( state ) {
-  const { library, trip, ui, prefs, distance } = state;
+  const { library, trip, ui, prefs } = state;
+  const tripDistances = getTripDistances( state );
   return {
     isLoading: library.isLoading,
     library: library.locations,
     visibleLocations: library.visibleLocations,
     trip,
-    distance: distance.distance,
+    distance: getTotalTripDistance( state ),
     isShowingAddLocation: ui.isShowingAddLocation,
     searchString: ui.searchString,
     selectedLocation: ui.selectedLocation,
     editingLocation: ui.editingLocation,
     prefs,
-    isLoadingTrip: distance.isLoading || trip.some( l => l.isLoading ),
+    isLoadingTrip: tripDistances.length < ( trip.length - 1 )
   };
 }
 

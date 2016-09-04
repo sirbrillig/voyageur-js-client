@@ -1,16 +1,17 @@
 import { gotError } from './general';
 import * as api from '../api/trip';
 import { reorderArray } from '../helpers';
+import { getAddressPairs } from '../selectors';
 
 export function removeTripLocation( index ) {
   return function( dispatch, getState ) {
-    let ids = getState().trip.slice( 0 ); // copy the array
+    const ids = getState().trip.slice( 0 ); // copy the array
     ids.splice( index, 1 ); // remove the id
     api.reorderTrip( getState().auth.token, ids )
     .then( () => dispatch( fetchTrip() ) )
     .catch( err => dispatch( gotError( err ) ) );
     dispatch( gotTrip( ids ) );
-  }
+  };
 }
 
 export function addToTrip( location ) {
@@ -19,11 +20,38 @@ export function addToTrip( location ) {
     if ( ! locationId ) return dispatch( gotError( 'Error adding location to trip; I could not find the location!' ) );
     dispatch( fetchingDistance() );
     const ids = [ ...getState().trip, locationId ];
-    api.reorderTrip( getState().auth.token, ids )
-    .then( () => dispatch( fetchTrip() ) )
-    .catch( err => dispatch( gotError( err ) ) );
+    //api.reorderTrip( getState().auth.token, ids )
+    //.then( () => dispatch( fetchTrip() ) )
+    //.catch( err => dispatch( gotError( err ) ) );
     dispatch( gotTrip( ids ) );
-  }
+    dispatch( updateDistance() );
+  };
+}
+
+export function updateDistance() {
+  return function( dispatch, getState ) {
+    // split trip into pairs
+    const addrPairs = getAddressPairs( getState() );
+    // fetch distance for each pair
+    addrPairs.map( pair => dispatch( fetchDistanceBetween( pair.start, pair.dest ) ) );
+  };
+}
+
+export function fetchDistanceBetween( start, dest ) {
+  return function( dispatch, getState ) {
+    api.getDistanceBetween( getState().auth.token, start, dest )
+    .then( data => dispatch( gotDistanceBetween( start, dest, data ) ) )
+    .catch( err => dispatch( gotError( err ) ) );
+  };
+}
+
+export function gotDistanceBetween( start, dest, distance ) {
+  return {
+    type: 'TRIP_GOT_DISTANCE_BETWEEN',
+    start,
+    dest,
+    distance,
+  };
 }
 
 export function fetchTrip() {
@@ -32,7 +60,7 @@ export function fetchTrip() {
     .then( tripLocations => dispatch( gotTrip( tripLocations ) ) )
     .then( () => dispatch( fetchDistance() ) )
     .catch( err => dispatch( gotError( err ) ) );
-  }
+  };
 }
 
 export function fetchDistance() {
@@ -41,7 +69,7 @@ export function fetchDistance() {
     api.getTripDistance( getState().auth.token )
     .then( data => dispatch( gotDistance( data.distance ) ) )
     .catch( err => dispatch( gotError( err ) ) );
-  }
+  };
 }
 
 export function fetchingDistance() {
@@ -62,7 +90,7 @@ export function clearTrip() {
     .then( data => dispatch( gotTrip( data ) ) )
     .catch( err => dispatch( gotError( err ) ) );
     dispatch( gotClearedTrip() );
-  }
+  };
 }
 
 export function gotClearedTrip() {
@@ -80,7 +108,7 @@ export function moveTripLocation( tripLocationIndex, targetLocationIndex ) {
     .catch( err => dispatch( gotError( err ) ) );
 
     dispatch( gotTrip( newTrip ) );
-  }
+  };
 }
 
 export function changeUnits( unit ) {
