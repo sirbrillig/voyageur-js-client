@@ -10,7 +10,7 @@ const debug = debugFactory( 'voyageur:store' );
 const createStoreWithMiddleware = compose(
   applyMiddleware( thunk ),
   applyMiddleware( Debug( debug ) ),
-  persistState( [ 'auth', 'prefs' ], { key: 'voyageur' } ),
+  persistState( [ 'auth', 'prefs', 'distances' ], { key: 'voyageur' } ),
   ( window && window.devToolsExtension ) ? window.devToolsExtension() : f => f
 )( createStore );
 
