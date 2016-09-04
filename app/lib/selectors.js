@@ -41,3 +41,9 @@ export function getTotalTripDistance( state ) {
 export function getDistanceForKey( state, key ) {
   return state.distances[ key ];
 }
+
+export function isDistanceComplete( state ) {
+  const tripLocations = getLocationsForTrip( state );
+  const tripDistances = getTripDistances( state );
+  return ( tripLocations.length - 1 ) === tripDistances.length;
+}

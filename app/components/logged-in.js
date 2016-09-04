@@ -9,7 +9,7 @@ import EditLocationForm from './edit-location-form';
 import LocationSearch from './location-search';
 import LoadingPanel from './loading-panel';
 import { connect } from 'react-redux';
-import { getTripDistances, getTotalTripDistance } from '../lib/selectors';
+import { getTotalTripDistance, isDistanceComplete } from '../lib/selectors';
 import {
   saveLocation,
   deleteLocation,
@@ -264,7 +264,6 @@ const LoggedIn = React.createClass( {
 
 function mapStateToProps( state ) {
   const { library, trip, ui, prefs } = state;
-  const tripDistances = getTripDistances( state );
   return {
     isLoading: library.isLoading,
     library: library.locations,
@@ -276,7 +275,7 @@ function mapStateToProps( state ) {
     selectedLocation: ui.selectedLocation,
     editingLocation: ui.editingLocation,
     prefs,
-    isLoadingTrip: tripDistances.length < ( trip.length - 1 )
+    isLoadingTrip: ! isDistanceComplete( state ),
   };
 }
 
