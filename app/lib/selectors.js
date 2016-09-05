@@ -31,7 +31,8 @@ export function getAddressPairs( state ) {
 
 export function getTripDistances( state ) {
   const pairs = getAddressPairs( state );
-  return pairs.map( pair => getDistanceForKey( state, getKeyForAddresses( pair.start, pair.dest ) ) );
+  return pairs.map( pair => getDistanceForKey( state, getKeyForAddresses( pair.start, pair.dest ) ) )
+  .filter( distance => !! distance );
 }
 
 export function getTotalTripDistance( state ) {
