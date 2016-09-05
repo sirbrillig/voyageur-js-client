@@ -38,12 +38,23 @@ export function getTotalTripDistance( state ) {
   return getTripDistances( state ).reduce( ( prev, num ) => prev + num, 0 );
 }
 
+export function getDistanceDataForKey( state, key ) {
+  return state.distances[ key ] || {};
+}
+
 export function getDistanceForKey( state, key ) {
-  return state.distances[ key ];
+  return getDistanceDataForKey( state, key ).distance;
 }
 
 export function isDistanceComplete( state ) {
   const tripLocations = getLocationsForTrip( state );
   const tripDistances = getTripDistances( state );
   return ( tripLocations.length - 1 ) === tripDistances.length;
+}
+
+export function isDistanceExpired( state, key ) {
+  const maxDistanceAge = 7 * 24 * 60 * 60 * 1000;
+  const lastUpdatedAt = getDistanceDataForKey( state, key ).lastUpdatedAt || 0;
+  const age = Date.now() - lastUpdatedAt;
+  return age > maxDistanceAge;
 }
