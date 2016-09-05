@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import library from './library';
 import trip from './trip';
-import distance from './distance';
+import distances from './distances';
 import auth from './auth';
 import prefs from './prefs';
 import ui from './ui';
@@ -15,6 +15,6 @@ export default combineReducers( {
   trip,
   ui,
   notices,
-  distance,
+  distances,
   admin,
 } );

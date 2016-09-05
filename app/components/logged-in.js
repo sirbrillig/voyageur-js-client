@@ -9,6 +9,7 @@ import EditLocationForm from './edit-location-form';
 import LocationSearch from './location-search';
 import LoadingPanel from './loading-panel';
 import { connect } from 'react-redux';
+import { getTotalTripDistance, isDistanceComplete } from '../lib/selectors';
 import {
   saveLocation,
   deleteLocation,
@@ -23,7 +24,7 @@ import {
   showAddLocation,
   moveLibraryLocation,
 } from '../lib/actions/library';
-import { clearTrip, addToTrip, removeTripLocation, moveTripLocation, fetchTrip, changeUnits } from '../lib/actions/trip';
+import { clearTrip, addToTrip, removeTripLocation, moveTripLocation, changeUnits } from '../lib/actions/trip';
 import flow from 'lodash.flow';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -45,7 +46,6 @@ const LoggedIn = React.createClass( {
 
   componentWillMount() {
     this.props.dispatch( fetchLibrary() );
-    this.props.dispatch( fetchTrip() );
   },
 
   componentDidMount() {
@@ -123,7 +123,7 @@ const LoggedIn = React.createClass( {
   },
 
   onEditLocation( location ) {
-    this.props.dispatch( startEditLocation( location ) )
+    this.props.dispatch( startEditLocation( location ) );
   },
 
   onRemoveTripLocation( index ) {
@@ -194,7 +194,7 @@ const LoggedIn = React.createClass( {
   },
 
   renderAddLocationButton() {
-    return <WideButton className="add-location-button" text="Add a new location" onClick={ this.onShowAddLocation } />
+    return <WideButton className="add-location-button" text="Add a new location" onClick={ this.onShowAddLocation } />;
   },
 
   renderLoading() {
@@ -263,19 +263,19 @@ const LoggedIn = React.createClass( {
 } );
 
 function mapStateToProps( state ) {
-  const { library, trip, ui, prefs, distance } = state;
+  const { library, trip, ui, prefs } = state;
   return {
     isLoading: library.isLoading,
     library: library.locations,
     visibleLocations: library.visibleLocations,
     trip,
-    distance: distance.distance,
+    distance: getTotalTripDistance( state ),
     isShowingAddLocation: ui.isShowingAddLocation,
     searchString: ui.searchString,
     selectedLocation: ui.selectedLocation,
     editingLocation: ui.editingLocation,
     prefs,
-    isLoadingTrip: distance.isLoading || trip.some( l => l.isLoading ),
+    isLoadingTrip: ! isDistanceComplete( state ),
   };
 }
 

@@ -1,7 +1,6 @@
 import { gotError } from './general';
 import * as api from '../api/locations';
 import { reorderModels } from '../helpers';
-import { fetchTrip } from './trip';
 import { Promise } from 'es6-promise';
 
 export function importLocations( data ) {
@@ -12,7 +11,7 @@ export function importLocations( data ) {
     .then( () => dispatch( fetchLibrary() ) )
     .then( () => gotError( 'Import complete!' ) )
     .catch( err => dispatch( gotError( err ) ) );
-  }
+  };
 }
 
 export function addLocation( params ) {
@@ -23,11 +22,11 @@ export function addLocation( params ) {
     .catch( ( err ) => dispatch( gotError( err ) ) );
     const location = Object.assign( { _id: 'new-location_' + Date.now(), isLoading: true }, params );
     dispatch( gotNewLocation( location ) );
-  }
+  };
 }
 
 export function gotNewLocation( location ) {
-  return { type: 'LIBRARY_GOT_NEW_LOCATION', location }
+  return { type: 'LIBRARY_GOT_NEW_LOCATION', location };
 }
 
 export function hideAddLocation() {
@@ -47,7 +46,7 @@ export function fetchLibrary() {
     .catch( ( err ) => {
       dispatch( gotError( err ) );
     } );
-  }
+  };
 }
 
 export function gotLibrary( library ) {
@@ -83,7 +82,7 @@ export function saveLocation( location, params ) {
     const updated = Object.assign( {}, location, { isLoading: true }, params );
     dispatch( gotUpdatedLocation( updated ) );
     dispatch( hideEditLocation() );
-  }
+  };
 }
 
 export function gotUpdatedLocation( location ) {
@@ -95,12 +94,11 @@ export function deleteLocation( location ) {
     api.deleteLocationFromLibrary( getState().auth.token, location )
     .then( () => {
       dispatch( fetchLibrary() );
-      dispatch( fetchTrip() );
     } )
     .catch( ( err ) => dispatch( gotError( err ) ) );
     dispatch( gotDeletedLocation( location ) );
     dispatch( hideEditLocation() );
-  }
+  };
 }
 
 export function gotDeletedLocation( location ) {
@@ -121,5 +119,5 @@ export function moveLibraryLocation( locationId, targetLocationId ) {
       x.isLoading = true;
       return x;
     } ) ) );
-  }
+  };
 }
