@@ -1,5 +1,5 @@
 import { browserHistory } from 'react-router';
-import Auth0Lock from 'auth0-lock';
+import Auth0LockPasswordless from 'auth0-lock-passwordless';
 import { gotError } from './general';
 import authVars from '../../auth0-variables';
 import debugFactory from 'debug';
@@ -15,17 +15,19 @@ function removeTokenFromUrl() {
 
 export function doAuth() {
   return function() {
-    const lock = new Auth0Lock( authVars.AUTH0_CLIENT_ID, authVars.AUTH0_DOMAIN );
-    lock.show( {
+    const lock = new Auth0LockPasswordless( authVars.AUTH0_CLIENT_ID, authVars.AUTH0_DOMAIN );
+    lock.socialOrMagiclink( {
       icon: 'https://cldup.com/iu86nhnHUS.png',
-      authParams: { scope: 'openid role name email nickname' }
+      authParams: { scope: 'openid role name email nickname' },
+      socialBigButtons: true,
+      connections: [ 'facebook' ],
     } );
-  }
+  };
 }
 
 export function parseAuthToken() {
   return function( dispatch, getState ) {
-    const lock = new Auth0Lock( authVars.AUTH0_CLIENT_ID, authVars.AUTH0_DOMAIN );
+    const lock = new Auth0LockPasswordless( authVars.AUTH0_CLIENT_ID, authVars.AUTH0_DOMAIN );
     const idToken = getState().auth.token;
     const hash = ( window ? window.location.hash : '' );
     const authHash = lock.parseHash( hash );
@@ -40,7 +42,7 @@ export function parseAuthToken() {
       }
     }
     if ( authHash ) removeTokenFromUrl();
-  }
+  };
 }
 
 export function gotAuthToken( token ) {
@@ -49,12 +51,12 @@ export function gotAuthToken( token ) {
 
 export function getProfile() {
   return function( dispatch, getState ) {
-    const lock = new Auth0Lock( authVars.AUTH0_CLIENT_ID, authVars.AUTH0_DOMAIN );
+    const lock = new Auth0LockPasswordless( authVars.AUTH0_CLIENT_ID, authVars.AUTH0_DOMAIN );
     lock.getProfile( getState().auth.token, ( err, profile ) => {
       if ( err ) return dispatch( gotError( err ) );
       dispatch( gotProfile( profile ) );
     } );
-  }
+  };
 }
 
 export function gotProfile( allUserData ) {
