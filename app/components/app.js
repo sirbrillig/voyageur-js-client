@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { doAuth, parseAuthToken, getProfile } from '../lib/actions/auth';
+import { doAuth, doAuthWithPassword, parseAuthToken, getProfile } from '../lib/actions/auth';
 import Layout from './layout';
 import LogInBox from './log-in-box';
 
@@ -12,7 +12,7 @@ const App = React.createClass( {
 
   componentWillMount() {
     if ( ! this.props.auth.token ) {
-      this.props.dispatch( parseAuthToken() );
+      this.props.parseAuthToken();
     }
   },
 
@@ -26,17 +26,24 @@ const App = React.createClass( {
 
   getUserInfo() {
     if ( this.props.auth.token && ! this.props.auth.user ) {
-      this.props.dispatch( getProfile() );
+      this.props.getProfile();
     }
   },
 
   showAuth() {
-    this.props.dispatch( doAuth() )
+    this.props.doAuth();
+  },
+
+  showAuthWithPassword() {
+    this.props.doAuthWithPassword();
   },
 
   render() {
     if ( this.props.auth.token ) {
       return ( <Layout children={ this.props.children } /> );
+    }
+    if ( window && window.location.search === '?user-login' ) {
+      return ( <LogInBox showAuth={ this.showAuthWithPassword } /> );
     }
     return ( <LogInBox showAuth={ this.showAuth } /> );
   }
@@ -47,4 +54,4 @@ function mapStateToProps( state ) {
   return { auth };
 }
 
-export default connect( mapStateToProps )( App );
+export default connect( mapStateToProps, { doAuth, doAuthWithPassword, getProfile, parseAuthToken } )( App );
