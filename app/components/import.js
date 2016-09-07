@@ -4,7 +4,7 @@ import { importLocations } from '../lib/actions/library';
 
 const ImportPanel = React.createClass( {
   onImport() {
-    this.props.dispatch( importLocations( this.textInput.value ) );
+    this.props.importLocations( this.textInput.value );
   },
 
   render() {
@@ -22,8 +22,4 @@ const ImportPanel = React.createClass( {
   }
 } );
 
-function mapStateToProps() {
-  return {};
-}
-
-export default connect( mapStateToProps )( ImportPanel );
+export default connect( null, { importLocations } )( ImportPanel );
