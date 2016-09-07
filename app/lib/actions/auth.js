@@ -26,7 +26,7 @@ export function doAuthWithPassword() {
   };
 }
 
-export function doAuth() {
+export function doAuthPasswordless() {
   return function() {
     const lock = new Auth0LockPasswordless( authVars.AUTH0_CLIENT_ID, authVars.AUTH0_DOMAIN );
     lock.socialOrMagiclink( {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { doAuth, doAuthWithPassword, parseAuthToken, getProfile } from '../lib/actions/auth';
+import { doAuthPasswordless, doAuthWithPassword, parseAuthToken, getProfile } from '../lib/actions/auth';
 import Layout from './layout';
 import LogInBox from './log-in-box';
 
@@ -30,8 +30,8 @@ const App = React.createClass( {
     }
   },
 
-  showAuth() {
-    this.props.doAuth();
+  showAuthPasswordless() {
+    this.props.doAuthPasswordless();
   },
 
   showAuthWithPassword() {
@@ -42,10 +42,8 @@ const App = React.createClass( {
     if ( this.props.auth.token ) {
       return ( <Layout children={ this.props.children } /> );
     }
-    if ( window && window.location.search === '?user-login' ) {
-      return ( <LogInBox showAuth={ this.showAuthWithPassword } /> );
-    }
-    return ( <LogInBox showAuth={ this.showAuth } /> );
+    return ( <LogInBox showAuth={ this.showAuthWithPassword } /> );
+    //return ( <LogInBox showAuth={ this.showAuthPasswordless } /> );
   }
 } );
 
@@ -54,4 +52,4 @@ function mapStateToProps( state ) {
   return { auth };
 }
 
-export default connect( mapStateToProps, { doAuth, doAuthWithPassword, getProfile, parseAuthToken } )( App );
+export default connect( mapStateToProps, { doAuthPasswordless, doAuthWithPassword, getProfile, parseAuthToken } )( App );
