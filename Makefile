@@ -45,12 +45,12 @@ install: config npm node-version
 build-app:
 	@echo "Building app..."
 	mkdir -p $(BUILD_DIR)
-	$(BROWSERIFY) $(BROWSERIFY_OPTIONS) -o $(APP_BUNDLE_JS)
+	NODE_PATH=$(NODE_PATH):./app $(BROWSERIFY) $(BROWSERIFY_OPTIONS) -o $(APP_BUNDLE_JS)
 
 build-app-dist:
 	@echo "Building app..."
 	mkdir -p $(BUILD_DIR)
-	NODE_ENV=production $(BROWSERIFY) $(BROWSERIFY_DIST_OPTIONS) | $(UGLIFY) $(UGLIFY_OPTIONS)
+	NODE_PATH=$(NODE_PATH):./app NODE_ENV=production $(BROWSERIFY) $(BROWSERIFY_DIST_OPTIONS) | $(UGLIFY) $(UGLIFY_OPTIONS)
 
 copy-to-dist:
 	@echo "Copying files to dist directory..."
@@ -60,7 +60,7 @@ copy-to-dist:
 
 watchify:
 	@echo "Running Browserify on your files and watching for changes... (Press CTRL-C to stop)"
-	$(WATCHIFY) $(BROWSERIFY_OPTIONS) -o $(APP_BUNDLE_JS)
+	NODE_PATH=$(NODE_PATH):./app $(WATCHIFY) $(BROWSERIFY_OPTIONS) -o $(APP_BUNDLE_JS)
 
 clean:
 	@rm -rf node_modules $(BUILD_DIR)
