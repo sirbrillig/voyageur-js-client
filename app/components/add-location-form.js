@@ -1,5 +1,5 @@
 import React from 'react';
-import WideButton from './wide-button';
+import WideButton from 'components/wide-button';
 
 export default React.createClass( {
   propTypes: {

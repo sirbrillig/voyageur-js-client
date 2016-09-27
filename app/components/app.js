@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { doAuthPasswordless, doAuthWithPassword, parseAuthToken, getProfile } from '../lib/actions/auth';
-import Layout from './layout';
-import LogInBox from './log-in-box';
+import { doAuthPasswordless, doAuthWithPassword, parseAuthToken, getProfile } from 'lib/actions/auth';
+import Layout from 'components/layout';
+import LogInBox from 'components/log-in-box';
 
 const App = React.createClass( {
   propTypes: {

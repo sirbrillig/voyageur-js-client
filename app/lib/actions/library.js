@@ -1,6 +1,6 @@
-import { gotError } from './general';
-import * as api from '../api/locations';
-import { reorderModels } from '../helpers';
+import { gotError } from 'lib/actions/general';
+import * as api from 'lib/api/locations';
+import { reorderModels } from 'lib/helpers';
 import { Promise } from 'es6-promise';
 
 export function importLocations( data ) {

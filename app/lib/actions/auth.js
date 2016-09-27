@@ -1,8 +1,8 @@
 import { browserHistory } from 'react-router';
 import Auth0Lock from 'auth0-lock';
 import Auth0LockPasswordless from 'auth0-lock-passwordless';
-import { gotError } from './general';
-import authVars from '../../auth0-variables';
+import { gotError } from 'lib/actions/general';
+import authVars from 'auth0-variables';
 import debugFactory from 'debug';
 
 const debug = debugFactory( 'voyageur:actions' );

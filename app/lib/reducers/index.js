@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
-import library from './library';
-import trip from './trip';
-import distances from './distances';
-import auth from './auth';
-import prefs from './prefs';
-import ui from './ui';
-import notices from './notices';
-import admin from './admin';
+import library from 'lib/reducers/library';
+import trip from 'lib/reducers/trip';
+import distances from 'lib/reducers/distances';
+import auth from 'lib/reducers/auth';
+import prefs from 'lib/reducers/prefs';
+import ui from 'lib/reducers/ui';
+import notices from 'lib/reducers/notices';
+import admin from 'lib/reducers/admin';
 
 export default combineReducers( {
   auth,

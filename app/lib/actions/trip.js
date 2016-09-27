@@ -1,7 +1,7 @@
-import { gotError } from './general';
-import * as api from '../api/trip';
-import { reorderArray, getKeyForAddresses } from '../helpers';
-import { getAddressPairs, getDistanceForKey, isDistanceExpired } from '../selectors';
+import { gotError } from 'lib/actions/general';
+import * as api from 'lib/api/trip';
+import { reorderArray, getKeyForAddresses } from 'lib/helpers';
+import { getAddressPairs, getDistanceForKey, isDistanceExpired } from 'lib/selectors';
 
 export function removeTripLocation( index ) {
   return function( dispatch, getState ) {

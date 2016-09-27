@@ -1,7 +1,7 @@
 import { compose, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import persistState from 'redux-localstorage';
-import reducers from './reducers';
+import reducers from 'lib/reducers';
 import Debug from 'redux-debug';
 import debugFactory from 'debug';
 

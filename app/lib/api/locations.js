@@ -1,6 +1,6 @@
 import request from 'superagent';
 import { Promise } from 'es6-promise';
-import authVars from '../../auth0-variables';
+import authVars from 'auth0-variables';
 
 const baseUrl = `${authVars.VOYAGEUR_API_SERVER}`;
 

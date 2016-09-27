@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getLocations } from '../lib/selectors';
+import { getLocations } from 'lib/selectors';
 
 const ExportPanel = React.createClass( {
   render() {

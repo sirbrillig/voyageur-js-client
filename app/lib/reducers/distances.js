@@ -1,4 +1,4 @@
-import { getKeyForAddresses } from '../helpers';
+import { getKeyForAddresses } from 'lib/helpers';
 
 export default function distances( state = {}, action ) {
   switch ( action.type ) {

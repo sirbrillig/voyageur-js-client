@@ -1,4 +1,4 @@
-import { getKeyForAddresses } from './helpers';
+import { getKeyForAddresses } from 'lib/helpers';
 
 export function getLocations( state ) {
   return state.library.locations;

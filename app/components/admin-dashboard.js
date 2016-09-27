@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import { fetchEvents } from '../lib/actions/admin.js';
+import { fetchEvents } from 'lib/actions/admin.js';
 import classNames from 'classnames';
 import debugFactory from 'debug';
 

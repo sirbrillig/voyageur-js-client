@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import Library from './library';
-import WideButton from './wide-button';
-import Trip from './trip';
-import Distance from './distance';
-import AddLocationForm from './add-location-form';
-import EditLocationForm from './edit-location-form';
-import LocationSearch from './location-search';
-import LoadingPanel from './loading-panel';
+import Library from 'components/library';
+import WideButton from 'components/wide-button';
+import Trip from 'components/trip';
+import Distance from 'components/distance';
+import AddLocationForm from 'components/add-location-form';
+import EditLocationForm from 'components/edit-location-form';
+import LocationSearch from 'components/location-search';
+import LoadingPanel from 'components/loading-panel';
 import { connect } from 'react-redux';
-import { getTotalTripDistance, isDistanceComplete } from '../lib/selectors';
+import { getTotalTripDistance, isDistanceComplete } from 'lib/selectors';
 import {
   saveLocation,
   deleteLocation,
@@ -23,8 +23,8 @@ import {
   hideAddLocation,
   showAddLocation,
   moveLibraryLocation,
-} from '../lib/actions/library';
-import { clearTrip, addToTrip, removeTripLocation, moveTripLocation, changeUnits } from '../lib/actions/trip';
+} from 'lib/actions/library';
+import { clearTrip, addToTrip, removeTripLocation, moveTripLocation, changeUnits } from 'lib/actions/trip';
 import flow from 'lodash.flow';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';

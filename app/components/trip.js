@@ -1,7 +1,7 @@
 import React from 'react';
 import { DropTarget } from 'react-dnd';
-import TripMap from './trip-map';
-import TripLocation from './trip-location';
+import TripMap from 'components/trip-map';
+import TripLocation from 'components/trip-location';
 import classNames from 'classnames';
 
 const Trip = React.createClass( {

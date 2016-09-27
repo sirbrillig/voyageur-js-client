@@ -1,5 +1,5 @@
 import React from 'react';
-import LibraryLocation from './library-location';
+import LibraryLocation from 'components/library-location';
 
 const Library = React.createClass( {
   propTypes: {
