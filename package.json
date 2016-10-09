@@ -4,8 +4,15 @@
   "description": "An app for calculating driving distances between multiple locations",
   "main": "build/bundle.js",
   "scripts": {
-    "build": "make build-app-dist",
+    "build": "NODE_PATH=$NODE_PATH:./app browserify app/boot.js --verbose --transform babelify -o build/bundle.js",
+    "prebuild": "mkdirp build",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ]
   },
   "author": "Payton Swick <payton@foolord.com>",
   "license": "MIT",
@@ -41,6 +48,7 @@
     "babelify": "^7.2.0",
     "browserify": "^12.0.1",
     "local-web-server": "^1.1.0",
+    "mkdirp": "^0.5.1",
     "uglify-js": "^2.6.1",
     "uglifyify": "^3.0.1",
     "watchify": "^3.6.1"
