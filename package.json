@@ -11,6 +11,7 @@
     "build:dist": "NODE_PATH=$NODE_PATH:./app NODE_ENV=production browserify app/boot.js --verbose --transform babelify --transform uglifyify | uglifyjs --compress --mangle -o build/bundle.js",
     "prebuild:dist": "mkdirp dist",
     "clean:dist": "rimraf dist",
+    "clean": "npm run clean:dist",
     "copy:dist": "cp -a build index.html 200.html assets app.css CNAME dist/",
     "dist": "npm-run-all clean:dist build:dist copy:dist",
     "webserver": "ws --port 3000 --spa 200.html",
