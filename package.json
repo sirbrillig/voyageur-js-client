@@ -11,11 +11,13 @@
     "build:dist": "NODE_PATH=$NODE_PATH:./app NODE_ENV=production browserify app/boot.js --verbose --transform babelify --transform uglifyify | uglifyjs --compress --mangle -o build/bundle.js",
     "prebuild:dist": "mkdirp dist",
     "clean:dist": "rm -rf dist",
-    "copy:dist":"cp -a build index.html 200.html assets app.css CNAME dist/",
+    "copy:dist": "cp -a build index.html 200.html assets app.css CNAME dist/",
     "dist": "npm-run-all clean:dist build:dist copy:dist",
     "webserver": "ws --port 3000 --spa 200.html",
     "watch": "onchange app -- npm run build",
     "start": "npm-run-all build --parallel webserver watch",
+    "deploy": "surge --project dist",
+    "predeploy": "npm run dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "babel": {
@@ -61,6 +63,7 @@
     "mkdirp": "^0.5.1",
     "npm-run-all": "^3.1.0",
     "onchange": "^3.0.2",
+    "surge": "^0.18.0",
     "uglify-js": "^2.6.1",
     "uglifyify": "^3.0.1",
     "watchify": "^3.6.1"
