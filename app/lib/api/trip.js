@@ -13,7 +13,7 @@ export function getDistanceBetween( token, start, dest ) {
     .end( ( err, res ) => {
       if ( err ) return reject( err );
       const data = res.body;
-      if ( ! data ) return reject( 'No data found in response' );
+      if ( typeof data === 'undefined' || data === null ) return reject( 'No data found in response' );
       return resolve( data );
     } );
   } );

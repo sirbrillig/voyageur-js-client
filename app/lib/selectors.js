@@ -32,7 +32,7 @@ export function getAddressPairs( state ) {
 export function getTripDistances( state ) {
   const pairs = getAddressPairs( state );
   return pairs.map( pair => getDistanceForKey( state, getKeyForAddresses( pair.start, pair.dest ) ) )
-  .filter( distance => !! distance );
+  .filter( distance => typeof distance !== 'undefined' || distance === null );
 }
 
 export function getTotalTripDistance( state ) {
