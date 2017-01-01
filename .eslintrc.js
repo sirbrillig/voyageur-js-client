@@ -9,6 +9,8 @@ module.exports = {
 	},
 	rules: {
 		'wpcalypso/jsx-classname-namespace': 0,
+		'wpcalypso/import-docblock': 0,
+		'react/prefer-es6-class': 0,
 		'max-len': 0,
 		'camelcase': 0,
 		'indent': [ 'error', 2, { 'SwitchCase': 1 } ],
