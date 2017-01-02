@@ -3,6 +3,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import Library from 'components/library';
 import WideButton from 'components/wide-button';
 import Trip from 'components/trip';
+import Main from 'components/main';
 import Distance from 'components/distance';
 import AddLocationForm from 'components/add-location-form';
 import EditLocationForm from 'components/edit-location-form';
@@ -254,9 +255,10 @@ const LoggedIn = React.createClass( {
   },
 
   render() {
+    const main = <Main />;
     return (
       <ReactCSSTransitionGroup transitionName="loading-panel" transitionEnterTimeout={ 0 } transitionLeaveTimeout={ 500 }>
-        { this.props.isLoading ? this.renderLoading() : this.renderMain() }
+        { this.props.isLoading ? this.renderLoading() : main }
       </ReactCSSTransitionGroup>
     );
   }
