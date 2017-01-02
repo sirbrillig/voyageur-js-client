@@ -57,6 +57,42 @@ export function searchLocationsFor( searchString ) {
   return { type: 'LIBRARY_SEARCH_FOR', searchString };
 }
 
+export function gotPredictions( predictions ) {
+  return { type: 'LIBRARY_GOT_PREDICTIONS', predictions };
+}
+
+// TODO: put this in its own lib
+// TODO: only use window if it exists
+let autocompleteService;
+let autocompleteOK;
+export function searchAutocompleteFor( searchString ) {
+  if ( ! autocompleteService ) autocompleteService = new window.google.maps.places.AutocompleteService();
+  if ( ! autocompleteOK ) autocompleteOK = window.google.maps.places.PlacesServiceStatus.OK;
+  return new Promise( function( resolve, reject ) {
+    console.log( 'searchAutocompleteFor', searchString );
+    if ( ! searchString ) {
+      return resolve( [], autocompleteOK );
+    }
+    const options = {};
+    autocompleteService.getPlacePredictions( { options, input: searchString }, ( predictions, status ) => {
+      console.log( 'searchAutocompleteFor got', predictions, status );
+      if ( status === autocompleteOK ) {
+        resolve( predictions );
+      }
+      reject( status );
+    } );
+  } );
+}
+
+export function searchLocationsAndAddressFor( searchString ) {
+  return function( dispatch ) {
+    dispatch( searchLocationsFor( searchString ) );
+    searchAutocompleteFor( searchString )
+    .then( ( predictions ) => dispatch( gotPredictions( predictions ) ) )
+    .catch( ( err ) => dispatch( gotError( err ) ) );
+  };
+}
+
 export function selectNextLocation( max ) {
   return { type: 'LIBRARY_SELECT_NEXT', max };
 }

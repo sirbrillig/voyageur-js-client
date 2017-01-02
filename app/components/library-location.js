@@ -46,7 +46,7 @@ const LibraryLocation = React.createClass( {
       <li className={ locationClassNames } ref={ el => this.domElement = el }>
         <div className="library-location__description col-xs-8" >
           <h3 className="library-location__description__name">{ this.props.location.name }</h3>
-          <p className="library-location__description__address">{ this.props.location.address }</p>
+          <p className="library-location__description__address">{ this.props.location.address || this.props.location.description }</p>
         </div>
         <div className="col-xs-4" >
           <div className="library-location__controls" >

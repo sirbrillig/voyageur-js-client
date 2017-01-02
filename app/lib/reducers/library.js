@@ -12,9 +12,11 @@ function updateLocationInList( locations, location ) {
   } );
 }
 
-const initialState = { locations: [], visibleLocations: [], isLoading: true };
+const initialState = { locations: [], visibleLocations: [], predictions: [], isLoading: true };
 export default function library( state = initialState, action ) {
   switch ( action.type ) {
+    case 'LIBRARY_GOT_PREDICTIONS':
+      return Object.assign( {}, state, { predictions: action.predictions } );
     case 'LIBRARY_GOT_LOCATIONS':
       return Object.assign( {}, { locations: action.library, visibleLocations: action.library, isLoading: false } );
     case 'LIBRARY_SEARCH_FOR':

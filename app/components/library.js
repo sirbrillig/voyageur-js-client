@@ -5,6 +5,7 @@ const Library = React.createClass( {
   propTypes: {
     locations: React.PropTypes.array,
     visibleLocations: React.PropTypes.array,
+    predictions: React.PropTypes.array,
     onAddToTrip: React.PropTypes.func.isRequired,
     onDrop: React.PropTypes.func.isRequired,
     onEditLocation: React.PropTypes.func.isRequired,
@@ -16,6 +17,7 @@ const Library = React.createClass( {
     return {
       locations: [],
       visibleLocations: [],
+      predictions: [],
       selectedLocation: 0,
       lastTripLocationId: null,
     };
@@ -28,14 +30,16 @@ const Library = React.createClass( {
 
   renderLocations() {
     if ( this.props.locations.length < 1 ) return;
-    if ( this.props.visibleLocations.length > 0 ) return <ul>{ this.props.visibleLocations.map( this.renderLocation ) }</ul>;
-    return <div className="alert alert-info">No matches for that search.</div>;
+    if ( ! this.props.visibleLocations.length && ! this.props.predictions.length ) {
+      return <div className="alert alert-info">No matches for that search.</div>;
+    }
+    return <ul>{ this.props.visibleLocations.map( this.renderLocation ) }{ this.props.predictions.map( this.renderLocation ) }</ul>;
   },
 
   renderLocation( location, index ) {
     return (
       <LibraryLocation
-        key={ location._id }
+        key={ location._id || location.id }
         location={ location }
         onEditLocation={ this.props.onEditLocation }
         onAddToTrip={ this.props.onAddToTrip }

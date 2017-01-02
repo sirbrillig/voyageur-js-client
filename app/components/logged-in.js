@@ -18,7 +18,7 @@ import {
   hideEditLocation,
   selectPreviousLocation,
   selectNextLocation,
-  searchLocationsFor,
+  searchLocationsAndAddressFor,
   fetchLibrary,
   addLocation,
   hideAddLocation,
@@ -35,6 +35,7 @@ const LoggedIn = React.createClass( {
     isLoading: React.PropTypes.bool,
     library: React.PropTypes.array,
     visibleLocations: React.PropTypes.array,
+    predictions: React.PropTypes.array,
     trip: React.PropTypes.array,
     prefs: React.PropTypes.object,
     isShowingAddLocation: React.PropTypes.bool,
@@ -136,11 +137,11 @@ const LoggedIn = React.createClass( {
   },
 
   onSearch( searchString ) {
-    this.props.dispatch( searchLocationsFor( searchString ) );
+    this.props.dispatch( searchLocationsAndAddressFor( searchString ) );
   },
 
   onClearSearch() {
-    this.props.dispatch( searchLocationsFor( '' ) );
+    this.props.dispatch( searchLocationsAndAddressFor( '' ) );
   },
 
   onCancelEditLocation() {
@@ -255,10 +256,21 @@ const LoggedIn = React.createClass( {
   },
 
   render() {
-    const main = <Main />;
+    const main = <Main onSearch={ this.onSearch } />;
+    const lastTripLocationId = ( this.props.trip.length > 0 ? this.props.trip[ this.props.trip.length - 1 ] : null );
     return (
       <ReactCSSTransitionGroup transitionName="loading-panel" transitionEnterTimeout={ 0 } transitionLeaveTimeout={ 500 }>
         { this.props.isLoading ? this.renderLoading() : main }
+          <Library
+            locations={ this.props.library }
+            visibleLocations={ this.props.visibleLocations }
+            predictions={ this.props.predictions }
+            onAddToTrip={ this.onAddToTrip }
+            onEditLocation={ this.onEditLocation }
+            onDrop={ this.onLibraryDrop }
+            selectedLocation={ this.props.selectedLocation }
+            lastTripLocationId={ lastTripLocationId ? lastTripLocationId._id || lastTripLocationId : null }
+          />
       </ReactCSSTransitionGroup>
     );
   }
@@ -270,6 +282,7 @@ function mapStateToProps( state ) {
     isLoading: library.isLoading,
     library: library.locations,
     visibleLocations: library.visibleLocations,
+    predictions: library.predictions,
     trip,
     distance: getTotalTripDistance( state ),
     isShowingAddLocation: ui.isShowingAddLocation,

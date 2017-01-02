@@ -21,8 +21,14 @@ class Search extends React.Component {
   }
 
   handleInputChange( event ) {
-    const options = {};
-    this.autocompleteService.getPlacePredictions( { options, input: event.target.value }, this.autocompleteCallback );
+    const value = event.target.value || '';
+    //const options = {};
+    //if ( value ) {
+      //this.autocompleteService.getPlacePredictions( { options, input: value }, this.autocompleteCallback );
+    //} else {
+      //this.autocompleteCallback( [], this.autocompleteOK );
+    //}
+    this.props.onChange( value );
   }
 
   autocompleteCallback( predictions, status ) {
@@ -47,11 +53,11 @@ class Search extends React.Component {
   }
 }
 
-export default function Main() {
+export default function Main( { onSearch } ) {
   return (
     <div className="main">
       <Question />
-      <Search />
+      <Search onChange={ onSearch } />
     </div>
   );
 }
