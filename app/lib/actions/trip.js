@@ -59,10 +59,6 @@ export function fetchingDistance() {
   return { type: 'TRIP_FETCHING_DISTANCE' };
 }
 
-export function gotDistance( distance ) {
-  return { type: 'TRIP_GOT_DISTANCE', distance };
-}
-
 export function gotTrip( trip ) {
   return { type: 'TRIP_GOT_TRIP_LOCATIONS', trip };
 }
