@@ -33,7 +33,8 @@ const Library = React.createClass( {
     if ( ! this.props.visibleLocations.length && ! this.props.predictions.length ) {
       return <div className="alert alert-info">No matches for that search.</div>;
     }
-    return <ul>{ this.props.visibleLocations.map( this.renderLocation ) }{ this.props.predictions.map( this.renderLocation ) }</ul>;
+    const allLocations = this.props.visibleLocations.concat( this.props.predictions );
+    return <ul>{ allLocations.map( this.renderLocation ) }</ul>;
   },
 
   renderLocation( location, index ) {
