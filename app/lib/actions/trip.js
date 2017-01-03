@@ -13,14 +13,7 @@ export function removeTripLocation( index ) {
 }
 
 export function addToTrip( location ) {
-  return function( dispatch, getState ) {
-    const locationId = location._id || location;
-    if ( ! locationId ) return dispatch( gotError( 'Error adding location to trip; I could not find the location!' ) );
-    dispatch( fetchingDistance() );
-    const ids = [ ...getState().trip, locationId ];
-    dispatch( gotTrip( ids ) );
-    dispatch( updateDistance() );
-  };
+  return { type: 'TRIP_ADD_LOCATION', location };
 }
 
 export function updateDistance() {
@@ -55,10 +48,6 @@ export function gotDistanceBetween( start, dest, distance ) {
   };
 }
 
-export function fetchingDistance() {
-  return { type: 'TRIP_FETCHING_DISTANCE' };
-}
-
 export function gotTrip( trip ) {
   return { type: 'TRIP_GOT_TRIP_LOCATIONS', trip };
 }
@@ -77,7 +66,6 @@ export function moveTripLocation( tripLocationIndex, targetLocationIndex ) {
   return function( dispatch, getState ) {
     const newTrip = reorderArray( getState().trip, tripLocationIndex, targetLocationIndex );
     if ( ! newTrip ) return dispatch( gotError( 'Could not find tripLocation data to move it' ) );
-    dispatch( fetchingDistance() );
     dispatch( gotTrip( newTrip ) );
     dispatch( updateDistance() );
   };

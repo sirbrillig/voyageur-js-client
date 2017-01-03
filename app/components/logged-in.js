@@ -98,7 +98,7 @@ const LoggedIn = React.createClass( {
     const lastTripLocation = ( this.props.trip.length > 0 ? this.props.trip[ this.props.trip.length - 1 ] : null );
     const lastTripLocationId = ( lastTripLocation ? lastTripLocation._id || lastTripLocation : null );
     if ( lastTripLocationId === location._id ) return;
-    this.props.dispatch( addToTrip( location ) );
+    this.props.dispatch( addToTrip( { id: location._id } ) );
   },
 
   getLocationById( id ) {

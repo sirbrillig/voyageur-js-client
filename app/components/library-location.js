@@ -29,10 +29,12 @@ const LibraryLocation = React.createClass( {
     if ( this.props.location.isLoading ) {
       return <span className="library-location__loading glyphicon glyphicon-refresh glyphicon-spin" />;
     }
+    const addToTrip = () => this.props.onAddToTrip( { id: this.props.location._id } );
+    const editLocation = () => this.props.onEditLocation( this.props.location );
     return (
       <div className="btn-group btn-group-sm" role="group">
-        <button className="btn btn-default" onClick={ () => this.props.onEditLocation( this.props.location ) }>Edit</button>
-        <button disabled={ this.props.isDisabled } className="btn btn-primary" onClick={ () => this.props.onAddToTrip( this.props.location ) }>Add <span className="glyphicon glyphicon-arrow-right" /></button>
+        <button className="btn btn-default" onClick={ editLocation }>Edit</button>
+        <button disabled={ this.props.isDisabled } className="btn btn-primary" onClick={ addToTrip }>Add <span className="glyphicon glyphicon-arrow-right" /></button>
       </div>
     );
   },
@@ -42,8 +44,9 @@ const LibraryLocation = React.createClass( {
       'library-location--selected': this.props.isSelected,
       'library-location--droppable': this.props.isOver,
     } );
+    const saveRef = el => this.domElement = el;
     return this.props.connectDropTarget( this.props.connectDragSource(
-      <li className={ locationClassNames } ref={ el => this.domElement = el }>
+      <li className={ locationClassNames } ref={ saveRef }>
         <div className="library-location__description col-xs-8" >
           <h3 className="library-location__description__name">{ this.props.location.name }</h3>
           <p className="library-location__description__address">{ this.props.location.address || this.props.location.description }</p>
@@ -68,7 +71,7 @@ const dragSpec = {
     const result = monitor.getDropResult();
     if ( ! result ) return;
     if ( ! source ) return console.warn( 'Could not find drag source information from', props );
-    if ( result.trip ) return props.onAddToTrip( source );
+    if ( result.trip ) return props.onAddToTrip( { id: source } );
     const target = result.location;
     if ( source === target ) return;
     props.onDrop( source, target );
@@ -79,7 +82,7 @@ function collectDrag( connect, monitor ) {
   return {
     connectDragSource: connect.dragSource(),
     isDragging: monitor.isDragging()
-  }
+  };
 }
 
 const dropSpec = {
@@ -92,7 +95,7 @@ function collectDrop( connect, monitor ) {
   return {
     connectDropTarget: connect.dropTarget(),
     isOver: monitor.isOver()
-  }
+  };
 }
 
 export default flow(
