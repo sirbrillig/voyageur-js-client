@@ -1,6 +1,7 @@
 import { gotError } from 'lib/actions/general';
 import * as api from 'lib/api/locations';
 import { reorderModels } from 'lib/helpers';
+import { searchAutocompleteFor } from 'lib/google';
 import { Promise } from 'es6-promise';
 
 export function importLocations( data ) {
@@ -59,29 +60,6 @@ export function searchLocationsFor( searchString ) {
 
 export function gotPredictions( predictions ) {
   return { type: 'LIBRARY_GOT_PREDICTIONS', predictions };
-}
-
-// TODO: put this in its own lib
-// TODO: only use window if it exists
-let autocompleteService;
-let autocompleteOK;
-export function searchAutocompleteFor( searchString ) {
-  if ( ! autocompleteService ) autocompleteService = new window.google.maps.places.AutocompleteService();
-  if ( ! autocompleteOK ) autocompleteOK = window.google.maps.places.PlacesServiceStatus.OK;
-  return new Promise( function( resolve, reject ) {
-    console.log( 'searchAutocompleteFor', searchString );
-    if ( ! searchString ) {
-      return resolve( [], autocompleteOK );
-    }
-    const options = {};
-    autocompleteService.getPlacePredictions( { options, input: searchString }, ( predictions, status ) => {
-      console.log( 'searchAutocompleteFor got', predictions, status );
-      if ( status === autocompleteOK ) {
-        resolve( predictions );
-      }
-      reject( status );
-    } );
-  } );
 }
 
 export function searchLocationsAndAddressFor( searchString ) {
