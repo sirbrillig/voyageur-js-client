@@ -11,6 +11,12 @@ export function reorderArray( ids, sourceIndex, targetIndex ) {
   return newIds;
 }
 
+export function removeFromArray( ids, index ) {
+  const ary = ids.slice( 0 ); // copy the array
+  ary.splice( index, 1 ); // remove the id
+  return ary;
+}
+
 export function reorderModels( elements, sourceId, targetId ) {
   const ids = elements.map( x => x._id );
   const targetIndex = ids.indexOf( targetId );
