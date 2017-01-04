@@ -3,7 +3,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import Library from 'components/library';
 import WideButton from 'components/wide-button';
 import Trip from 'components/trip';
-//import Main from 'components/main';
+import Main from 'components/main';
 import Distance from 'components/distance';
 import AddLocationForm from 'components/add-location-form';
 import EditLocationForm from 'components/edit-location-form';
@@ -255,7 +255,7 @@ const LoggedIn = React.createClass( {
               addresses={ this.props.addresses }
               cachedDistances={ this.props.cachedDistances }
               useMiles={ this.props.prefs.useMiles }
-              onClickUnits={ this.onClickUnits }
+              changeUnits={ this.onClickUnits }
               fetchDistanceBetween={ this.props.fetchDistanceBetween }
             />
           </div>
@@ -278,20 +278,20 @@ const LoggedIn = React.createClass( {
   },
 
   render() {
-    const main = this.renderMain();
-    const library = null;
-    //const main = <Main onSearch={ this.onSearch } />;
-    //const lastTripLocationId = ( this.props.trip.length > 0 ? this.props.trip[ this.props.trip.length - 1 ] : null );
-    //const library = <Library
-            //locations={ this.props.library }
-            //visibleLocations={ this.props.visibleLocations }
-            //predictions={ this.props.predictions }
-            //onAddToTrip={ this.onAddToTrip }
-            //onEditLocation={ this.onEditLocation }
-            //onDrop={ this.onLibraryDrop }
-            //selectedLocation={ this.props.selectedLocation }
-            //lastTripLocationId={ lastTripLocationId ? lastTripLocationId._id || lastTripLocationId : null }
-          ///>;
+    //const main = this.renderMain();
+    //const library = null;
+    const main = <Main />;
+    const lastTripLocationId = ( this.props.trip.length > 0 ? this.props.trip[ this.props.trip.length - 1 ].id : null );
+    const library = <Library
+            locations={ this.props.library }
+            visibleLocations={ this.props.visibleLocations }
+            predictions={ this.props.predictions }
+            onAddToTrip={ this.onAddToTrip }
+            onEditLocation={ this.onEditLocation }
+            onDrop={ this.onLibraryDrop }
+            selectedLocation={ this.props.selectedLocation }
+            lastTripLocationId={ lastTripLocationId }
+          />;
     return (
       <ReactCSSTransitionGroup transitionName="loading-panel" transitionEnterTimeout={ 0 } transitionLeaveTimeout={ 500 }>
         { this.props.isLoading ? this.renderLoading() : main }

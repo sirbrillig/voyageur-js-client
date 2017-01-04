@@ -1,7 +1,9 @@
 import React from 'react';
-import noop from 'lodash.noop';
+import { connect } from 'react-redux';
 import classNames from 'classnames';
+import { getAddressesForTrip } from 'lib/selectors';
 import { getAddressPairs, getKeyForAddresses } from 'lib/helpers';
+import { fetchDistanceBetween, changeUnits } from 'lib/actions/trip';
 
 const Distance = React.createClass( {
   propTypes: {
@@ -9,14 +11,13 @@ const Distance = React.createClass( {
     cachedDistances: React.PropTypes.object,
     fetchDistanceBetween: React.PropTypes.func.isRequired,
     useMiles: React.PropTypes.bool,
-    onClickUnits: React.PropTypes.func,
+    changeUnits: React.PropTypes.func.isRequired,
   },
 
   getDefaultProps() {
     return {
       useMiles: true,
       cachedDistances: {},
-      onClickUnits: noop,
     };
   },
 
@@ -39,8 +40,8 @@ const Distance = React.createClass( {
   renderButtons() {
     const milesClassNames = classNames( 'btn btn-primary', { active: this.props.useMiles } );
     const kmClassNames = classNames( 'btn btn-primary', { active: ! this.props.useMiles } );
-    const clickMiles = () => this.props.onClickUnits( 'miles' );
-    const clickKm = () => this.props.onClickUnits( 'km' );
+    const clickMiles = () => this.props.changeUnits( 'miles' );
+    const clickKm = () => this.props.changeUnits( 'km' );
     return (
       <span className="btn-group btn-group-xs" data-toggle="buttons">
         <label className={ milesClassNames }>
@@ -76,4 +77,12 @@ const Distance = React.createClass( {
   },
 } );
 
-export default Distance;
+function mapStateToProps( state ) {
+  return {
+    addresses: getAddressesForTrip( state ),
+    cachedDistances: state.distances,
+    useMiles: state.prefs.useMiles,
+  };
+}
+
+export default connect( mapStateToProps, { fetchDistanceBetween, changeUnits } )( Distance );

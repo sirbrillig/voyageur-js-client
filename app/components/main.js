@@ -1,7 +1,20 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import Distance from 'components/distance';
+import { searchLocationsAndAddressFor } from 'lib/actions/library';
 
-const Question = function() {
-  const text = 'Enter a location';
+function getQuestionText( trip ) {
+  if ( trip.length < 1 ) {
+    return 'Enter a location';
+  }
+  if ( trip.length === 1 ) {
+    return 'Enter another location and I\'ll tell you the distance of the trip';
+  }
+  return 'Enter another location and I\'ll tell you the distance of the trip';
+}
+
+const Question = function( { trip } ) {
+  const text = getQuestionText( trip );
   return <div className="question">{ text }</div>;
 };
 
@@ -36,11 +49,20 @@ class Search extends React.Component {
   }
 }
 
-export default function Main( { onSearch } ) {
+const Main = function( props ) {
   return (
     <div className="main">
-      <Question />
-      <Search onChange={ onSearch } />
+      { props.trip.length > 1 && <Distance /> }
+      <Question trip={ props.trip } />
+      <Search onChange={ props.searchLocationsAndAddressFor } />
     </div>
   );
+};
+
+function mapStateToProps( state ) {
+  return {
+    trip: state.trip,
+  };
 }
+
+export default connect( mapStateToProps, { searchLocationsAndAddressFor } )( Main );
