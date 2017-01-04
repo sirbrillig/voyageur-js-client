@@ -11,7 +11,10 @@ const Question = function( props ) {
     if ( trip.length < 1 ) {
       return 'Enter a location';
     }
-    return 'Enter another location and I\'ll tell you the distance of the trip';
+    if ( trip.length === 1 ) {
+      return 'Enter another location and I\'ll tell you the distance of the trip';
+    }
+    return 'Enter another location';
   };
   return <div className="question">{ getQuestionText( props.trip ) }</div>;
 };
@@ -37,22 +40,15 @@ class Search extends React.Component {
   }
 
   render() {
-    return (
-      <div className="form-group">
-        <label htmlFor="inputAddLocationAddress" className="col-sm-2 control-label">Address</label>
-        <div className="col-sm-10">
-          <input type="text" className="form-control" id="inputAddLocationAddress" ref={ this.attachAutocomplete } onChange={ this.handleInputChange } />
-        </div>
-      </div>
-    );
+    return <input type="text" className="form-control" id="inputAddLocationAddress" ref={ this.attachAutocomplete } onChange={ this.handleInputChange } />;
   }
 }
 
 const Main = function( props ) {
   return (
     <div className="main">
-      { props.trip.length > 1 && <TripList trip={ props.trip } clearTrip={ props.clearTrip } /> }
       { props.trip.length > 1 && <Distance /> }
+      { props.trip.length > 1 && <TripList trip={ props.trip } clearTrip={ props.clearTrip } /> }
       <Question trip={ props.trip } />
       <Search onChange={ props.searchLocationsAndAddressFor } />
     </div>

@@ -4,9 +4,8 @@ const TripList = function( { trip, clearTrip } ) {
   const editTrip = () => null; // TODO: add edit trip action
   return (
     <div className="TripList">
-      { `${ trip.length } locations in trip` }
-      <button className="btn btn-xs btn-default" onClick={ editTrip }>Edit trip</button>
-      <button className="btn btn-xs btn-primary" onClick={ clearTrip }>Clear trip</button>
+      <button className="btn btn-sm btn-default" onClick={ editTrip }>{ trip.length } locations in trip</button>
+      <button className="btn btn-sm btn-primary" onClick={ clearTrip }>Clear trip</button>
     </div>
   );
 };

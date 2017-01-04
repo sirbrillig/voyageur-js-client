@@ -22,7 +22,7 @@ const Distance = React.createClass( {
   },
 
   render() {
-    return <div className="distance"><span className="glyphicon glyphicon-road" /> { this.getDistanceText() } { this.renderButtons() }</div>;
+    return <div className="distance">{ this.getDistanceText() } { this.renderButtons() }</div>;
   },
 
   shouldComponentUpdate( nextProps ) {
