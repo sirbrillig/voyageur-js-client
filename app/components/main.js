@@ -10,7 +10,6 @@ class Search extends React.Component {
     super( props );
     this.attachAutocomplete = this.attachAutocomplete.bind( this );
     this.handleInputChange = this.handleInputChange.bind( this );
-    this.autocompleteCallback = this.autocompleteCallback.bind( this );
   }
 
   attachAutocomplete( input ) {
@@ -22,23 +21,7 @@ class Search extends React.Component {
 
   handleInputChange( event ) {
     const value = event.target.value || '';
-    //const options = {};
-    //if ( value ) {
-      //this.autocompleteService.getPlacePredictions( { options, input: value }, this.autocompleteCallback );
-    //} else {
-      //this.autocompleteCallback( [], this.autocompleteOK );
-    //}
     this.props.onChange( value );
-  }
-
-  autocompleteCallback( predictions, status ) {
-    if ( status !== this.autocompleteOK ) {
-      console.error( 'Autocomplete failed' ); // eslint-disable-line no-console
-      return;
-    }
-    console.log( 'results', predictions ); // eslint-disable-line no-console
-    // TODO: get search results for library
-    // TODO: display list of library results and predictions
   }
 
   render() {

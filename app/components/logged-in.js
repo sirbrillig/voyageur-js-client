@@ -3,14 +3,13 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import Library from 'components/library';
 import WideButton from 'components/wide-button';
 import Trip from 'components/trip';
-import Main from 'components/main';
+//import Main from 'components/main';
 import Distance from 'components/distance';
 import AddLocationForm from 'components/add-location-form';
 import EditLocationForm from 'components/edit-location-form';
 import LocationSearch from 'components/location-search';
 import LoadingPanel from 'components/loading-panel';
 import { connect } from 'react-redux';
-import { getTotalTripDistance, isDistanceComplete } from 'lib/selectors';
 import {
   saveLocation,
   deleteLocation,
@@ -25,7 +24,8 @@ import {
   showAddLocation,
   moveLibraryLocation,
 } from 'lib/actions/library';
-import { clearTrip, addToTrip, removeTripLocation, moveTripLocation, changeUnits } from 'lib/actions/trip';
+import { clearTrip, addToTrip, removeTripLocation, moveTripLocation, changeUnits, fetchDistanceBetween } from 'lib/actions/trip';
+import { getAddressesForTrip } from 'lib/selectors';
 import flow from 'lodash.flow';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -36,18 +36,36 @@ const LoggedIn = React.createClass( {
     library: React.PropTypes.array,
     visibleLocations: React.PropTypes.array,
     predictions: React.PropTypes.array,
+    addresses: React.PropTypes.array,
     trip: React.PropTypes.array,
     prefs: React.PropTypes.object,
     isShowingAddLocation: React.PropTypes.bool,
     editingLocation: React.PropTypes.object,
     searchString: React.PropTypes.string,
-    distance: React.PropTypes.number,
     selectedLocation: React.PropTypes.number,
     isLoadingTrip: React.PropTypes.bool,
+    fetchDistanceBetween: React.PropTypes.func.isRequired,
+    fetchLibrary: React.PropTypes.func.isRequired,
+    selectNextLocation: React.PropTypes.func.isRequired,
+    selectPreviousLocation: React.PropTypes.func.isRequired,
+    addToTrip: React.PropTypes.func.isRequired,
+    showAddLocation: React.PropTypes.func.isRequired,
+    hideAddLocation: React.PropTypes.func.isRequired,
+    addLocation: React.PropTypes.func.isRequired,
+    startEditLocation: React.PropTypes.func.isRequired,
+    removeTripLocation: React.PropTypes.func.isRequired,
+    clearTrip: React.PropTypes.func.isRequired,
+    searchLocationsAndAddressFor: React.PropTypes.func.isRequired,
+    hideEditLocation: React.PropTypes.func.isRequired,
+    saveLocation: React.PropTypes.func.isRequired,
+    deleteLocation: React.PropTypes.func.isRequired,
+    changeUnits: React.PropTypes.func.isRequired,
+    moveLibraryLocation: React.PropTypes.func.isRequired,
+    moveTripLocation: React.PropTypes.func.isRequired,
   },
 
   componentWillMount() {
-    this.props.dispatch( fetchLibrary() );
+    this.props.fetchLibrary();
   },
 
   componentDidMount() {
@@ -85,20 +103,20 @@ const LoggedIn = React.createClass( {
   },
 
   moveSelectDown() {
-    this.props.dispatch( selectNextLocation( this.props.visibleLocations.length - 1 ) );
+    this.props.selectNextLocation( this.props.visibleLocations.length - 1 );
   },
 
   moveSelectUp() {
-    this.props.dispatch( selectPreviousLocation() );
+    this.props.selectPreviousLocation();
   },
 
   addSelectedLocationToTrip() {
     const location = this.props.visibleLocations[ this.props.selectedLocation ];
     if ( ! location ) return;
     const lastTripLocation = ( this.props.trip.length > 0 ? this.props.trip[ this.props.trip.length - 1 ] : null );
-    const lastTripLocationId = ( lastTripLocation ? lastTripLocation._id || lastTripLocation : null );
+    const lastTripLocationId = ( lastTripLocation ? lastTripLocation.id : null );
     if ( lastTripLocationId === location._id ) return;
-    this.props.dispatch( addToTrip( { id: location._id } ) );
+    this.props.addToTrip( { id: location._id } );
   },
 
   getLocationById( id ) {
@@ -109,63 +127,63 @@ const LoggedIn = React.createClass( {
   },
 
   onShowAddLocation() {
-    this.props.dispatch( showAddLocation() );
+    this.props.showAddLocation();
   },
 
   onCancelAddLocation() {
-    this.props.dispatch( hideAddLocation() );
+    this.props.hideAddLocation();
   },
 
   onAddLocation( params ) {
-    this.props.dispatch( addLocation( params ) );
+    this.props.addLocation( params );
   },
 
   onAddToTrip( location ) {
-    this.props.dispatch( addToTrip( location ) );
+    this.props.addToTrip( location );
   },
 
   onEditLocation( location ) {
-    this.props.dispatch( startEditLocation( location ) );
+    this.props.startEditLocation( location );
   },
 
   onRemoveTripLocation( index ) {
-    this.props.dispatch( removeTripLocation( index ) );
+    this.props.removeTripLocation( index );
   },
 
   onClearTrip() {
-    this.props.dispatch( clearTrip() );
+    this.props.clearTrip();
   },
 
   onSearch( searchString ) {
-    this.props.dispatch( searchLocationsAndAddressFor( searchString ) );
+    this.props.searchLocationsAndAddressFor( searchString );
   },
 
   onClearSearch() {
-    this.props.dispatch( searchLocationsAndAddressFor( '' ) );
+    this.props.searchLocationsAndAddressFor( '' );
   },
 
   onCancelEditLocation() {
-    this.props.dispatch( hideEditLocation() );
+    this.props.hideEditLocation();
   },
 
   onSaveLocation( location, params ) {
-    this.props.dispatch( saveLocation( location, params ) );
+    this.props.saveLocation( location, params );
   },
 
   onDeleteLocation( location ) {
-    this.props.dispatch( deleteLocation( location ) );
+    this.props.deleteLocation( location );
   },
 
   onClickUnits( unit ) {
-    if ( unit === 'km' || unit === 'miles' ) this.props.dispatch( changeUnits( unit ) );
+    if ( unit === 'km' || unit === 'miles' ) this.props.changeUnits( unit );
   },
 
   onLibraryDrop( location, targetLocation ) {
-    this.props.dispatch( moveLibraryLocation( location, targetLocation ) );
+    this.props.moveLibraryLocation( location, targetLocation );
   },
 
   onTripDrop( tripLocationIndex, targetLocationIndex ) {
-    this.props.dispatch( moveTripLocation( tripLocationIndex, targetLocationIndex ) );
+    this.props.moveTripLocation( tripLocationIndex, targetLocationIndex );
   },
 
   renderClearTripButton() {
@@ -208,7 +226,7 @@ const LoggedIn = React.createClass( {
   },
 
   renderMain() {
-    const lastTripLocationId = ( this.props.trip.length > 0 ? this.props.trip[ this.props.trip.length - 1 ] : null );
+    const lastTripLocationId = ( this.props.trip.length > 0 ? this.props.trip[ this.props.trip.length - 1 ].id : null );
     return (
       <div key="logged-in__main-row" className="row">
         <div className="logged-in__main-column col-sm-6">
@@ -224,17 +242,18 @@ const LoggedIn = React.createClass( {
             onEditLocation={ this.onEditLocation }
             onDrop={ this.onLibraryDrop }
             selectedLocation={ this.props.selectedLocation }
-            lastTripLocationId={ lastTripLocationId ? lastTripLocationId._id || lastTripLocationId : null }
+            lastTripLocationId={ lastTripLocationId }
           />
         </div>
         <div id="trip-column" className="logged-in__main-column col-sm-6">
           <div className="trip-control-area">
             { this.renderClearTripButton() }
             <Distance
-              meters={ this.props.distance }
+              addresses={ this.props.addresses }
+              cachedDistances={ this.props.cachedDistances }
               useMiles={ this.props.prefs.useMiles }
               onClickUnits={ this.onClickUnits }
-              isLoading={ this.props.isLoadingTrip }
+              fetchDistanceBetween={ this.props.fetchDistanceBetween }
             />
           </div>
           <Trip
@@ -256,21 +275,22 @@ const LoggedIn = React.createClass( {
   },
 
   render() {
-    const main = <Main onSearch={ this.onSearch } />;
-    const lastTripLocationId = ( this.props.trip.length > 0 ? this.props.trip[ this.props.trip.length - 1 ] : null );
+    //const main = <Main onSearch={ this.onSearch } />;
+    const main = this.renderMain();
+    //const lastTripLocationId = ( this.props.trip.length > 0 ? this.props.trip[ this.props.trip.length - 1 ] : null );
+    //const library = <Library
+            //locations={ this.props.library }
+            //visibleLocations={ this.props.visibleLocations }
+            //predictions={ this.props.predictions }
+            //onAddToTrip={ this.onAddToTrip }
+            //onEditLocation={ this.onEditLocation }
+            //onDrop={ this.onLibraryDrop }
+            //selectedLocation={ this.props.selectedLocation }
+            //lastTripLocationId={ lastTripLocationId ? lastTripLocationId._id || lastTripLocationId : null }
+          ///>;
     return (
       <ReactCSSTransitionGroup transitionName="loading-panel" transitionEnterTimeout={ 0 } transitionLeaveTimeout={ 500 }>
         { this.props.isLoading ? this.renderLoading() : main }
-          <Library
-            locations={ this.props.library }
-            visibleLocations={ this.props.visibleLocations }
-            predictions={ this.props.predictions }
-            onAddToTrip={ this.onAddToTrip }
-            onEditLocation={ this.onEditLocation }
-            onDrop={ this.onLibraryDrop }
-            selectedLocation={ this.props.selectedLocation }
-            lastTripLocationId={ lastTripLocationId ? lastTripLocationId._id || lastTripLocationId : null }
-          />
       </ReactCSSTransitionGroup>
     );
   }
@@ -284,17 +304,36 @@ function mapStateToProps( state ) {
     visibleLocations: library.visibleLocations,
     predictions: library.predictions,
     trip,
-    distance: getTotalTripDistance( state ),
+    addresses: getAddressesForTrip( state ),
+    cachedDistances: state.distances,
     isShowingAddLocation: ui.isShowingAddLocation,
     searchString: ui.searchString,
     selectedLocation: ui.selectedLocation,
     editingLocation: ui.editingLocation,
     prefs,
-    isLoadingTrip: ! isDistanceComplete( state ),
   };
 }
 
 export default flow(
   DragDropContext( HTML5Backend ),
-  connect( mapStateToProps )
+  connect( mapStateToProps, {
+    fetchDistanceBetween,
+    fetchLibrary,
+    selectNextLocation,
+    selectPreviousLocation,
+    addToTrip,
+    showAddLocation,
+    hideAddLocation,
+    addLocation,
+    startEditLocation,
+    removeTripLocation,
+    clearTrip,
+    searchLocationsAndAddressFor,
+    hideEditLocation,
+    saveLocation,
+    deleteLocation,
+    changeUnits,
+    moveLibraryLocation,
+    moveTripLocation,
+  } )
 )( LoggedIn );

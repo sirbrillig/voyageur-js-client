@@ -1,47 +1,79 @@
 import React from 'react';
 import noop from 'lodash.noop';
 import classNames from 'classnames';
+import { getAddressPairs, getKeyForAddresses } from 'lib/helpers';
 
-export default React.createClass( {
+const Distance = React.createClass( {
   propTypes: {
-    meters: React.PropTypes.number.isRequired,
+    addresses: React.PropTypes.array.isRequired,
+    cachedDistances: React.PropTypes.object,
+    fetchDistanceBetween: React.PropTypes.func.isRequired,
     useMiles: React.PropTypes.bool,
     onClickUnits: React.PropTypes.func,
-    isLoading: React.PropTypes.bool,
   },
 
   getDefaultProps() {
     return {
-      meters: 0,
       useMiles: true,
+      cachedDistances: {},
       onClickUnits: noop,
-      isLoading: false,
     };
   },
 
+  render() {
+    return <div className="distance"><span className="glyphicon glyphicon-road" /> { this.getDistanceText() } { this.renderButtons() }</div>;
+  },
+
+  shouldComponentUpdate( nextProps ) {
+    // If the cache has not changed, and we re-render, we will repeat fetching data
+    return ( nextProps !== this.props );
+  },
+
   getDistanceText() {
-    if ( this.props.isLoading ) return 'Loading...';
-    if ( this.props.useMiles ) return 'Your trip is ' + ( this.props.meters * 0.000621371192 ).toFixed( 1 ) + ' miles';
-    return 'Your trip is ' + ( this.props.meters / 1000 ).toFixed( 1 ) + ' km';
+    const meters = this.getDistanceFor( this.props.addresses, this.props.cachedDistances );
+    if ( meters === null ) return 'Loading...';
+    if ( this.props.useMiles ) return 'Your trip is ' + ( meters * 0.000621371192 ).toFixed( 1 ) + ' miles';
+    return 'Your trip is ' + ( meters / 1000 ).toFixed( 1 ) + ' km';
   },
 
   renderButtons() {
     const milesClassNames = classNames( 'btn btn-primary', { active: this.props.useMiles } );
     const kmClassNames = classNames( 'btn btn-primary', { active: ! this.props.useMiles } );
+    const clickMiles = () => this.props.onClickUnits( 'miles' );
+    const clickKm = () => this.props.onClickUnits( 'km' );
     return (
       <span className="btn-group btn-group-xs" data-toggle="buttons">
         <label className={ milesClassNames }>
-          <input type="radio" name="scale" id="scale-miles" checked={ this.props.useMiles } onChange={ () => this.props.onClickUnits( 'miles' ) } />Miles
+          <input type="radio" name="scale" id="scale-miles" checked={ this.props.useMiles } onChange={ clickMiles } />Miles
         </label>
         <label className={ kmClassNames }>
-          <input type="radio" name="scale" id="scale-km" checked={ ! this.props.useMiles } onChange={ () => this.props.onClickUnits( 'km' ) } />Km
+          <input type="radio" name="scale" id="scale-km" checked={ ! this.props.useMiles } onChange={ clickKm } />Km
         </label>
       </span>
     );
   },
 
-  render() {
-    return <div className="distance"><span className="glyphicon glyphicon-road" /> { this.getDistanceText() } { this.renderButtons() }</div>;
-  }
+  getDistanceFor( addresses, cachedDistances ) {
+    if ( ! addresses.length ) return 0;
+    const getCachedDistanceForPair = ( pair ) => cachedDistances[ getKeyForAddresses( pair.start, pair.dest ) ];
+    // split the trip into pairs
+    const addrPairs = getAddressPairs( addresses );
+    // find cached pairs
+    const cached = addrPairs.filter( getCachedDistanceForPair );
+    // find uncached pairs
+    const uncached = addrPairs.filter( pair => ! getCachedDistanceForPair( pair ) );
+    // find expired pairs
+    const maxDistanceAge = 7 * 24 * 60 * 60 * 1000;
+    const now = Date.now();
+    const expired = cached.filter( pair => ( now - getCachedDistanceForPair( pair ).lastUpdatedAt || 0 ) > maxDistanceAge );
+    // if there are any expired or uncached pairs, fetch distance for each one and return null
+    if ( uncached.length || expired.length ) {
+      uncached.concat( expired ).map( pair => this.props.fetchDistanceBetween( pair.start, pair.dest ) );
+      return null;
+    }
+    // return sum of all cached distances
+    return cached.reduce( ( prev, pair ) => prev + getCachedDistanceForPair( pair ).distance, 0 );
+  },
 } );
 
+export default Distance;

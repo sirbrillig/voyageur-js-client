@@ -38,3 +38,11 @@ export function getHashFor( str ) {
 export function getKeyForAddresses( start, dest ) {
   return getHashFor( start + dest );
 }
+
+export function getAddressPairs( addrs ) {
+  return addrs.reduce( ( pairs, start, index ) => {
+    const dest = addrs[ index + 1 ];
+    return dest ? pairs.concat( { start, dest } ) : pairs;
+  }, [] );
+}
+
