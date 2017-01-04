@@ -228,7 +228,7 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image {
   padding: 2px 0;
   margin: 4px 0px;
   border-width: 2px;
-  height: 75px;
+  min-height: 75px;
   overflow: hidden;
 }
 
@@ -253,11 +253,15 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image {
 
 .library-location__description__name {
   margin: 8px 0px 4px 0px;
-  font-size: 1.6rem;
+  font-size: 1.5rem;
 }
 
 .library-location__description__address {
-  font-size: 1.3rem;
+  font-size: 1rem;
+}
+
+.library-location__add {
+  border-radius: 0;
 }
 
 .location-search__help {

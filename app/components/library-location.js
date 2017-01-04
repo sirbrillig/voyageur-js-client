@@ -30,18 +30,13 @@ const LibraryLocation = React.createClass( {
     if ( this.props.location.isLoading ) {
       return <span className="library-location__loading glyphicon glyphicon-refresh glyphicon-spin" />;
     }
-    const addToTrip = () => this.props.onAddToTrip( buildTripLocationFromLocation( this.props.location ) );
     // TODO: edit needs to change to 'save' for id-less locations
     const editLocation = () => this.props.onEditLocation( this.props.location );
-    return (
-      <div className="btn-group btn-group-sm" role="group">
-        <button className="btn btn-default" onClick={ editLocation }>Edit</button>
-        <button disabled={ this.props.isDisabled } className="btn btn-primary" onClick={ addToTrip }>Add <span className="glyphicon glyphicon-arrow-right" /></button>
-      </div>
-    );
+    return <button className="btn btn-default btn-sm" onClick={ editLocation }>Edit</button>;
   },
 
   render() {
+    const addToTrip = () => this.props.onAddToTrip( buildTripLocationFromLocation( this.props.location ) );
     const locationClassNames = classNames( 'library-location row well well-sm', {
       'library-location--selected': this.props.isSelected,
       'library-location--droppable': this.props.isOver,
@@ -49,15 +44,16 @@ const LibraryLocation = React.createClass( {
     const saveRef = el => this.domElement = el;
     return this.props.connectDropTarget( this.props.connectDragSource(
       <li className={ locationClassNames } ref={ saveRef }>
-        <div className="library-location__description col-xs-8" >
+        <div className="library-location__description col-xs-9" >
           <h3 className="library-location__description__name">{ this.props.location.name }</h3>
           <p className="library-location__description__address">{ this.props.location.address || this.props.location.description }</p>
         </div>
-        <div className="col-xs-4" >
+        <div className="col-xs-3" >
           <div className="library-location__controls" >
             { this.renderControls() }
           </div>
         </div>
+        <button disabled={ this.props.isDisabled } className="btn btn-primary btn-block library-location__add" onClick={ addToTrip }>Add <span className="glyphicon glyphicon-arrow-right" /></button>
       </li>
     ) );
   }
