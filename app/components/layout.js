@@ -10,14 +10,16 @@ const LoggedIn = React.createClass( {
   propTypes: {
     isAdmin: React.PropTypes.bool,
     notices: React.PropTypes.object,
+    clearNotices: React.PropTypes.func.isRequired,
+    logOut: React.PropTypes.func.isRequired,
   },
 
   onClearNotices() {
-    this.props.dispatch( clearNotices() );
+    this.props.clearNotices();
   },
 
   onLogOut() {
-    this.props.dispatch( logOut() );
+    this.props.logOut();
   },
 
   renderMain() {
@@ -47,5 +49,5 @@ function mapStateToProps( state ) {
   };
 }
 
-export default connect( mapStateToProps )( LoggedIn );
+export default connect( mapStateToProps, { logOut, clearNotices } )( LoggedIn );
 
