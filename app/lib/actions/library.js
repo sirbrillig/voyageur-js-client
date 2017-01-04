@@ -67,7 +67,8 @@ export function searchLocationsAndAddressFor( searchString ) {
     dispatch( searchLocationsFor( searchString ) );
     searchAutocompleteFor( searchString )
     .then( ( predictions ) => dispatch( gotPredictions( predictions ) ) )
-    .catch( ( err ) => dispatch( gotError( err ) ) );
+    // Mostly silent errors because sometimes we just have no results
+    .catch( ( err ) => console.error( `No autocomplete results for "${ searchString }"; error: `, err ) );
   };
 }
 
