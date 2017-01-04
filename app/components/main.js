@@ -11,7 +11,7 @@ const Main = function( props ) {
   return (
     <div className="main">
       { props.trip.length > 1 && <Distance /> }
-      { props.trip.length > 1 && <TripList trip={ props.trip } clearTrip={ props.clearTrip } /> }
+      { props.trip.length > 0 && <TripList trip={ props.trip } clearTrip={ props.clearTrip } /> }
       <MainQuestion trip={ props.trip } />
       <MainSearch onChange={ props.searchLocationsAndAddressFor } />
     </div>
