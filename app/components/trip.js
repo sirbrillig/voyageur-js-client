@@ -35,8 +35,9 @@ const Trip = React.createClass( {
 
   renderTripLocation( tripLocation, index ) {
     const location = this.props.getLocationById( tripLocation.id );
+    // TODO: allow tripLocations with only an address
     if ( ! location ) return; // Don't render tripLocations without a corresponding location
-    return <TripLocation key={ 'tripLocation-' + location._id + '-' + index } index={ index } tripLocation={ location } onRemoveTripLocation={ this.props.onRemoveTripLocation } onDrop={ this.props.onDrop } />;
+    return <TripLocation key={ 'tripLocation-' + tripLocation.id + '-' + index } index={ index } tripLocation={ location } onRemoveTripLocation={ this.props.onRemoveTripLocation } onDrop={ this.props.onDrop } />;
   },
 
   renderMap() {

@@ -24,6 +24,7 @@ import {
   showAddLocation,
   moveLibraryLocation,
 } from 'lib/actions/library';
+import { buildTripLocationFromLocation } from 'lib/helpers';
 import { clearTrip, addToTrip, removeTripLocation, moveTripLocation, changeUnits, fetchDistanceBetween } from 'lib/actions/trip';
 import { getAddressesForTrip } from 'lib/selectors';
 import flow from 'lodash.flow';
@@ -115,12 +116,14 @@ const LoggedIn = React.createClass( {
     if ( ! location ) return;
     const lastTripLocation = ( this.props.trip.length > 0 ? this.props.trip[ this.props.trip.length - 1 ] : null );
     const lastTripLocationId = ( lastTripLocation ? lastTripLocation.id : null );
+    // TODO: this needs to work with id-less locations
     if ( lastTripLocationId === location._id ) return;
-    this.props.addToTrip( { id: location._id } );
+    this.props.addToTrip( buildTripLocationFromLocation( location ) );
   },
 
   getLocationById( id ) {
     return this.props.library.reduce( ( found, location ) => {
+      // TODO: this needs to work with id-less locations
       if ( location._id === id ) return location;
       return found;
     }, null );

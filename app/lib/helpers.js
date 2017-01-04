@@ -45,3 +45,8 @@ export function getAddressPairs( addrs ) {
     return dest ? pairs.concat( { start, dest } ) : pairs;
   }, [] );
 }
+
+export function buildTripLocationFromLocation( location ) {
+  if ( ! location._id && ! location.description ) return null;
+  return location.description ? { address: location.description } : { id: location._id };
+}

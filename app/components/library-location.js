@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { DragSource, DropTarget } from 'react-dnd';
 import flow from 'lodash.flow';
+import { buildTripLocationFromLocation } from 'lib/helpers';
 
 const LibraryLocation = React.createClass( {
   propTypes: {
@@ -29,7 +30,8 @@ const LibraryLocation = React.createClass( {
     if ( this.props.location.isLoading ) {
       return <span className="library-location__loading glyphicon glyphicon-refresh glyphicon-spin" />;
     }
-    const addToTrip = () => this.props.onAddToTrip( { id: this.props.location._id } );
+    const addToTrip = () => this.props.onAddToTrip( buildTripLocationFromLocation( this.props.location ) );
+    // TODO: edit needs to change to 'save' for id-less locations
     const editLocation = () => this.props.onEditLocation( this.props.location );
     return (
       <div className="btn-group btn-group-sm" role="group">
@@ -63,15 +65,15 @@ const LibraryLocation = React.createClass( {
 
 const dragSpec = {
   beginDrag( props ) {
-    return { location: props.location._id };
+    return { location: buildTripLocationFromLocation( props.location ) };
   },
 
   endDrag( props, monitor ) {
-    const source = props.location._id;
+    const source = buildTripLocationFromLocation( props.location );
     const result = monitor.getDropResult();
     if ( ! result ) return;
     if ( ! source ) return console.warn( 'Could not find drag source information from', props );
-    if ( result.trip ) return props.onAddToTrip( { id: source } );
+    if ( result.trip ) return props.onAddToTrip( source );
     const target = result.location;
     if ( source === target ) return;
     props.onDrop( source, target );
@@ -87,7 +89,7 @@ function collectDrag( connect, monitor ) {
 
 const dropSpec = {
   drop( props ) {
-    return { location: props.location._id };
+    return { location: buildTripLocationFromLocation( props.location ) };
   }
 };
 

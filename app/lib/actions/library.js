@@ -124,6 +124,7 @@ export function moveLibraryLocation( locationId, targetLocationId ) {
     const newLibrary = reorderModels( getState().library.locations, locationId, targetLocationId );
     if ( ! newLibrary ) return dispatch( gotError( 'Could not find location data to move it' ) );
 
+    // TODO: this needs to work sans-_id
     api.reorderLibrary( getState().auth.token, newLibrary.map( x => x._id ) )
     .then( updatedLocations => dispatch( gotLibrary( updatedLocations ) ) )
     .catch( err => dispatch( gotError( err ) ) );
