@@ -1,23 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Distance from 'components/distance';
+import TripList from 'components/trip-list';
 import { searchLocationsAndAddressFor } from 'lib/actions/library';
+import { clearTrip } from 'lib/actions/trip';
 
-function getQuestionText( trip ) {
-  if ( trip.length < 1 ) {
-    return 'Enter a location';
-  }
-  if ( trip.length === 1 ) {
+// TODO: move to its own file
+const Question = function( props ) {
+  const getQuestionText = function( trip ) {
+    if ( trip.length < 1 ) {
+      return 'Enter a location';
+    }
     return 'Enter another location and I\'ll tell you the distance of the trip';
-  }
-  return 'Enter another location and I\'ll tell you the distance of the trip';
-}
-
-const Question = function( { trip } ) {
-  const text = getQuestionText( trip );
-  return <div className="question">{ text }</div>;
+  };
+  return <div className="question">{ getQuestionText( props.trip ) }</div>;
 };
 
+// TODO: move it its own file
 class Search extends React.Component {
   constructor( props ) {
     super( props );
@@ -52,6 +51,7 @@ class Search extends React.Component {
 const Main = function( props ) {
   return (
     <div className="main">
+      { props.trip.length > 1 && <TripList trip={ props.trip } clearTrip={ props.clearTrip } /> }
       { props.trip.length > 1 && <Distance /> }
       <Question trip={ props.trip } />
       <Search onChange={ props.searchLocationsAndAddressFor } />
@@ -65,4 +65,4 @@ function mapStateToProps( state ) {
   };
 }
 
-export default connect( mapStateToProps, { searchLocationsAndAddressFor } )( Main );
+export default connect( mapStateToProps, { searchLocationsAndAddressFor, clearTrip } )( Main );

@@ -413,7 +413,7 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image {
 }
 
 .distance {
-  margin: 35px 0;
+  margin: 0.5em 0;
   font-weight: 600;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
@@ -423,6 +423,10 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image {
 .trip-distance-help {
   font-size: 1.4rem;
   white-space: normal;
+}
+
+.TripList button {
+  margin: 0.5em;
 }
 
 /**
