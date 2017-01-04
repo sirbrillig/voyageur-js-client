@@ -45,4 +45,3 @@ export function getAddressPairs( addrs ) {
     return dest ? pairs.concat( { start, dest } ) : pairs;
   }, [] );
 }
-

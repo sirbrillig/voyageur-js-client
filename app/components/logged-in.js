@@ -275,8 +275,9 @@ const LoggedIn = React.createClass( {
   },
 
   render() {
-    //const main = <Main onSearch={ this.onSearch } />;
     const main = this.renderMain();
+    const library = null;
+    //const main = <Main onSearch={ this.onSearch } />;
     //const lastTripLocationId = ( this.props.trip.length > 0 ? this.props.trip[ this.props.trip.length - 1 ] : null );
     //const library = <Library
             //locations={ this.props.library }
@@ -291,6 +292,7 @@ const LoggedIn = React.createClass( {
     return (
       <ReactCSSTransitionGroup transitionName="loading-panel" transitionEnterTimeout={ 0 } transitionLeaveTimeout={ 500 }>
         { this.props.isLoading ? this.renderLoading() : main }
+        { library }
       </ReactCSSTransitionGroup>
     );
   }
