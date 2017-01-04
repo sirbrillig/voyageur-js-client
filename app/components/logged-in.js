@@ -2,9 +2,9 @@ import React from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import Library from 'components/library';
 import WideButton from 'components/wide-button';
-import Trip from 'components/trip';
+//import Trip from 'components/trip';
+//import Distance from 'components/distance';
 import Main from 'components/main';
-import Distance from 'components/distance';
 import AddLocationForm from 'components/add-location-form';
 import EditLocationForm from 'components/edit-location-form';
 import LocationSearch from 'components/location-search';
@@ -103,8 +103,12 @@ const LoggedIn = React.createClass( {
     }
   },
 
+  getVisibleLocations() {
+    return this.props.visibleLocations.concat( this.props.predictions );
+  },
+
   moveSelectDown() {
-    this.props.selectNextLocation( this.props.visibleLocations.length - 1 );
+    this.props.selectNextLocation( this.getVisibleLocations().length - 1 );
   },
 
   moveSelectUp() {
@@ -112,7 +116,7 @@ const LoggedIn = React.createClass( {
   },
 
   addSelectedLocationToTrip() {
-    const location = this.props.visibleLocations[ this.props.selectedLocation ];
+    const location = this.getVisibleLocations()[ this.props.selectedLocation ];
     if ( ! location ) return;
     const lastTripLocation = ( this.props.trip.length > 0 ? this.props.trip[ this.props.trip.length - 1 ] : null );
     const lastTripLocationId = ( lastTripLocation ? lastTripLocation.id : null );
@@ -228,54 +232,54 @@ const LoggedIn = React.createClass( {
     if ( this.props.library.length > 1 && ! this.props.isShowingAddLocation && ! this.props.editingLocation ) return <LocationSearch onChange={ this.onSearch } onClearSearch={ this.onClearSearch } />;
   },
 
-  renderMain() {
-    const lastTripLocationId = ( this.props.trip.length > 0 ? this.props.trip[ this.props.trip.length - 1 ].id : null );
-    return (
-      <div key="logged-in__main-row" className="row">
-        <div className="logged-in__main-column col-sm-6">
-          <a className="logged-in__trip-jump btn btn-info visible-xs-block" href="#trip-column">View Trip</a>
-          <div className="library-control-area">
-            { this.renderAddLocationButton() }
-            { this.renderSearchField() }
-          </div>
-          <Library
-            locations={ this.props.library }
-            visibleLocations={ this.props.visibleLocations }
-            onAddToTrip={ this.onAddToTrip }
-            onEditLocation={ this.onEditLocation }
-            onDrop={ this.onLibraryDrop }
-            selectedLocation={ this.props.selectedLocation }
-            lastTripLocationId={ lastTripLocationId }
-          />
-        </div>
-        <div id="trip-column" className="logged-in__main-column col-sm-6">
-          <div className="trip-control-area">
-            { this.renderClearTripButton() }
-            <Distance
-              addresses={ this.props.addresses }
-              cachedDistances={ this.props.cachedDistances }
-              useMiles={ this.props.prefs.useMiles }
-              changeUnits={ this.onClickUnits }
-              fetchDistanceBetween={ this.props.fetchDistanceBetween }
-            />
-          </div>
-          <Trip
-            areThereLocations={ ( this.props.library.length > 1 ) }
-            tripLocations={ this.props.trip }
-            getLocationById={ this.getLocationById }
-            onRemoveTripLocation={ this.onRemoveTripLocation }
-            onDrop={ this.onTripDrop }
-          />
-        </div>
-        <ReactCSSTransitionGroup transitionName="add-location-form-container" transitionEnterTimeout={ 300 } transitionLeaveTimeout={ 300 }>
-          { this.renderAddLocationForm() }
-        </ReactCSSTransitionGroup>
-        <ReactCSSTransitionGroup transitionName="add-location-form-container" transitionEnterTimeout={ 300 } transitionLeaveTimeout={ 300 }>
-          { this.renderEditLocationForm() }
-        </ReactCSSTransitionGroup>
-      </div>
-    );
-  },
+  //renderMain() {
+    //const lastTripLocationId = ( this.props.trip.length > 0 ? this.props.trip[ this.props.trip.length - 1 ].id : null );
+    //return (
+      //<div key="logged-in__main-row" className="row">
+        //<div className="logged-in__main-column col-sm-6">
+          //<a className="logged-in__trip-jump btn btn-info visible-xs-block" href="#trip-column">View Trip</a>
+          //<div className="library-control-area">
+            //{ this.renderAddLocationButton() }
+            //{ this.renderSearchField() }
+          //</div>
+          //<Library
+            //locations={ this.props.library }
+            //visibleLocations={ this.props.visibleLocations }
+            //onAddToTrip={ this.onAddToTrip }
+            //onEditLocation={ this.onEditLocation }
+            //onDrop={ this.onLibraryDrop }
+            //selectedLocation={ this.props.selectedLocation }
+            //lastTripLocationId={ lastTripLocationId }
+          ///>
+        //</div>
+        //<div id="trip-column" className="logged-in__main-column col-sm-6">
+          //<div className="trip-control-area">
+            //{ this.renderClearTripButton() }
+            //<Distance
+              //addresses={ this.props.addresses }
+              //cachedDistances={ this.props.cachedDistances }
+              //useMiles={ this.props.prefs.useMiles }
+              //changeUnits={ this.onClickUnits }
+              //fetchDistanceBetween={ this.props.fetchDistanceBetween }
+            ///>
+          //</div>
+          //<Trip
+            //areThereLocations={ ( this.props.library.length > 1 ) }
+            //tripLocations={ this.props.trip }
+            //getLocationById={ this.getLocationById }
+            //onRemoveTripLocation={ this.onRemoveTripLocation }
+            //onDrop={ this.onTripDrop }
+          ///>
+        //</div>
+        //<ReactCSSTransitionGroup transitionName="add-location-form-container" transitionEnterTimeout={ 300 } transitionLeaveTimeout={ 300 }>
+          //{ this.renderAddLocationForm() }
+        //</ReactCSSTransitionGroup>
+        //<ReactCSSTransitionGroup transitionName="add-location-form-container" transitionEnterTimeout={ 300 } transitionLeaveTimeout={ 300 }>
+          //{ this.renderEditLocationForm() }
+        //</ReactCSSTransitionGroup>
+      //</div>
+    //);
+  //},
 
   render() {
     //const main = this.renderMain();
