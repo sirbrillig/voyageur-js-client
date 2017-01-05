@@ -17,7 +17,7 @@ import {
   hideAddLocation,
 } from 'lib/actions/library';
 import { buildTripLocationFromLocation, getAddressForTripLocation } from 'lib/helpers';
-import { clearTrip, addToTrip, moveTripLocation } from 'lib/actions/trip';
+import { clearTrip, addToTrip } from 'lib/actions/trip';
 import { getAddressesForTrip } from 'lib/selectors';
 import flow from 'lodash.flow';
 import { DragDropContext } from 'react-dnd';
@@ -31,11 +31,9 @@ const LoggedIn = React.createClass( {
     predictions: React.PropTypes.array,
     addresses: React.PropTypes.array,
     trip: React.PropTypes.array,
-    prefs: React.PropTypes.object,
     isShowingAddLocation: React.PropTypes.bool,
     editingLocation: React.PropTypes.object,
     addingAddress: React.PropTypes.string,
-    searchString: React.PropTypes.string,
     selectedLocation: React.PropTypes.number,
     isLoadingTrip: React.PropTypes.bool,
     fetchLibrary: React.PropTypes.func.isRequired,
@@ -49,7 +47,6 @@ const LoggedIn = React.createClass( {
     hideEditLocation: React.PropTypes.func.isRequired,
     saveLocation: React.PropTypes.func.isRequired,
     deleteLocation: React.PropTypes.func.isRequired,
-    moveTripLocation: React.PropTypes.func.isRequired,
   },
 
   componentWillMount() {
@@ -114,38 +111,19 @@ const LoggedIn = React.createClass( {
     this.props.addToTrip( buildTripLocationFromLocation( location ) );
   },
 
-  onTripDrop( tripLocationIndex, targetLocationIndex ) {
-    this.props.moveTripLocation( tripLocationIndex, targetLocationIndex );
-  },
-
   renderEditLocationForm() {
-    if ( this.props.editingLocation ) {
-      return (
-        <EditLocationForm
-          key="edit-location-form"
-          location={ this.props.editingLocation }
-          onSaveLocation={ this.props.saveLocation }
-          onCancelEditLocation={ this.props.hideEditLocation }
-          onDeleteLocation={ this.deleteLocation }
-        />
-      );
-    }
+    if ( this.props.editingLocation ) return <EditLocationForm key="edit-location-form" location={ this.props.editingLocation } onSaveLocation={ this.props.saveLocation } onCancelEditLocation={ this.props.hideEditLocation } onDeleteLocation={ this.deleteLocation } />;
   },
 
   renderAddLocationForm() {
     if ( this.props.isShowingAddLocation ) return <AddLocationForm key="add-location-form" onAddLocation={ this.props.addLocation } onCancelAddLocation={ this.props.hideAddLocation } initialAddress={ this.props.addingAddress } />;
   },
 
-  renderLoading() {
-    return <LoadingPanel />;
-  },
-
   render() {
-    const main = <Main />;
     return (
       <ReactCSSTransitionGroup transitionName="loading-panel" transitionEnterTimeout={ 0 } transitionLeaveTimeout={ 500 }>
         <div className="LoggedIn">
-          { this.props.isLoading ? this.renderLoading() : main }
+          { this.props.isLoading ? <LoadingPanel /> : <Main /> }
         </div>
         <ReactCSSTransitionGroup transitionName="add-location-form-container" transitionEnterTimeout={ 300 } transitionLeaveTimeout={ 300 }>
           { this.renderAddLocationForm() }
@@ -159,38 +137,35 @@ const LoggedIn = React.createClass( {
 } );
 
 function mapStateToProps( state ) {
-  const { library, trip, ui, prefs } = state;
   return {
-    isLoading: library.isLoading,
-    library: library.locations,
-    visibleLocations: library.visibleLocations,
-    predictions: library.predictions,
-    trip,
+    isLoading: state.library.isLoading,
+    library: state.library.locations,
+    visibleLocations: state.library.visibleLocations,
+    predictions: state.library.predictions,
+    trip: state.trip,
     addresses: getAddressesForTrip( state ),
-    cachedDistances: state.distances,
-    isShowingAddLocation: ui.isShowingAddLocation,
-    searchString: ui.searchString,
-    selectedLocation: ui.selectedLocation,
-    editingLocation: ui.editingLocation,
-    addingAddress: ui.addingAddress,
-    prefs,
+    isShowingAddLocation: state.ui.isShowingAddLocation,
+    selectedLocation: state.ui.selectedLocation,
+    editingLocation: state.ui.editingLocation,
+    addingAddress: state.ui.addingAddress,
   };
 }
 
+const actions = {
+  fetchLibrary,
+  selectNextLocation,
+  selectPreviousLocation,
+  addToTrip,
+  hideAddLocation,
+  addLocation,
+  clearTrip,
+  searchLocationsAndAddressFor,
+  hideEditLocation,
+  saveLocation,
+  deleteLocation,
+};
+
 export default flow(
   DragDropContext( HTML5Backend ),
-  connect( mapStateToProps, {
-    fetchLibrary,
-    selectNextLocation,
-    selectPreviousLocation,
-    addToTrip,
-    hideAddLocation,
-    addLocation,
-    clearTrip,
-    searchLocationsAndAddressFor,
-    hideEditLocation,
-    saveLocation,
-    deleteLocation,
-    moveTripLocation,
-  } )
+  connect( mapStateToProps, actions )
 )( LoggedIn );

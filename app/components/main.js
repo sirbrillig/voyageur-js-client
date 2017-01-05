@@ -6,11 +6,11 @@ import Trip from 'components/trip';
 import TripList from 'components/trip-list';
 import MainQuestion from 'components/main-question';
 import LocationSearch from 'components/location-search';
-import { searchLocationsAndAddressFor } from 'lib/actions/library';
 import {
   startEditLocation,
   showAddLocation,
   moveLibraryLocation,
+  searchLocationsAndAddressFor,
 } from 'lib/actions/library';
 import {
   clearTrip,
