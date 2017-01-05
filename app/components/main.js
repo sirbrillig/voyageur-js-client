@@ -26,7 +26,7 @@ const Main = function( props ) {
   return (
     <div className="main">
       { props.trip.length > 1 && <Distance /> }
-      { props.trip.length > 0 && <TripList trip={ props.trip } clearTrip={ props.clearTrip } showTrip={ props.showTrip } hideTrip={ props.hideTrip } isShowingTrip={ props.isShowingTrip } /> }
+      { ( props.trip.length > 0 || props.isShowingTrip ) && <TripList trip={ props.trip } clearTrip={ props.clearTrip } showTrip={ props.showTrip } hideTrip={ props.hideTrip } isShowingTrip={ props.isShowingTrip } /> }
       { ! props.isShowingTrip && <MainQuestion trip={ props.trip } /> }
       { ! props.isShowingTrip && <LocationSearch onChange={ props.searchLocationsAndAddressFor } /> }
       { props.isShowingTrip && <Trip
