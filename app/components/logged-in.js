@@ -165,10 +165,6 @@ const LoggedIn = React.createClass( {
     this.props.searchLocationsAndAddressFor( searchString );
   },
 
-  onClearSearch() {
-    this.props.searchLocationsAndAddressFor( '' );
-  },
-
   onCancelEditLocation() {
     this.props.hideEditLocation();
   },
@@ -229,7 +225,7 @@ const LoggedIn = React.createClass( {
   },
 
   renderSearchField() {
-    if ( this.props.library.length > 1 && ! this.props.isShowingAddLocation && ! this.props.editingLocation ) return <LocationSearch onChange={ this.onSearch } onClearSearch={ this.onClearSearch } />;
+    if ( this.props.library.length > 1 && ! this.props.isShowingAddLocation && ! this.props.editingLocation ) return <LocationSearch onChange={ this.onSearch } />;
   },
 
   //renderMain() {
