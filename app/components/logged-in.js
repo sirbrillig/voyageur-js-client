@@ -142,10 +142,6 @@ const LoggedIn = React.createClass( {
     this.props.addLocation( params );
   },
 
-  onRemoveTripLocation( index ) {
-    this.props.removeTripLocation( index );
-  },
-
   onClearTrip() {
     this.props.clearTrip();
   },
@@ -245,10 +241,9 @@ const LoggedIn = React.createClass( {
             ///>
           //</div>
           //<Trip
-            //areThereLocations={ ( this.props.library.length > 1 ) }
+            //library={ this.props.library }
             //tripLocations={ this.props.trip }
-            //getLocationById={ this.getLocationById }
-            //onRemoveTripLocation={ this.onRemoveTripLocation }
+            //onRemoveTripLocation={ this.props.removeTripLocation }
             //onDrop={ this.onTripDrop }
           ///>
         //</div>

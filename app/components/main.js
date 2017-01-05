@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Distance from 'components/distance';
 import Library from 'components/library';
+import Trip from 'components/trip';
 import TripList from 'components/trip-list';
 import MainQuestion from 'components/main-question';
 import LocationSearch from 'components/location-search';
@@ -14,18 +15,27 @@ import {
 import {
   clearTrip,
   showTrip,
+  hideTrip,
   addToTrip,
+  removeTripLocation,
 } from 'lib/actions/trip';
 
 const Main = function( props ) {
   const lastTripLocationId = ( props.trip.length > 0 ? props.trip[ props.trip.length - 1 ].id : null );
+  const noop = () => null;
   return (
     <div className="main">
       { props.trip.length > 1 && <Distance /> }
-      { props.trip.length > 0 && <TripList trip={ props.trip } clearTrip={ props.clearTrip } showTrip={ props.showTrip } /> }
-      <MainQuestion trip={ props.trip } />
+      { props.trip.length > 0 && <TripList trip={ props.trip } clearTrip={ props.clearTrip } showTrip={ props.showTrip } hideTrip={ props.hideTrip } isShowingTrip={ props.isShowingTrip } /> }
+      { !! props.isShowingTrip && <MainQuestion trip={ props.trip } /> }
       <LocationSearch onChange={ props.searchLocationsAndAddressFor } />
-      <Library
+      { props.isShowingTrip && <Trip
+        tripLocations={ props.trip }
+        library={ props.library }
+        onRemoveTripLocation={ props.removeTripLocation }
+        onDrop={ noop }
+        /> }
+      { ! props.isShowingTrip && <Library
         locations={ props.library }
         visibleLocations={ props.visibleLocations }
         predictions={ props.predictions }
@@ -35,7 +45,7 @@ const Main = function( props ) {
         onDrop={ props.moveLibraryLocation }
         selectedLocation={ props.selectedLocation }
         lastTripLocationId={ lastTripLocationId }
-      />;
+        /> }
     </div>
   );
 };
@@ -47,6 +57,7 @@ function mapStateToProps( state ) {
     visibleLocations: state.library.visibleLocations,
     predictions: state.library.predictions,
     selectedLocation: state.ui.selectedLocation,
+    isShowingTrip: state.ui.isShowingTrip,
   };
 }
 
@@ -54,10 +65,12 @@ const actions = {
   searchLocationsAndAddressFor,
   clearTrip,
   showTrip,
+  hideTrip,
   addToTrip,
   startEditLocation,
   showAddLocation,
   moveLibraryLocation,
+  removeTripLocation,
 };
 
 export default connect( mapStateToProps, actions )( Main );

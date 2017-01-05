@@ -7,10 +7,9 @@ import classNames from 'classnames';
 const Trip = React.createClass( {
   propTypes: {
     tripLocations: React.PropTypes.array,
-    getLocationById: React.PropTypes.func.isRequired,
     onRemoveTripLocation: React.PropTypes.func.isRequired,
     onDrop: React.PropTypes.func.isRequired,
-    areThereLocations: React.PropTypes.bool,
+    library: React.PropTypes.array,
     connectDropTarget: React.PropTypes.func.isRequired,
     isOver: React.PropTypes.bool,
   },
@@ -18,15 +17,17 @@ const Trip = React.createClass( {
   getDefaultProps() {
     return {
       tripLocations: [],
-      areThereLocations: false,
+      library: [],
       isOver: false,
     };
   },
 
-  renderTripHelp() {
-    if ( ! this.props.areThereLocations || this.props.tripLocations.length > 1 ) return;
-    if ( this.props.tripLocations.length === 1 ) return <div className="help-box alert alert-info animated pulse"><span className="glyphicon glyphicon-hand-left" /> Add another location from your library!</div>;
-    return <div className="help-box alert alert-info animated bounceIn"><span className="glyphicon glyphicon-hand-left" /> Click "Add" next to a location in your list to add it to this trip!</div>;
+  getLocationById( id ) {
+    return this.props.library.reduce( ( found, location ) => {
+      // TODO: this needs to work with id-less locations
+      if ( location._id === id ) return location;
+      return found;
+    }, null );
   },
 
   renderTripLocations() {
@@ -34,7 +35,7 @@ const Trip = React.createClass( {
   },
 
   renderTripLocation( tripLocation, index ) {
-    const location = this.props.getLocationById( tripLocation.id );
+    const location = this.getLocationById( tripLocation.id );
     // TODO: allow tripLocations with only an address
     if ( ! location ) return; // Don't render tripLocations without a corresponding location
     return <TripLocation key={ 'tripLocation-' + tripLocation.id + '-' + index } index={ index } tripLocation={ location } onRemoveTripLocation={ this.props.onRemoveTripLocation } onDrop={ this.props.onDrop } />;
@@ -42,7 +43,7 @@ const Trip = React.createClass( {
 
   renderMap() {
     if ( this.props.tripLocations.length < 2 ) return;
-    return <TripMap tripLocations={ this.props.tripLocations } getLocationById={ this.props.getLocationById } />;
+    return <TripMap tripLocations={ this.props.tripLocations } getLocationById={ this.getLocationById } />;
   },
 
   render() {
@@ -51,7 +52,6 @@ const Trip = React.createClass( {
       <div className={ tripClassNames }>
         { this.renderMap() }
         { this.renderTripLocations() }
-        { this.renderTripHelp() }
       </div>
     );
   }
