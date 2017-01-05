@@ -8,6 +8,7 @@
     "build": "NODE_ENV=development webpack",
     "prebuild": "mkdirp build",
     "postbuild": "echo Build complete",
+    "stats": "webpack --env production --profile --json > stats.json",
     "build:dist": "NODE_ENV=production webpack | uglifyjs --compress --mangle -o build/bundle.js",
     "prebuild:dist": "mkdirp dist",
     "clean:dist": "rimraf dist",
