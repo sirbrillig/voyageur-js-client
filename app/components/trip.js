@@ -3,6 +3,7 @@ import { DropTarget } from 'react-dnd';
 import TripMap from 'components/trip-map';
 import TripLocation from 'components/trip-location';
 import classNames from 'classnames';
+import { getAddressForTripLocation, getNameForTripLocation } from 'lib/helpers';
 
 const Trip = React.createClass( {
   propTypes: {
@@ -22,28 +23,20 @@ const Trip = React.createClass( {
     };
   },
 
-  getLocationById( id ) {
-    return this.props.library.reduce( ( found, location ) => {
-      // TODO: this needs to work with id-less locations
-      if ( location._id === id ) return location;
-      return found;
-    }, null );
-  },
-
   renderTripLocations() {
     if ( this.props.tripLocations.length > 0 ) return <ul>{ this.props.tripLocations.map( this.renderTripLocation ) }</ul>;
   },
 
   renderTripLocation( tripLocation, index ) {
-    const location = this.getLocationById( tripLocation.id );
-    // TODO: allow tripLocations with only an address
-    if ( ! location ) return; // Don't render tripLocations without a corresponding location
-    return <TripLocation key={ 'tripLocation-' + tripLocation.id + '-' + index } index={ index } tripLocation={ location } onRemoveTripLocation={ this.props.onRemoveTripLocation } onDrop={ this.props.onDrop } />;
+    const address = getAddressForTripLocation( tripLocation, this.props.library );
+    if ( ! address ) return; // Don't render tripLocations without an address
+    return <TripLocation key={ 'tripLocation-' + index } index={ index } address={ address } name={ getNameForTripLocation( tripLocation, this.props.library ) } onRemoveTripLocation={ this.props.onRemoveTripLocation } onDrop={ this.props.onDrop } />;
   },
 
   renderMap() {
     if ( this.props.tripLocations.length < 2 ) return;
-    return <TripMap tripLocations={ this.props.tripLocations } getLocationById={ this.getLocationById } />;
+    const addresses = this.props.tripLocations.map( tripLocation => getAddressForTripLocation( tripLocation, this.props.library ) );
+    return <TripMap addresses={ addresses } />;
   },
 
   render() {

@@ -17,8 +17,7 @@ function LatLng( x, y ) {
 
 export default React.createClass( {
   propTypes: {
-    tripLocations: React.PropTypes.array.isRequired,
-    getLocationById: React.PropTypes.func.isRequired,
+    addresses: React.PropTypes.array.isRequired,
   },
 
   getInitialState() {
@@ -30,40 +29,30 @@ export default React.createClass( {
   },
 
   componentDidMount() {
-    this.calculateRoute( this.props.tripLocations );
+    this.calculateRoute( this.props.addresses );
   },
 
   componentWillReceiveProps( nextProps ) {
-    if ( this.hasMapDataChanged( nextProps.tripLocations ) ) this.calculateRoute( nextProps.tripLocations );
+    if ( this.hasMapDataChanged( nextProps.addresses ) ) this.calculateRoute( nextProps.addresses );
   },
 
-  hasMapDataChanged( tripLocations ) {
-    const next = JSON.stringify( tripLocations.map( x => x.id ) );
-    const prev = JSON.stringify( this.props.tripLocations.map( x => x.id ) );
+  hasMapDataChanged( addresses ) {
+    const next = JSON.stringify( addresses );
+    const prev = JSON.stringify( this.props.addresses );
     return ( next !== prev );
   },
 
   shouldComponentUpdate( nextProps, nextState ) {
     if ( nextState !== this.state ) return true;
-    const hasChanged = this.hasMapDataChanged( nextProps.tripLocations );
+    const hasChanged = this.hasMapDataChanged( nextProps.addresses );
     if ( ! hasChanged ) return false;
     debug( 'map locations have changed' );
     return true;
   },
 
-  getAddresses( tripLocations ) {
-    return tripLocations.map( location => location.id ).reduce( ( addrs, tripLocation ) => {
-      if ( tripLocation.address ) return addrs.concat( tripLocation.address );
-      const location = this.props.getLocationById( tripLocation );
-      if ( ! location ) return addrs;
-      return addrs.concat( location.address );
-    }, [] );
-  },
-
-  calculateRoute( tripLocations ) {
+  calculateRoute( addresses ) {
     const gmaps = getGoogleMaps();
     if ( ! gmaps ) return;
-    const addresses = this.getAddresses( tripLocations );
     if ( addresses.length < 2 ) return console.warn( 'Not enough addresses to render trip map' );
     const origin = addresses.shift();
     const destination = addresses.pop();
@@ -88,12 +77,12 @@ export default React.createClass( {
     if ( status === gmaps.DirectionsStatus.OK ) {
       this.setState( { directions: result } );
     } else {
-      console.error( 'error loading directions for', this.props.tripLocations, status, result );
+      console.error( 'error loading directions for', this.props.addresses, status, result );
     }
   },
 
   handleMapClick() {
-    const mapUrl = 'https://www.google.com/maps/dir/' + this.getAddresses( this.props.tripLocations ).reduce( ( previous, address ) => {
+    const mapUrl = 'https://www.google.com/maps/dir/' + this.props.addresses.reduce( ( previous, address ) => {
       return previous + encodeURIComponent( address ) + '/';
     }, '' );
     if ( window ) window.location = mapUrl;

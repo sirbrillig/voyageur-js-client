@@ -50,3 +50,15 @@ export function buildTripLocationFromLocation( location ) {
   if ( ! location._id && ! location.description ) return null;
   return location.description ? { address: location.description } : { id: location._id };
 }
+
+export function getAddressForTripLocation( tripLocation, locations ) {
+  const getLocationById = id => findWhere( locations, { _id: id } );
+  const getAddressByLocationId = id => ( getLocationById( id ) || {} ).address;
+  return tripLocation.address || getAddressByLocationId( tripLocation.id );
+}
+
+export function getNameForTripLocation( tripLocation, locations ) {
+  const getLocationById = id => findWhere( locations, { _id: id } );
+  const getNameByLocationId = id => ( getLocationById( id ) || {} ).name;
+  return getNameByLocationId( tripLocation.id );
+}

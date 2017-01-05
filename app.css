@@ -386,7 +386,7 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image {
   margin: 4px 0px;
   border-width: 2px;
   background-color: #E3EEF7;
-  height: 35px;
+  min-height: 35px;
   overflow: hidden;
 }
 
