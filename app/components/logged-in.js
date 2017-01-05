@@ -294,8 +294,10 @@ const LoggedIn = React.createClass( {
           />;
     return (
       <ReactCSSTransitionGroup transitionName="loading-panel" transitionEnterTimeout={ 0 } transitionLeaveTimeout={ 500 }>
-        { this.props.isLoading ? this.renderLoading() : main }
-        { library }
+        <div className="LoggedIn">
+          { this.props.isLoading ? this.renderLoading() : main }
+          { library }
+        </div>
       </ReactCSSTransitionGroup>
     );
   }

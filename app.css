@@ -85,6 +85,11 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image {
 /**
  * LoggedIn
  */
+.LoggedIn {
+  max-width: 500px;
+  margin: auto;
+}
+
 .logged-in__error {
   padding: 100px 0;
 }
