@@ -30,8 +30,11 @@ const LibraryLocation = React.createClass( {
     if ( this.props.location.isLoading ) {
       return <span className="library-location__loading glyphicon glyphicon-refresh glyphicon-spin" />;
     }
-    // TODO: edit needs to change to 'save' for id-less locations
     const editLocation = () => this.props.onEditLocation( this.props.location );
+    const saveLocation = () => null; // TODO: save new location
+    if ( ! this.props.location.name && ! this.props.location._id ) {
+      return <button className="btn btn-default btn-sm" onClick={ saveLocation }>Save</button>;
+    }
     return <button className="btn btn-default btn-sm" onClick={ editLocation }>Edit</button>;
   },
 
