@@ -1,12 +1,12 @@
-const initialState = { isShowingAddLocation: false, searchString: '', selectedLocation: 0, editingLocation: null };
+const initialState = { isShowingAddLocation: false, searchString: '', selectedLocation: 0, editingLocation: null, addingAddress: null };
 export default function auth( state = initialState, action ) {
   switch ( action.type ) {
     case 'LIBRARY_GOT_NEW_LOCATION':
-      return Object.assign( {}, state, { isShowingAddLocation: false } );
+      return Object.assign( {}, state, { isShowingAddLocation: false, addingAddress: null } );
     case 'LIBRARY_HIDE_ADD_LOCATION':
-      return Object.assign( {}, state, { isShowingAddLocation: false } );
+      return Object.assign( {}, state, { isShowingAddLocation: false, addingAddress: null } );
     case 'LIBRARY_SHOW_ADD_LOCATION':
-      return Object.assign( {}, state, { isShowingAddLocation: true } );
+      return Object.assign( {}, state, { isShowingAddLocation: true, addingAddress: action.addingAddress } );
     case 'LIBRARY_SEARCH_FOR':
       return Object.assign( {}, state, { searchString: action.searchString, selectedLocation: 0 } );
     case 'LIBRARY_SELECT_NEXT':

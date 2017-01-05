@@ -34,8 +34,8 @@ export function hideAddLocation() {
   return { type: 'LIBRARY_HIDE_ADD_LOCATION' };
 }
 
-export function showAddLocation() {
-  return { type: 'LIBRARY_SHOW_ADD_LOCATION' };
+export function showAddLocation( addingAddress = null ) {
+  return { type: 'LIBRARY_SHOW_ADD_LOCATION', addingAddress };
 }
 
 export function fetchLibrary() {

@@ -43,6 +43,7 @@ const Library = React.createClass( {
         key={ location._id || location.id }
         location={ location }
         onEditLocation={ this.props.onEditLocation }
+        onAddLocation={ this.props.onAddLocation }
         onAddToTrip={ this.props.onAddToTrip }
         onDrop={ this.props.onDrop }
         isSelected={ this.props.selectedLocation === index }

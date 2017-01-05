@@ -42,6 +42,7 @@ const LoggedIn = React.createClass( {
     prefs: React.PropTypes.object,
     isShowingAddLocation: React.PropTypes.bool,
     editingLocation: React.PropTypes.object,
+    addingAddress: React.PropTypes.string,
     searchString: React.PropTypes.string,
     selectedLocation: React.PropTypes.number,
     isLoadingTrip: React.PropTypes.bool,
@@ -133,10 +134,6 @@ const LoggedIn = React.createClass( {
     }, null );
   },
 
-  onShowAddLocation() {
-    this.props.showAddLocation();
-  },
-
   onCancelAddLocation() {
     this.props.hideAddLocation();
   },
@@ -147,10 +144,6 @@ const LoggedIn = React.createClass( {
 
   onAddToTrip( location ) {
     this.props.addToTrip( location );
-  },
-
-  onEditLocation( location ) {
-    this.props.startEditLocation( location );
   },
 
   onRemoveTripLocation( index ) {
@@ -213,11 +206,11 @@ const LoggedIn = React.createClass( {
   },
 
   renderAddLocationForm() {
-    if ( this.props.isShowingAddLocation ) return <AddLocationForm key="add-location-form" onAddLocation={ this.onAddLocation } onCancelAddLocation={ this.onCancelAddLocation } />;
+    if ( this.props.isShowingAddLocation ) return <AddLocationForm key="add-location-form" onAddLocation={ this.onAddLocation } onCancelAddLocation={ this.onCancelAddLocation } initialAddress={ this.props.addingAddress } />;
   },
 
   renderAddLocationButton() {
-    return <WideButton className="add-location-button" text="Add a new location" onClick={ this.onShowAddLocation } />;
+    return <WideButton className="add-location-button" text="Add a new location" onClick={ this.props.showAddLocation() } />;
   },
 
   renderLoading() {
@@ -242,7 +235,7 @@ const LoggedIn = React.createClass( {
             //locations={ this.props.library }
             //visibleLocations={ this.props.visibleLocations }
             //onAddToTrip={ this.onAddToTrip }
-            //onEditLocation={ this.onEditLocation }
+            //onEditLocation={ this.props.startEditLocation }
             //onDrop={ this.onLibraryDrop }
             //selectedLocation={ this.props.selectedLocation }
             //lastTripLocationId={ lastTripLocationId }
@@ -287,7 +280,8 @@ const LoggedIn = React.createClass( {
             visibleLocations={ this.props.visibleLocations }
             predictions={ this.props.predictions }
             onAddToTrip={ this.onAddToTrip }
-            onEditLocation={ this.onEditLocation }
+            onEditLocation={ this.props.startEditLocation }
+            onAddLocation={ this.props.showAddLocation }
             onDrop={ this.onLibraryDrop }
             selectedLocation={ this.props.selectedLocation }
             lastTripLocationId={ lastTripLocationId }
@@ -323,6 +317,7 @@ function mapStateToProps( state ) {
     searchString: ui.searchString,
     selectedLocation: ui.selectedLocation,
     editingLocation: ui.editingLocation,
+    addingAddress: ui.addingAddress,
     prefs,
   };
 }

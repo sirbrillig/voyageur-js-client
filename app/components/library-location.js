@@ -9,6 +9,7 @@ const LibraryLocation = React.createClass( {
     location: React.PropTypes.object.isRequired,
     onAddToTrip: React.PropTypes.func.isRequired,
     onEditLocation: React.PropTypes.func.isRequired,
+    onAddLocation: React.PropTypes.func.isRequired,
     isSelected: React.PropTypes.bool,
     connectDragSource: React.PropTypes.func.isRequired,
     isDragging: React.PropTypes.bool.isRequired,
@@ -31,7 +32,7 @@ const LibraryLocation = React.createClass( {
       return <span className="library-location__loading glyphicon glyphicon-refresh glyphicon-spin" />;
     }
     const editLocation = () => this.props.onEditLocation( this.props.location );
-    const saveLocation = () => null; // TODO: save new location
+    const saveLocation = () => this.props.onAddLocation( this.props.location.description );
     if ( ! this.props.location.name && ! this.props.location._id ) {
       return <button className="btn btn-default btn-sm" onClick={ saveLocation }>Save</button>;
     }
