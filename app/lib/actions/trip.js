@@ -41,3 +41,11 @@ export function moveTripLocation( startIndex, destinationIndex ) {
 export function changeUnits( unit ) {
   return { type: 'UNITS_CHANGE', unit };
 }
+
+export function showTrip() {
+  return { type: 'TRIP_SHOW' };
+}
+
+export function hideTrip() {
+  return { type: 'TRIP_HIDE' };
+}

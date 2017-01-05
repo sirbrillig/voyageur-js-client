@@ -1,6 +1,10 @@
-const initialState = { isShowingAddLocation: false, searchString: '', selectedLocation: 0, editingLocation: null, addingAddress: null };
+const initialState = { isShowingAddLocation: false, searchString: '', selectedLocation: 0, editingLocation: null, addingAddress: null, isShowingTrip: false };
 export default function auth( state = initialState, action ) {
   switch ( action.type ) {
+    case 'TRIP_SHOW':
+      return Object.assign( {}, state, { isShowingTrip: true } );
+    case 'TRIP_HIDE':
+      return Object.assign( {}, state, { isShowingTrip: false } );
     case 'LIBRARY_GOT_NEW_LOCATION':
       return Object.assign( {}, state, { isShowingAddLocation: false, addingAddress: null } );
     case 'LIBRARY_HIDE_ADD_LOCATION':
