@@ -298,6 +298,12 @@ const LoggedIn = React.createClass( {
           { this.props.isLoading ? this.renderLoading() : main }
           { library }
         </div>
+        <ReactCSSTransitionGroup transitionName="add-location-form-container" transitionEnterTimeout={ 300 } transitionLeaveTimeout={ 300 }>
+          { this.renderAddLocationForm() }
+        </ReactCSSTransitionGroup>
+        <ReactCSSTransitionGroup transitionName="add-location-form-container" transitionEnterTimeout={ 300 } transitionLeaveTimeout={ 300 }>
+          { this.renderEditLocationForm() }
+        </ReactCSSTransitionGroup>
       </ReactCSSTransitionGroup>
     );
   }
