@@ -42,7 +42,6 @@
     "lodash.flow": "^3.2.1",
     "lodash.get": "^4.0.0",
     "lodash.noop": "^3.0.0",
-    "moment": "^2.11.2",
     "react": "^15.4.1",
     "react-addons-css-transition-group": "^15.4.1",
     "react-dnd": "^2.0.2",

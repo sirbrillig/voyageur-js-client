@@ -1,6 +1,6 @@
 import React from 'react';
-import moment from 'moment';
 import { connect } from 'react-redux';
+import timeago from 'lib/timeago';
 import { fetchEvents } from 'lib/actions/admin.js';
 import classNames from 'classnames';
 import debugFactory from 'debug';
@@ -36,7 +36,7 @@ const AdminDashboard = React.createClass( {
     debug( 'showing log event', event );
     return (
       <tr key={ event._id } className={ classes }>
-        <td>{ moment( eventDate ).fromNow() }</td>
+        <td>{ timeago( eventDate ) }</td>
         <td>{ event.userId }</td>
         <td>{ event.userName }</td>
         <td>{ event.ip }</td>
