@@ -458,6 +458,12 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image {
   margin: 0.5em;
 }
 
+@media( min-width: 1000px ) {
+  .TripSummary__toggle {
+    display: none;
+  }
+}
+
 /**
  * Footer
  */
