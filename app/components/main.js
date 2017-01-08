@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Distance from 'components/distance';
 import Library from 'components/library';
 import Trip from 'components/trip';
-import TripList from 'components/trip-list';
+import TripSummary from 'components/trip-summary';
 import MainQuestion from 'components/main-question';
 import LocationSearch from 'components/location-search';
 import {
@@ -26,7 +26,7 @@ const Main = function( props ) {
   return (
     <div className="main">
       { props.trip.length > 1 && <Distance /> }
-      { ( props.trip.length > 0 || props.isShowingTrip ) && <TripList trip={ props.trip } clearTrip={ props.clearTrip } showTrip={ props.showTrip } hideTrip={ props.hideTrip } isShowingTrip={ props.isShowingTrip } /> }
+      { ( props.trip.length > 0 || props.isShowingTrip ) && <TripSummary trip={ props.trip } clearTrip={ props.clearTrip } showTrip={ props.showTrip } hideTrip={ props.hideTrip } isShowingTrip={ props.isShowingTrip } /> }
       { ! props.isShowingTrip && <MainQuestion trip={ props.trip } /> }
       { ! props.isShowingTrip && <LocationSearch onChange={ props.searchLocationsAndAddressFor } /> }
       { props.isShowingTrip && <Trip
