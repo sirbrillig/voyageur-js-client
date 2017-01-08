@@ -77,7 +77,7 @@ export default React.createClass( {
     if ( status === gmaps.DirectionsStatus.OK ) {
       this.setState( { directions: result } );
     } else {
-      console.error( 'error loading directions for', this.props.addresses, status, result );
+      console.error( 'Error loading directions for map. Addresses:', this.props.addresses, status, result );
     }
   },
 

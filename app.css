@@ -355,6 +355,11 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image {
   flex-basis: 100%;
 }
 
+.main__library {
+  max-width: 490px;
+  width: 480px;
+}
+
 /**
  * Trip
  */
