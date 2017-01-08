@@ -25,8 +25,11 @@ const Main = function( props ) {
   const noop = () => null;
   return (
     <div className="main">
+      <div className="main__header">
       { props.trip.length > 1 && <Distance /> }
       { ( props.trip.length > 0 || props.isShowingTrip ) && <TripSummary trip={ props.trip } clearTrip={ props.clearTrip } showTrip={ props.showTrip } hideTrip={ props.hideTrip } isShowingTrip={ props.isShowingTrip } /> }
+      </div>
+      <div className="main__library">
       { ! props.isShowingTrip && <MainQuestion trip={ props.trip } /> }
       { ! props.isShowingTrip && <LocationSearch onChange={ props.searchLocationsAndAddressFor } /> }
       { ! props.isShowingTrip && <Library
@@ -40,6 +43,7 @@ const Main = function( props ) {
         selectedLocation={ props.selectedLocation }
         lastTripLocationId={ lastTripLocationId }
         /> }
+      </div>
       { <Trip
         isVisible={ props.isShowingTrip }
         tripLocations={ props.trip }

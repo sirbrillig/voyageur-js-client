@@ -85,11 +85,6 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image {
 /**
  * LoggedIn
  */
-.LoggedIn {
-  max-width: 500px;
-  margin: auto;
-}
-
 .logged-in__error {
   padding: 100px 0;
 }
@@ -349,16 +344,35 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image {
   }
 }
 
+.main {
+  display: flex;
+  justify-content: space-around;
+  flex-flow: row wrap;
+}
+
+.main__header {
+  flex: 1;
+  flex-basis: 100%;
+}
+
 /**
  * Trip
  */
 .trip {
   margin: 5px;
+  max-width: 500px;
+  flex: 1;
   display: none;
 }
 
 .trip--visible {
   display: block;
+}
+
+@media( min-width: 1000px ) {
+  .trip {
+    display: block;
+  }
 }
 
 .trip--droppable:before {

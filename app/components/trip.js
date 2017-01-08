@@ -27,6 +27,7 @@ const Trip = React.createClass( {
 
   renderTripLocations() {
     if ( this.props.tripLocations.length > 0 ) return <ul>{ this.props.tripLocations.map( this.renderTripLocation ) }</ul>;
+    return <span>No locations in trip</span>;
   },
 
   renderTripLocation( tripLocation, index ) {
@@ -45,6 +46,7 @@ const Trip = React.createClass( {
     const tripClassNames = classNames( 'trip', { 'trip--droppable': this.props.isOver, 'trip--visible': this.props.isVisible } );
     return this.props.connectDropTarget(
       <div className={ tripClassNames }>
+        <h2>Current trip</h2>
         { this.renderMap() }
         { this.renderTripLocations() }
       </div>
