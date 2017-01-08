@@ -29,12 +29,6 @@ const Main = function( props ) {
       { ( props.trip.length > 0 || props.isShowingTrip ) && <TripSummary trip={ props.trip } clearTrip={ props.clearTrip } showTrip={ props.showTrip } hideTrip={ props.hideTrip } isShowingTrip={ props.isShowingTrip } /> }
       { ! props.isShowingTrip && <MainQuestion trip={ props.trip } /> }
       { ! props.isShowingTrip && <LocationSearch onChange={ props.searchLocationsAndAddressFor } /> }
-      { props.isShowingTrip && <Trip
-        tripLocations={ props.trip }
-        library={ props.library }
-        onRemoveTripLocation={ props.removeTripLocation }
-        onDrop={ noop }
-        /> }
       { ! props.isShowingTrip && <Library
         locations={ props.library }
         visibleLocations={ props.visibleLocations }
@@ -45,6 +39,13 @@ const Main = function( props ) {
         onDrop={ props.moveLibraryLocation }
         selectedLocation={ props.selectedLocation }
         lastTripLocationId={ lastTripLocationId }
+        /> }
+      { <Trip
+        isVisible={ props.isShowingTrip }
+        tripLocations={ props.trip }
+        library={ props.library }
+        onRemoveTripLocation={ props.removeTripLocation }
+        onDrop={ noop }
         /> }
     </div>
   );

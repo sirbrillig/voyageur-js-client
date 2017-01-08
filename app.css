@@ -354,6 +354,11 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image {
  */
 .trip {
   margin: 5px;
+  display: none;
+}
+
+.trip--visible {
+  display: block;
 }
 
 .trip--droppable:before {
