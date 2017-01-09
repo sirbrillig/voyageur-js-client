@@ -406,7 +406,6 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 25px;
 }
 
 .trip-location__loading {
@@ -443,12 +442,12 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image {
   white-space: normal;
 }
 
-.TripSummary button {
+.trip-buttons button {
   margin: 0.5em;
 }
 
 @media( min-width: 1000px ) {
-  .TripSummary__toggle {
+  .trip-buttons__toggle {
     display: none;
   }
 }

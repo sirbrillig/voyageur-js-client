@@ -20,40 +20,48 @@ import {
   removeTripLocation,
 } from 'lib/actions/trip';
 
-const Main = function( props ) {
-  const lastTripLocationId = ( props.trip.length > 0 ? props.trip[ props.trip.length - 1 ].id : null );
-  const noop = () => null;
-  return (
-    <div className="main">
-      <div className="main__header">
-      { props.trip.length > 1 && <Distance /> }
-      { ( props.trip.length > 0 || props.isShowingTrip ) && <TripSummary trip={ props.trip } clearTrip={ props.clearTrip } showTrip={ props.showTrip } hideTrip={ props.hideTrip } isShowingTrip={ props.isShowingTrip } /> }
+class Main extends React.Component {
+  componentWillReceiveProps( nextProps ) {
+    // Hide trip if empty
+    if ( nextProps.isShowingTrip && nextProps.trip.length < 1 ) this.props.hideTrip();
+  }
+
+  render() {
+    const props = this.props;
+    const lastTripLocationId = ( props.trip.length > 0 ? props.trip[ props.trip.length - 1 ].id : null );
+    const noop = () => null;
+    return (
+      <div className="main">
+        <div className="main__header">
+          { props.trip.length > 1 && <Distance /> }
+          <TripSummary trip={ props.trip } clearTrip={ props.clearTrip } showTrip={ props.showTrip } hideTrip={ props.hideTrip } isShowingTrip={ props.isShowingTrip } />
+        </div>
+        <div className="main__library">
+          { ! props.isShowingTrip && <MainQuestion trip={ props.trip } /> }
+          { ! props.isShowingTrip && <LocationSearch onChange={ props.searchLocationsAndAddressFor } /> }
+          { ! props.isShowingTrip && <Library
+            locations={ props.library }
+            visibleLocations={ props.visibleLocations }
+            predictions={ props.predictions }
+            onAddToTrip={ props.addToTrip }
+            onEditLocation={ props.startEditLocation }
+            onAddLocation={ props.showAddLocation }
+            onDrop={ props.moveLibraryLocation }
+            selectedLocation={ props.selectedLocation }
+            lastTripLocationId={ lastTripLocationId }
+            /> }
+        </div>
+        { <Trip
+          isVisible={ props.isShowingTrip }
+          tripLocations={ props.trip }
+          library={ props.library }
+          onRemoveTripLocation={ props.removeTripLocation }
+          onDrop={ noop }
+          /> }
       </div>
-      <div className="main__library">
-      { ! props.isShowingTrip && <MainQuestion trip={ props.trip } /> }
-      { ! props.isShowingTrip && <LocationSearch onChange={ props.searchLocationsAndAddressFor } /> }
-      { ! props.isShowingTrip && <Library
-        locations={ props.library }
-        visibleLocations={ props.visibleLocations }
-        predictions={ props.predictions }
-        onAddToTrip={ props.addToTrip }
-        onEditLocation={ props.startEditLocation }
-        onAddLocation={ props.showAddLocation }
-        onDrop={ props.moveLibraryLocation }
-        selectedLocation={ props.selectedLocation }
-        lastTripLocationId={ lastTripLocationId }
-        /> }
-      </div>
-      { <Trip
-        isVisible={ props.isShowingTrip }
-        tripLocations={ props.trip }
-        library={ props.library }
-        onRemoveTripLocation={ props.removeTripLocation }
-        onDrop={ noop }
-        /> }
-    </div>
-  );
-};
+    );
+  }
+}
 
 function mapStateToProps( state ) {
   return {
