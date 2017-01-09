@@ -57,7 +57,7 @@ const LibraryLocation = React.createClass( {
             { this.renderControls() }
           </div>
         </div>
-        <button disabled={ this.props.isDisabled } className="btn btn-primary btn-block library-location__add" onClick={ addToTrip }>Add <span className="glyphicon glyphicon-arrow-right" /></button>
+        <button disabled={ this.props.isDisabled } className="btn btn-primary btn-block library-location__add" onClick={ addToTrip }>Add to trip <span className="glyphicon glyphicon-arrow-right" /></button>
       </li>
     ) );
   }
