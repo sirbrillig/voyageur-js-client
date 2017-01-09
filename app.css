@@ -14,20 +14,6 @@ ul {
   padding: 0;
 }
 
-body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image {
-  margin-top: auto;
-}
-
-.help-box {
-  padding: 30px;
-  animation-delay: 1.0s;
-}
-
-.help-box .glyphicon {
-  animation-delay: 3s;
-  animation-iteration-count: 6;
-}
-
 /**
  * LogInBox
  */
@@ -479,17 +465,6 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image {
 }
 
 /**
- * Import
- */
-.import {}
-
-.import__text {
-}
-
-.import__text__label {
-}
-
-/**
  * LoadingPanel
  */
 .loading-panel {
@@ -504,9 +479,6 @@ body #a0-lock.a0-theme-default .a0-panel .a0-icon-container .a0-image {
   justify-content: center;
   align-items: center;
   background-image: url( 'assets/map-full.jpeg' );
-}
-
-.loading-panel__content {
 }
 
 .loading-panel__logo {

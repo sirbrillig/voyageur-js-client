@@ -6,7 +6,7 @@ import Header from 'components/header';
 
 const Footer = () => <div className="footer">Made by <a href="http://foolord.com/">Payton</a>. Code on <a href="https://github.com/sirbrillig/voyageur-js-client">GitHub</a>. Logo&nbsp;by&nbsp;<a href="http://colemcdermott.co/">Cole</a>.</div>;
 
-const LoggedIn = React.createClass( {
+const Layout = React.createClass( {
   propTypes: {
     isAdmin: React.PropTypes.bool,
     notices: React.PropTypes.object,
@@ -32,7 +32,7 @@ const LoggedIn = React.createClass( {
 
   render() {
     return (
-      <div className="logged-in">
+      <div className="layout">
         <Header errors={ this.props.notices.errors } onClearNotices={ this.onClearNotices } onLogOut={ this.onLogOut } isAdmin={ this.props.isAdmin } />
           { this.renderMain() }
         <Footer />
@@ -49,5 +49,5 @@ function mapStateToProps( state ) {
   };
 }
 
-export default connect( mapStateToProps, { logOut, clearNotices } )( LoggedIn );
+export default connect( mapStateToProps, { logOut, clearNotices } )( Layout );
 
