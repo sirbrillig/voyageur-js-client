@@ -85,4 +85,5 @@ function mapStateToProps( state ) {
   };
 }
 
+export { Distance };
 export default connect( mapStateToProps, { fetchDistanceBetween, changeUnits } )( Distance );
