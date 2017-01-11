@@ -43,7 +43,7 @@ const Distance = React.createClass( {
     const clickMiles = () => this.props.changeUnits( 'miles' );
     const clickKm = () => this.props.changeUnits( 'km' );
     return (
-      <span className="btn-group btn-group-xs" data-toggle="buttons">
+      <span className="distance__buttons btn-group btn-group-xs" data-toggle="buttons">
         <label className={ milesClassNames }>
           <input type="radio" name="scale" id="scale-miles" checked={ this.props.useMiles } onChange={ clickMiles } />Miles
         </label>
