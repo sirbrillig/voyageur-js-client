@@ -5,39 +5,24 @@ import { getAddressesForTrip } from 'lib/selectors';
 import { getAddressPairs, sumUnlessNull, getCachedDistanceForPair } from 'lib/helpers';
 import { fetchDistanceBetween, changeUnits } from 'lib/actions/trip';
 
-const Distance = React.createClass( {
-  propTypes: {
-    addresses: React.PropTypes.array.isRequired,
-    cachedDistances: React.PropTypes.object,
-    fetchDistanceBetween: React.PropTypes.func.isRequired,
-    useMiles: React.PropTypes.bool,
-    changeUnits: React.PropTypes.func.isRequired,
-  },
-
-  getDefaultProps() {
-    return {
-      useMiles: true,
-      cachedDistances: {},
-    };
-  },
-
+class Distance extends React.Component {
   render() {
     return <div className="distance">{ this.getDistanceText() } { this.renderButtons() }</div>;
-  },
+  }
 
   shouldComponentUpdate( nextProps ) {
     // If the cache has not changed, and we re-render, we will repeat fetching data
     return ( nextProps !== this.props );
-  },
+  }
 
-  getDistanceText() {
+  getDistanceText = () => {
     const meters = this.getDistanceFor( this.props.addresses, this.props.cachedDistances );
     if ( meters === null ) return 'Loading...';
     if ( this.props.useMiles ) return 'Your trip is ' + ( meters * 0.000621371192 ).toFixed( 1 ) + ' miles';
     return 'Your trip is ' + ( meters / 1000 ).toFixed( 1 ) + ' km';
-  },
+  }
 
-  renderButtons() {
+  renderButtons = () => {
     const milesClassNames = classNames( 'btn btn-primary', { active: this.props.useMiles } );
     const kmClassNames = classNames( 'btn btn-primary', { active: ! this.props.useMiles } );
     const clickMiles = () => this.props.changeUnits( 'miles' );
@@ -52,9 +37,9 @@ const Distance = React.createClass( {
         </label>
       </span>
     );
-  },
+  }
 
-  getDistanceFor( addresses, cachedDistances ) {
+  getDistanceFor = ( addresses, cachedDistances ) => {
     if ( ! addresses.length ) return 0;
     const pairsWithDistance = getAddressPairs( addresses )
       .map( pair => ( { ...pair, distance: getCachedDistanceForPair( pair, cachedDistances ) } ) );
@@ -67,8 +52,21 @@ const Distance = React.createClass( {
     return pairsWithDistance
       .map( pair => pair.distance )
       .reduce( sumUnlessNull, 0 );
-  },
-} );
+  }
+}
+
+Distance.propTypes = {
+  addresses: React.PropTypes.array.isRequired,
+  cachedDistances: React.PropTypes.object,
+  fetchDistanceBetween: React.PropTypes.func.isRequired,
+  useMiles: React.PropTypes.bool,
+  changeUnits: React.PropTypes.func.isRequired,
+};
+
+Distance.defaultProps = {
+  useMiles: true,
+  cachedDistances: {},
+};
 
 function mapStateToProps( state ) {
   return {
