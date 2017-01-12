@@ -56,24 +56,30 @@ const Distance = React.createClass( {
 
   getDistanceFor( addresses, cachedDistances ) {
     if ( ! addresses.length ) return 0;
-    const getCachedDistanceForPair = ( pair ) => cachedDistances[ getKeyForAddresses( pair.start, pair.dest ) ];
-    // split the trip into pairs
+
+    const isCacheExpired = cache => {
+      const maxDistanceAge = 7 * 24 * 60 * 60 * 1000;
+      const now = Date.now();
+      return ( ( now - cache.lastUpdatedAt || 0 ) > maxDistanceAge );
+    };
+    const getCachedDistanceForPair = pair => {
+      const cached = cachedDistances[ getKeyForAddresses( pair.start, pair.dest ) ];
+      if ( ! cached || isCacheExpired( cached ) ) return null;
+      return cached.distance;
+    };
+
     const addrPairs = getAddressPairs( addresses );
-    // find cached pairs
-    const cached = addrPairs.filter( getCachedDistanceForPair );
-    // find uncached pairs
-    const uncached = addrPairs.filter( pair => ! getCachedDistanceForPair( pair ) );
-    // find expired pairs
-    const maxDistanceAge = 7 * 24 * 60 * 60 * 1000;
-    const now = Date.now();
-    const expired = cached.filter( pair => ( now - getCachedDistanceForPair( pair ).lastUpdatedAt || 0 ) > maxDistanceAge );
-    // if there are any expired or uncached pairs, fetch distance for each one and return null
-    if ( uncached.length || expired.length ) {
-      uncached.concat( expired ).map( pair => this.props.fetchDistanceBetween( pair.start, pair.dest ) );
-      return null;
-    }
-    // return sum of all cached distances
-    return cached.reduce( ( prev, pair ) => prev + getCachedDistanceForPair( pair ).distance, 0 );
+    const pairsWithDistance = addrPairs.map( pair => ( { ...pair, distance: getCachedDistanceForPair( pair ) } ) );
+    pairsWithDistance.filter( pair => ! pair.distance )
+      .map( pair => this.props.fetchDistanceBetween( pair.start, pair.dest ) );
+
+    const sumUnlessNull = ( a, b ) => {
+      if ( a === null || b === null ) return null;
+      return a + b;
+    };
+
+    return pairsWithDistance.map( pair => pair.distance )
+      .reduce( sumUnlessNull, 0 );
   },
 } );
 
