@@ -62,3 +62,21 @@ export function getNameForTripLocation( tripLocation, locations ) {
   const getNameByLocationId = id => ( getLocationById( id ) || {} ).name;
   return getNameByLocationId( tripLocation.id );
 }
+
+export function sumUnlessNull( a, b ) {
+  if ( a === null || b === null ) return null;
+  return a + b;
+}
+
+export function isCacheExpired( cache ) {
+  const maxDistanceAge = 7 * 24 * 60 * 60 * 1000;
+  const now = Date.now();
+  return ( ( now - cache.lastUpdatedAt || 0 ) > maxDistanceAge );
+}
+
+export function getCachedDistanceForPair( pair, cachedDistances ) {
+  const cached = cachedDistances[ getKeyForAddresses( pair.start, pair.dest ) ];
+  if ( ! cached || isCacheExpired( cached ) ) return null;
+  return cached.distance;
+}
+

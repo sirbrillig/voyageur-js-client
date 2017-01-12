@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { getAddressesForTrip } from 'lib/selectors';
-import { getAddressPairs, getKeyForAddresses } from 'lib/helpers';
+import { getAddressPairs, sumUnlessNull, getCachedDistanceForPair } from 'lib/helpers';
 import { fetchDistanceBetween, changeUnits } from 'lib/actions/trip';
 
 const Distance = React.createClass( {
@@ -56,29 +56,16 @@ const Distance = React.createClass( {
 
   getDistanceFor( addresses, cachedDistances ) {
     if ( ! addresses.length ) return 0;
+    const pairsWithDistance = getAddressPairs( addresses )
+      .map( pair => ( { ...pair, distance: getCachedDistanceForPair( pair, cachedDistances ) } ) );
 
-    const isCacheExpired = cache => {
-      const maxDistanceAge = 7 * 24 * 60 * 60 * 1000;
-      const now = Date.now();
-      return ( ( now - cache.lastUpdatedAt || 0 ) > maxDistanceAge );
-    };
-    const getCachedDistanceForPair = pair => {
-      const cached = cachedDistances[ getKeyForAddresses( pair.start, pair.dest ) ];
-      if ( ! cached || isCacheExpired( cached ) ) return null;
-      return cached.distance;
-    };
-
-    const addrPairs = getAddressPairs( addresses );
-    const pairsWithDistance = addrPairs.map( pair => ( { ...pair, distance: getCachedDistanceForPair( pair ) } ) );
-    pairsWithDistance.filter( pair => ! pair.distance )
+    // Fetch uncached or expired distances
+    pairsWithDistance
+      .filter( pair => ! pair.distance )
       .map( pair => this.props.fetchDistanceBetween( pair.start, pair.dest ) );
 
-    const sumUnlessNull = ( a, b ) => {
-      if ( a === null || b === null ) return null;
-      return a + b;
-    };
-
-    return pairsWithDistance.map( pair => pair.distance )
+    return pairsWithDistance
+      .map( pair => pair.distance )
       .reduce( sumUnlessNull, 0 );
   },
 } );
