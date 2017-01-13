@@ -1,10 +1,11 @@
 import { browserHistory } from 'react-router';
-import Auth0Lock from 'auth0-lock';
 import { gotError } from 'lib/actions/general';
 import authVars from 'auth0-variables';
 import debugFactory from 'debug';
 
 const debug = debugFactory( 'voyageur:actions' );
+
+const Auth0Lock = window.Auth0Lock;
 
 function removeTokenFromUrl() {
   if ( ! window ) return;
