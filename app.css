@@ -325,6 +325,10 @@ ul {
   flex-basis: 100%;
 }
 
+.main__clear-trip {
+  width: 100%;
+}
+
 .main__library {
   max-width: 490px;
   width: 480px;
@@ -416,11 +420,11 @@ ul {
 }
 
 .distance {
-  margin: 0.5em 0;
+  flex: 1;
   font-weight: 600;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
-  font-size: 2rem;
+  font-size: 1.6rem;
 }
 
 .trip-distance-help {
@@ -498,4 +502,23 @@ ul {
 .loading-panel-leave-active {
   top: -100vh;
   transition: all 500ms;
+}
+
+.header-summary {
+  width: 100%;
+  display: flex;
+  margin: 0.5em 0;
+}
+
+.header-logo {
+  width: 40px;
+}
+
+.trip-count {
+  border-radius: 100%;
+  width: 40px;
+  height: 40px;
+  margin-left: auto;
+  background-color: #6b9ccd;
+  color: #fff;
 }

@@ -7,7 +7,7 @@ import { fetchDistanceBetween, changeUnits } from 'lib/actions/trip';
 
 class Distance extends React.Component {
   render() {
-    return <div className="distance">{ this.getDistanceText() } { this.renderButtons() }</div>;
+    return <div className="distance"><div>Distance:</div> { this.getDistanceText() } { this.renderButtons() }</div>;
   }
 
   shouldComponentUpdate( nextProps ) {
@@ -18,8 +18,8 @@ class Distance extends React.Component {
   getDistanceText = () => {
     const meters = this.getDistanceFor( this.props.addresses, this.props.cachedDistances );
     if ( meters === null ) return 'Loading...';
-    if ( this.props.useMiles ) return 'Your trip is ' + ( meters * 0.000621371192 ).toFixed( 1 ) + ' miles';
-    return 'Your trip is ' + ( meters / 1000 ).toFixed( 1 ) + ' km';
+    if ( this.props.useMiles ) return ( meters * 0.000621371192 ).toFixed( 1 ) + ' miles';
+    return ( meters / 1000 ).toFixed( 1 ) + ' km';
   }
 
   renderButtons = () => {

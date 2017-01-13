@@ -1,9 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Distance from 'components/distance';
 import Library from 'components/library';
 import Trip from 'components/trip';
-import TripSummary from 'components/trip-summary';
 import MainQuestion from 'components/main-question';
 import LocationSearch from 'components/location-search';
 import {
@@ -33,8 +31,7 @@ class Main extends React.Component {
     return (
       <div className="main">
         <div className="main__header">
-          { props.trip.length > 1 && <Distance /> }
-          <TripSummary trip={ props.trip } clearTrip={ props.clearTrip } showTrip={ props.showTrip } hideTrip={ props.hideTrip } isShowingTrip={ props.isShowingTrip } />
+          <button className="btn btn-sm btn-primary main__clear-trip" onClick={ props.clearTrip }>Clear trip</button>
         </div>
         <div className="main__library">
           { ! props.isShowingTrip && <MainQuestion trip={ props.trip } /> }
