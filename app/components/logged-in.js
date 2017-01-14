@@ -112,7 +112,7 @@ const LoggedIn = React.createClass( {
   },
 
   renderEditLocationForm() {
-    if ( this.props.editingLocation ) return <EditLocationForm key="edit-location-form" location={ this.props.editingLocation } onSaveLocation={ this.props.saveLocation } onCancelEditLocation={ this.props.hideEditLocation } onDeleteLocation={ this.deleteLocation } />;
+    if ( this.props.editingLocation ) return <EditLocationForm key="edit-location-form" location={ this.props.editingLocation } onSaveLocation={ this.props.saveLocation } onCancelEditLocation={ this.props.hideEditLocation } onDeleteLocation={ this.props.deleteLocation } />;
   },
 
   renderAddLocationForm() {
