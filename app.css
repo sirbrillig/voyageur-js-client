@@ -3,6 +3,7 @@ body {
   text-align: center;
   font-size: 16px;
   font-weight: 100;
+  background-color: #F6F7EB;
 }
 h1,
 h2,
@@ -12,6 +13,20 @@ h3 {
 
 ul {
   padding: 0;
+}
+
+.btn-primary {
+  background-color: #59cd90;
+  border-color: #53bd85;
+  color: #EBF5EE;
+}
+
+.btn-primary:hover,
+.btn-primary.active:hover,
+.btn-primary.active {
+  background-color: #53bd85;
+  border-color: #393d3f;
+  color: #EBF5EE;
 }
 
 /**
@@ -196,10 +211,12 @@ ul {
   min-height: 75px;
   overflow: hidden;
   padding: 0;
+  background-color: inherit;
+  box-shadow: none;
 }
 
 .library-location--selected {
-  border: 2px solid #03BD4F;
+  border: 2px solid #59cd90;
 }
 
 .library-location--droppable {
@@ -521,12 +538,12 @@ ul {
 
 .header-summary {
   margin: 0px -15px;
-  background-color: #f5f5f5;
+  background-color: #393D3F;
   display: flex;
-  border-bottom: 1px solid #ddd;
   padding: 0.5em;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 0px 1px 10px 3px rgba(0, 0, 0, 0.2);
 }
 
 .header-logo {
@@ -540,17 +557,17 @@ ul {
 }
 
 .log-out-button {
-  border-radius: 10px;
+  border-radius: 50%;
   width: 50px;
   height: 50px;
-  background-color: #444445;
-  color: #fff;
+  background-color: #6b9ccd;
+  color: #EBF5EE;
   font-size: 1rem;
   padding: 0;
 }
 
 .trip-count {
-  border-radius: 10px;
+  border-radius: 50%;
   width: 50px;
   height: 50px;
   background-color: #6b9ccd;

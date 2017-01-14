@@ -14,7 +14,7 @@ const TripCount = ( props ) => {
 const HeaderSummary = ( props ) => {
   return (
     <div className="header-summary">
-      <button className="btn btn-default log-out-button" onClick={ props.logOut }>Log out</button>
+      <button className="btn log-out-button" onClick={ props.logOut }>Log out</button>
       <HeaderLogo />
       <TripCount isShowingTrip={ props.isShowingTrip } hideTrip={ props.hideTrip } showTrip={ props.showTrip } trip={ props.trip } />
     </div>
