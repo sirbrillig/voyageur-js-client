@@ -7,7 +7,7 @@ import { fetchDistanceBetween, changeUnits } from 'lib/actions/trip';
 
 class Distance extends React.Component {
   render() {
-    return <div className="distance"><div>Distance:</div> { this.getDistanceText() } { this.renderButtons() }</div>;
+    return <div className="distance">Distance: { this.getDistanceText() } { this.renderButtons() }</div>;
   }
 
   shouldComponentUpdate( nextProps ) {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Library from 'components/library';
+import Distance from 'components/distance';
 import Trip from 'components/trip';
 import MainQuestion from 'components/main-question';
 import LocationSearch from 'components/location-search';
@@ -31,6 +32,7 @@ class Main extends React.Component {
     return (
       <div className="main">
         <div className="main__header">
+          <Distance />
           <button className="btn btn-sm btn-primary main__clear-trip" onClick={ props.clearTrip }>Clear trip</button>
         </div>
         <div className="main__library">
@@ -53,6 +55,7 @@ class Main extends React.Component {
           tripLocations={ props.trip }
           library={ props.library }
           onRemoveTripLocation={ props.removeTripLocation }
+          clearTrip={ props.clearTrip }
           onDrop={ noop }
           /> }
       </div>

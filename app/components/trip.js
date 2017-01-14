@@ -13,6 +13,7 @@ const Trip = React.createClass( {
     onDrop: React.PropTypes.func.isRequired,
     library: React.PropTypes.array,
     connectDropTarget: React.PropTypes.func.isRequired,
+    clearTrip: React.PropTypes.func.isRequired,
     isOver: React.PropTypes.bool,
   },
 
@@ -27,7 +28,7 @@ const Trip = React.createClass( {
 
   renderTripLocations() {
     if ( this.props.tripLocations.length > 0 ) return <ul>{ this.props.tripLocations.map( this.renderTripLocation ) }</ul>;
-    return <span>No locations in trip</span>;
+    return <span className="trip__empty-notice">No locations in trip</span>;
   },
 
   renderTripLocation( tripLocation, index ) {
@@ -46,7 +47,7 @@ const Trip = React.createClass( {
     const tripClassNames = classNames( 'trip', { 'trip--droppable': this.props.isOver, 'trip--visible': this.props.isVisible } );
     return this.props.connectDropTarget(
       <div className={ tripClassNames }>
-        <h2>Current trip</h2>
+        <button className="btn btn-sm btn-primary trip__clear-trip" onClick={ this.props.clearTrip }>Clear trip</button>
         { this.renderMap() }
         { this.renderTripLocations() }
       </div>

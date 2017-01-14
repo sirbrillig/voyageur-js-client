@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { clearNotices } from 'lib/actions/general';
-import { logOut } from 'lib/actions/auth';
 import HeaderSummary from 'components/header-summary';
 
 const Footer = () => <div className="footer">Made&nbsp;by&nbsp;<a href="http://foolord.com/">Payton</a>. Code&nbsp;on&nbsp;<a href="https://github.com/sirbrillig/voyageur-js-client">GitHub</a>. Logo&nbsp;by&nbsp;<a href="http://colemcdermott.co/">Cole</a>.</div>;
@@ -18,7 +17,6 @@ Layout.propTypes = {
   isAdmin: React.PropTypes.bool,
   notices: React.PropTypes.object,
   clearNotices: React.PropTypes.func.isRequired,
-  logOut: React.PropTypes.func.isRequired,
 };
 
 function mapStateToProps( state ) {
@@ -29,5 +27,5 @@ function mapStateToProps( state ) {
   };
 }
 
-export default connect( mapStateToProps, { logOut, clearNotices } )( Layout );
+export default connect( mapStateToProps, { clearNotices } )( Layout );
 
