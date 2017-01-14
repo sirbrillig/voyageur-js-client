@@ -28,9 +28,6 @@ ul {
   background-image: url( 'assets/map-full.jpeg' );
 }
 
-.log-in-box__logo {
-}
-
 .log-in-box__title {
   display: none;
 }
@@ -523,15 +520,23 @@ ul {
 }
 
 .header-summary {
-  width: 100%;
+  margin: 0px -15px;
+  background-color: #f5f5f5;
   display: flex;
   border-bottom: 1px solid #ddd;
   padding: 0.5em;
   justify-content: space-between;
+  align-items: center;
 }
 
 .header-logo {
   width: 50px;
+}
+
+@media  ( min-width: 1000px ) {
+  .header-logo {
+    width: 70px;
+  }
 }
 
 .log-out-button {
