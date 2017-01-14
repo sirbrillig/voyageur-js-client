@@ -15,9 +15,7 @@ ul {
   padding: 0;
 }
 
-.btn-primary.active.focus, .btn-primary.active:focus, .btn-primary.active:hover, .btn-primary:active.focus, .btn-primary:active:focus, .btn-primary:active:hover,
-.btn-primary:hover, .btn-primary.active, .btn-primary:active,
-.btn-primary {
+.btn-primary:focus, .btn-primary.active.focus, .btn-primary.active:focus, .btn-primary.active:hover, .btn-primary:active.focus, .btn-primary:active:focus, .btn-primary:active:hover, .btn-primary:hover, .btn-primary.active, .btn-primary:active, .btn-primary {
   background-color: #59cd90;
   border-color: #53bd85;
   color: #EBF5EE;
@@ -570,7 +568,11 @@ ul {
   width: 50px;
   height: 50px;
   background-color: #6b9ccd;
-  color: #fff;
+  color: #EBF5EE;
+}
+
+.trip-count:hover {
+  color: #EBF5EE;
 }
 
 @media( min-width: 1000px ) {
