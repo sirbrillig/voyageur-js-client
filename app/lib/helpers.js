@@ -42,6 +42,7 @@ export function getKeyForAddresses( start, dest ) {
 export function getAddressPairs( addrs ) {
   return addrs.reduce( ( pairs, start, index ) => {
     const dest = addrs[ index + 1 ];
+    if ( start === dest ) return pairs;
     return dest ? pairs.concat( { start, dest } ) : pairs;
   }, [] );
 }

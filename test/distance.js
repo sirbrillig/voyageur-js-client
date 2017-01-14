@@ -30,13 +30,26 @@ describe( '<Distance />', function() {
     expect( wrapper.text() ).to.contain( ' 0.0 km' );
   } );
 
+  it( 'renders a 0 distance with two duplicate addresses', function() {
+    const now = Date.now();
+    const addresses = [ '123 Home Drive, Chicago, IL, USA', '123 Home Drive, Chicago, IL, USA' ];
+    const cachedDistances = {
+      [ getKeyForAddresses( addresses[ 0 ], addresses[ 1 ] ) ]: { distance: 5000, lastUpdatedAt: now },
+      [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt: now },
+      [ getKeyForAddresses( addresses[ 1 ], 'foo' ) ]: { distance: 2000, lastUpdatedAt: now },
+    };
+    const component = React.createElement( Distance, { ...defaultProps, addresses, cachedDistances } );
+    const wrapper = shallow( component );
+    expect( wrapper.text() ).to.contain( ' 0.0 km' );
+  } );
+
   it( 'renders a total distance with two addresses and cached distances', function() {
     const now = Date.now();
     const addresses = [ '123 Home Drive, Chicago, IL, USA', '321 State Street, Chicago, IL, USA' ];
     const cachedDistances = {
       [ getKeyForAddresses( addresses[ 0 ], addresses[ 1 ] ) ]: { distance: 5000, lastUpdatedAt: now },
       [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt: now },
-      [ getKeyForAddresses( addresses[ 1 ], addresses[ 3 ] ) ]: { distance: 2000, lastUpdatedAt: now },
+      [ getKeyForAddresses( addresses[ 1 ], 'foo' ) ]: { distance: 2000, lastUpdatedAt: now },
     };
     const component = React.createElement( Distance, { ...defaultProps, addresses, cachedDistances } );
     const wrapper = shallow( component );
@@ -49,16 +62,42 @@ describe( '<Distance />', function() {
     const cachedDistances = {
       [ getKeyForAddresses( addresses[ 0 ], addresses[ 1 ] ) ]: { distance: 5000, lastUpdatedAt: now },
       [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt: now },
-      [ getKeyForAddresses( addresses[ 1 ], addresses[ 3 ] ) ]: { distance: 2000, lastUpdatedAt: now },
+      [ getKeyForAddresses( addresses[ 0 ], addresses[ 2 ] ) ]: { distance: 2000, lastUpdatedAt: now },
     };
     const component = React.createElement( Distance, { ...defaultProps, addresses, cachedDistances } );
     const wrapper = shallow( component );
     expect( wrapper.text() ).to.contain( ' 8.0 km' );
   } );
 
+  it( 'renders a total distance ignoring duplicate adjacent addresses', function() {
+    const now = Date.now();
+    const addresses = [ '123 Home Drive, Chicago, IL, USA', '123 Home Drive, Chicago, IL, USA', '345 Main Street, Chicago, IL, USA' ];
+    const cachedDistances = {
+      [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt: now },
+      [ getKeyForAddresses( addresses[ 0 ], 'foo' ) ]: { distance: 2000, lastUpdatedAt: now },
+    };
+    const component = React.createElement( Distance, { ...defaultProps, addresses, cachedDistances } );
+    const wrapper = shallow( component );
+    expect( wrapper.text() ).to.contain( ' 3.0 km' );
+  } );
+
   it( 'renders a total distance with four addresses and cached distances', function() {
     const now = Date.now();
     const addresses = [ '123 Home Drive, Chicago, IL, USA', '321 State Street, Chicago, IL, USA', '345 Main Street, Chicago, IL, USA', '10 Short Street, Chicago, IL, USA' ];
+    const cachedDistances = {
+      [ getKeyForAddresses( addresses[ 0 ], addresses[ 1 ] ) ]: { distance: 5000, lastUpdatedAt: now },
+      [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt: now },
+      [ getKeyForAddresses( addresses[ 2 ], addresses[ 3 ] ) ]: { distance: 1000, lastUpdatedAt: now },
+      [ getKeyForAddresses( addresses[ 1 ], addresses[ 3 ] ) ]: { distance: 2000, lastUpdatedAt: now },
+    };
+    const component = React.createElement( Distance, { ...defaultProps, addresses, cachedDistances } );
+    const wrapper = shallow( component );
+    expect( wrapper.text() ).to.contain( ' 9.0 km' );
+  } );
+
+  it( 'renders a total distance with four addresses including one repeated address', function() {
+    const now = Date.now();
+    const addresses = [ '123 Home Drive, Chicago, IL, USA', '321 State Street, Chicago, IL, USA', '345 Main Street, Chicago, IL, USA', '123 Home Drive, Chicago, IL, USA' ];
     const cachedDistances = {
       [ getKeyForAddresses( addresses[ 0 ], addresses[ 1 ] ) ]: { distance: 5000, lastUpdatedAt: now },
       [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt: now },
@@ -109,12 +148,21 @@ describe( '<Distance />', function() {
     expect( fetchDistanceBetween ).to.not.have.been.called;
   } );
 
+  it( 'does not fetch distance with duplicate addresses', function() {
+    const addresses = [ '123 Home Drive, Chicago, IL, USA', '123 Home Drive, Chicago, IL, USA' ];
+    const cachedDistances = {};
+    const fetchDistanceBetween = sinon.spy();
+    const component = React.createElement( Distance, { ...defaultProps, addresses, cachedDistances, fetchDistanceBetween } );
+    shallow( component );
+    expect( fetchDistanceBetween ).to.not.have.been.called;
+  } );
+
   it( 'fetches each uncached distance if there is an uncached distance needed', function() {
     const now = Date.now();
     const addresses = [ '123 Home Drive, Chicago, IL, USA', '321 State Street, Chicago, IL, USA', '345 Main Street, Chicago, IL, USA' ];
     const cachedDistances = {
       [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt: now },
-      [ getKeyForAddresses( addresses[ 1 ], addresses[ 3 ] ) ]: { distance: 2000, lastUpdatedAt: now },
+      [ getKeyForAddresses( addresses[ 1 ], 'foo' ) ]: { distance: 2000, lastUpdatedAt: now },
     };
     const fetchDistanceBetween = sinon.spy();
     const component = React.createElement( Distance, { ...defaultProps, addresses, cachedDistances, fetchDistanceBetween } );
@@ -129,7 +177,7 @@ describe( '<Distance />', function() {
     const cachedDistances = {
       [ getKeyForAddresses( addresses[ 0 ], addresses[ 1 ] ) ]: { distance: 5000, lastUpdatedAt: now - maxDistanceAge - 10 },
       [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt: now },
-      [ getKeyForAddresses( addresses[ 1 ], addresses[ 3 ] ) ]: { distance: 2000, lastUpdatedAt: now },
+      [ getKeyForAddresses( addresses[ 1 ], 'foo' ) ]: { distance: 2000, lastUpdatedAt: now },
     };
     const fetchDistanceBetween = sinon.spy();
     const component = React.createElement( Distance, { ...defaultProps, addresses, cachedDistances, fetchDistanceBetween } );
