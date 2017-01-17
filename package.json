@@ -74,6 +74,7 @@
     "babel-preset-react": "^6.3.13",
     "babel-register": "^6.18.0",
     "chai": "^3.5.0",
+    "chai-enzyme": "^0.6.1",
     "enzyme": "^2.7.0",
     "eslint": "^3.12.2",
     "eslint-config-wpcalypso": "^0.6.0",

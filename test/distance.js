@@ -2,11 +2,14 @@ import React from 'react';
 import chai from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
+import chaiEnzyme from 'chai-enzyme';
 import { shallow } from 'enzyme';
 import { Distance } from 'components/distance';
 import { getKeyForAddresses } from 'lib/helpers';
+import DistanceNumber from 'components/distance-number';
 
 chai.use( sinonChai );
+chai.use( chaiEnzyme() );
 const expect = chai.expect;
 
 const defaultProps = {
@@ -21,13 +24,13 @@ describe( '<Distance />', function() {
   it( 'renders a 0 distance with no addresses', function() {
     const component = React.createElement( Distance, defaultProps );
     const wrapper = shallow( component );
-    expect( wrapper.text() ).to.contain( ' 0.0 km' );
+    expect( wrapper ).to.contain( <DistanceNumber meters={ 0 } useMiles={ false } /> );
   } );
 
   it( 'renders a 0 distance with one address', function() {
     const component = React.createElement( Distance, { ...defaultProps, addresses: [ '123 Home Drive, Chicago, IL, USA' ] } );
     const wrapper = shallow( component );
-    expect( wrapper.text() ).to.contain( ' 0.0 km' );
+    expect( wrapper ).to.contain( <DistanceNumber meters={ 0 } useMiles={ false } /> );
   } );
 
   it( 'renders a 0 distance with two duplicate addresses', function() {
@@ -40,7 +43,7 @@ describe( '<Distance />', function() {
     };
     const component = React.createElement( Distance, { ...defaultProps, addresses, cachedDistances } );
     const wrapper = shallow( component );
-    expect( wrapper.text() ).to.contain( ' 0.0 km' );
+    expect( wrapper ).to.contain( <DistanceNumber meters={ 0 } useMiles={ false } /> );
   } );
 
   it( 'renders a total distance with two addresses and cached distances', function() {
@@ -53,7 +56,7 @@ describe( '<Distance />', function() {
     };
     const component = React.createElement( Distance, { ...defaultProps, addresses, cachedDistances } );
     const wrapper = shallow( component );
-    expect( wrapper.text() ).to.contain( ' 5.0 km' );
+    expect( wrapper ).to.contain( <DistanceNumber meters={ 5000 } useMiles={ false } /> );
   } );
 
   it( 'renders a total distance with three addresses and cached distances', function() {
@@ -66,7 +69,7 @@ describe( '<Distance />', function() {
     };
     const component = React.createElement( Distance, { ...defaultProps, addresses, cachedDistances } );
     const wrapper = shallow( component );
-    expect( wrapper.text() ).to.contain( ' 8.0 km' );
+    expect( wrapper ).to.contain( <DistanceNumber meters={ 8000 } useMiles={ false } /> );
   } );
 
   it( 'renders a total distance ignoring duplicate adjacent addresses', function() {
@@ -78,7 +81,7 @@ describe( '<Distance />', function() {
     };
     const component = React.createElement( Distance, { ...defaultProps, addresses, cachedDistances } );
     const wrapper = shallow( component );
-    expect( wrapper.text() ).to.contain( ' 3.0 km' );
+    expect( wrapper ).to.contain( <DistanceNumber meters={ 3000 } useMiles={ false } /> );
   } );
 
   it( 'renders a total distance with four addresses and cached distances', function() {
@@ -92,7 +95,7 @@ describe( '<Distance />', function() {
     };
     const component = React.createElement( Distance, { ...defaultProps, addresses, cachedDistances } );
     const wrapper = shallow( component );
-    expect( wrapper.text() ).to.contain( ' 9.0 km' );
+    expect( wrapper ).to.contain( <DistanceNumber meters={ 9000 } useMiles={ false } /> );
   } );
 
   it( 'renders a total distance with four addresses including one repeated address', function() {
@@ -106,7 +109,7 @@ describe( '<Distance />', function() {
     };
     const component = React.createElement( Distance, { ...defaultProps, addresses, cachedDistances } );
     const wrapper = shallow( component );
-    expect( wrapper.text() ).to.contain( ' 9.0 km' );
+    expect( wrapper ).to.contain( <DistanceNumber meters={ 9000 } useMiles={ false } /> );
   } );
 
   it( 'renders no distance if there is an uncached distance needed', function() {
@@ -118,7 +121,7 @@ describe( '<Distance />', function() {
     };
     const component = React.createElement( Distance, { ...defaultProps, addresses, cachedDistances } );
     const wrapper = shallow( component );
-    expect( wrapper.text() ).not.to.contain( ' km' );
+    expect( wrapper ).to.contain( <DistanceNumber meters={ null } useMiles={ false } /> );
   } );
 
   it( 'renders no distance if there is an expired cached distance needed', function() {
@@ -132,7 +135,7 @@ describe( '<Distance />', function() {
     };
     const component = React.createElement( Distance, { ...defaultProps, addresses, cachedDistances } );
     const wrapper = shallow( component );
-    expect( wrapper.text() ).not.to.contain( ' km' );
+    expect( wrapper ).to.contain( <DistanceNumber meters={ null } useMiles={ false } /> );
   } );
 
   it( 'does not fetch distance if all needed distances are cached', function() {
