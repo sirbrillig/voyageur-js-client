@@ -3,13 +3,9 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { hideTrip, showTrip } from 'lib/actions/trip';
 import { logOut } from 'lib/actions/auth';
+import TripCount from 'components/trip-count';
 
 const HeaderLogo = () => <Link to="/"><img className="header-logo" src="/assets/logo-small.png" /></Link>;
-
-const TripCount = ( props ) => {
-  const toggleTrip = () => props.isShowingTrip ? props.hideTrip() : props.showTrip();
-  return <button className="trip-count btn" onClick={ toggleTrip }>{ props.trip.length }</button>;
-};
 
 const HeaderSummary = ( props ) => {
   return (
