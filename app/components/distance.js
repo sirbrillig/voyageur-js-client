@@ -1,4 +1,5 @@
 import React from 'react';
+import AnimateOnChange from 'react-animate-on-change';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { getAddressesForTrip } from 'lib/selectors';
@@ -7,7 +8,7 @@ import { fetchDistanceBetween, changeUnits } from 'lib/actions/trip';
 
 class Distance extends React.Component {
   render() {
-    return <div className="distance">Distance: { this.getDistanceText() } { this.renderButtons() }</div>;
+    return <div className="distance">Distance: { this.renderDistance() } { this.renderButtons() }</div>;
   }
 
   shouldComponentUpdate( nextProps ) {
@@ -15,11 +16,14 @@ class Distance extends React.Component {
     return ( nextProps !== this.props );
   }
 
-  getDistanceText = () => {
+  renderDistance = () => {
     const meters = this.getDistanceFor( this.props.addresses, this.props.cachedDistances );
     if ( meters === null ) return 'Loading...';
-    if ( this.props.useMiles ) return ( meters * 0.000621371192 ).toFixed( 1 ) + ' miles';
-    return ( meters / 1000 ).toFixed( 1 ) + ' km';
+    const miles = ( meters * 0.000621371192 ).toFixed( 1 );
+    const km = ( meters / 1000 ).toFixed( 1 );
+    const number = this.props.useMiles ? miles : km;
+    const units = this.props.useMiles ? 'miles' : 'km';
+    return <AnimateOnChange baseClassName="distance__number" animationClassName="animated slideInDown" animate={ true }>{ number } { units }</AnimateOnChange>;
   }
 
   renderButtons = () => {

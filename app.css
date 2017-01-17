@@ -452,6 +452,10 @@ ul {
   margin-bottom: 0.5em;
 }
 
+.distance__number {
+  display: inline-block;
+}
+
 .trip-distance-help {
   font-size: 1.4rem;
   white-space: normal;
