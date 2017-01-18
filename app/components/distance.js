@@ -1,20 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import { getAddressesForTrip } from 'lib/selectors';
-import { getAddressPairs, sumUnlessNull, getCachedDistanceForPair } from 'lib/helpers';
+import { getAddressPairs, sumUnlessNull, getCachedDistanceForPair, getAddressesForTrip } from 'lib/helpers';
 import { fetchDistanceBetween, changeUnits } from 'lib/actions/trip';
 import DistanceNumber from 'components/distance-number';
 
-class Distance extends React.Component {
+class Distance extends React.PureComponent {
   render() {
-    const meters = this.getDistanceFor( this.props.addresses, this.props.cachedDistances );
+    const meters = this.getDistanceFor( getAddressesForTrip( this.props.trip, this.props.library ), this.props.cachedDistances );
     return <div className="distance">Distance: <DistanceNumber meters={ meters } useMiles={ this.props.useMiles } /> { this.renderButtons() }</div>;
-  }
-
-  shouldComponentUpdate( nextProps ) {
-    // If the cache has not changed, and we re-render, we will repeat fetching data
-    return ( nextProps !== this.props );
   }
 
   renderButtons = () => {
@@ -51,7 +45,8 @@ class Distance extends React.Component {
 }
 
 Distance.propTypes = {
-  addresses: React.PropTypes.array.isRequired,
+  trip: React.PropTypes.array.isRequired,
+  library: React.PropTypes.array.isRequired,
   cachedDistances: React.PropTypes.object,
   fetchDistanceBetween: React.PropTypes.func.isRequired,
   useMiles: React.PropTypes.bool,
@@ -65,7 +60,8 @@ Distance.defaultProps = {
 
 function mapStateToProps( state ) {
   return {
-    addresses: getAddressesForTrip( state ),
+    trip: state.trip,
+    library: state.library.locations,
     cachedDistances: state.distances,
     useMiles: state.prefs.useMiles,
   };

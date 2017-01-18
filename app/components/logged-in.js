@@ -18,7 +18,6 @@ import {
 } from 'lib/actions/library';
 import { buildTripLocationFromLocation, getAddressForTripLocation, getVisibleLocations } from 'lib/helpers';
 import { clearTrip, addToTrip } from 'lib/actions/trip';
-import { getAddressesForTrip } from 'lib/selectors';
 import flow from 'lodash.flow';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -28,7 +27,6 @@ const LoggedIn = React.createClass( {
     isLoading: React.PropTypes.bool,
     library: React.PropTypes.array,
     predictions: React.PropTypes.array,
-    addresses: React.PropTypes.array,
     trip: React.PropTypes.array,
     searchString: React.PropTypes.string,
     isShowingAddLocation: React.PropTypes.bool,
@@ -142,7 +140,6 @@ function mapStateToProps( state ) {
     library: state.library.locations,
     predictions: state.library.predictions,
     trip: state.trip,
-    addresses: getAddressesForTrip( state ),
     isShowingAddLocation: state.ui.isShowingAddLocation,
     selectedLocation: state.ui.selectedLocation,
     editingLocation: state.ui.editingLocation,

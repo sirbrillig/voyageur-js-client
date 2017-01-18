@@ -88,3 +88,12 @@ export function getVisibleLocations( locations, searchString ) {
   };
   return locations.filter( matchesSearch );
 }
+
+export function getAddressesForTrip( trip, locations ) {
+  const getLocationById = id => findWhere( locations, { _id: id } );
+  // Trips can contain `id` that maps to a library location or just an `address`
+  return trip
+    .map( location => location.id ? getLocationById( location.id ) : { address: location.address } )
+    .filter( location => !! location )
+    .map( location => location.address );
+}
