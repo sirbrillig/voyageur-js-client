@@ -81,3 +81,10 @@ export function getCachedDistanceForPair( pair, cachedDistances ) {
   return cached.distance;
 }
 
+export function getVisibleLocations( locations, searchString ) {
+  const matchesSearch = loc => {
+    if ( searchString.length < 2 ) return true;
+    return ( ~loc.name.toLowerCase().indexOf( searchString.toLowerCase() ) || ~loc.address.toLowerCase().indexOf( searchString.toLowerCase() ) );
+  };
+  return locations.filter( matchesSearch );
+}

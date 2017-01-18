@@ -16,7 +16,7 @@ import {
   addLocation,
   hideAddLocation,
 } from 'lib/actions/library';
-import { buildTripLocationFromLocation, getAddressForTripLocation } from 'lib/helpers';
+import { buildTripLocationFromLocation, getAddressForTripLocation, getVisibleLocations } from 'lib/helpers';
 import { clearTrip, addToTrip } from 'lib/actions/trip';
 import { getAddressesForTrip } from 'lib/selectors';
 import flow from 'lodash.flow';
@@ -27,10 +27,10 @@ const LoggedIn = React.createClass( {
   propTypes: {
     isLoading: React.PropTypes.bool,
     library: React.PropTypes.array,
-    visibleLocations: React.PropTypes.array,
     predictions: React.PropTypes.array,
     addresses: React.PropTypes.array,
     trip: React.PropTypes.array,
+    searchString: React.PropTypes.string,
     isShowingAddLocation: React.PropTypes.bool,
     editingLocation: React.PropTypes.object,
     addingAddress: React.PropTypes.string,
@@ -88,7 +88,7 @@ const LoggedIn = React.createClass( {
   },
 
   getVisibleLocations() {
-    return this.props.visibleLocations.concat( this.props.predictions );
+    return getVisibleLocations( this.props.library, this.props.searchString ).concat( this.props.predictions );
   },
 
   moveSelectDown() {
@@ -140,7 +140,6 @@ function mapStateToProps( state ) {
   return {
     isLoading: state.library.isLoading,
     library: state.library.locations,
-    visibleLocations: state.library.visibleLocations,
     predictions: state.library.predictions,
     trip: state.trip,
     addresses: getAddressesForTrip( state ),
@@ -148,6 +147,7 @@ function mapStateToProps( state ) {
     selectedLocation: state.ui.selectedLocation,
     editingLocation: state.ui.editingLocation,
     addingAddress: state.ui.addingAddress,
+    searchString: state.ui.searchString,
   };
 }
 

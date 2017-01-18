@@ -1,8 +1,3 @@
-function matchesSearch( searchString, location ) {
-  if ( searchString.length < 2 ) return true;
-  return ( ~ location.name.toLowerCase().indexOf( searchString.toLowerCase() ) || ~ location.address.toLowerCase().indexOf( searchString.toLowerCase() ) );
-}
-
 // Find the element in state.locations that matches the ID in action.location,
 // then update it with the data in action.location
 function updateLocationInList( locations, location ) {
@@ -12,28 +7,20 @@ function updateLocationInList( locations, location ) {
   } );
 }
 
-const initialState = { locations: [], visibleLocations: [], predictions: [], isLoading: true };
+const initialState = { locations: [], predictions: [], isLoading: true };
 export default function library( state = initialState, action ) {
   switch ( action.type ) {
-    case 'TRIP_CLEAR':
-      return Object.assign( {}, state, { visibleLocations: state.locations } );
-    case 'TRIP_ADD_LOCATION':
-      return Object.assign( {}, state, { visibleLocations: state.locations } );
     case 'LIBRARY_GOT_PREDICTIONS':
       return Object.assign( {}, state, { predictions: action.predictions } );
     case 'LIBRARY_GOT_LOCATIONS':
-      return Object.assign( {}, { locations: action.library, visibleLocations: action.library, isLoading: false } );
-    case 'LIBRARY_SEARCH_FOR': {
-      const visibleLocations = state.locations.filter( l => matchesSearch( action.searchString, l ) );
-      return Object.assign( {}, state, { visibleLocations } );
-    }
+      return Object.assign( {}, { locations: action.library, isLoading: false } );
     case 'LIBRARY_GOT_NEW_LOCATION': {
       const locations = [ ...state.locations, action.location ];
-      return Object.assign( {}, { locations, visibleLocations: locations } );
+      return Object.assign( {}, { locations } );
     }
     case 'LIBRARY_GOT_UPDATED_LOCATION': {
-      const newLocations = updateLocationInList( state.locations, action.location );
-      return Object.assign( {}, { locations: newLocations, visibleLocations: newLocations } );
+      const locations = updateLocationInList( state.locations, action.location );
+      return Object.assign( {}, { locations } );
     }
   }
   return state;

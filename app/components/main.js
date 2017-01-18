@@ -40,7 +40,7 @@ class Main extends React.Component {
           { ! props.isShowingTrip && <LocationSearch onChange={ props.searchLocationsAndAddressFor } searchString={ props.searchString } /> }
           { ! props.isShowingTrip && <Library
             locations={ props.library }
-            visibleLocations={ props.visibleLocations }
+            searchString={ props.searchString }
             predictions={ props.predictions }
             onAddToTrip={ props.addToTrip }
             onEditLocation={ props.startEditLocation }
@@ -67,7 +67,6 @@ function mapStateToProps( state ) {
   return {
     trip: state.trip,
     library: state.library.locations,
-    visibleLocations: state.library.visibleLocations,
     predictions: state.library.predictions,
     selectedLocation: state.ui.selectedLocation,
     isShowingTrip: state.ui.isShowingTrip,

@@ -1,11 +1,12 @@
 import React from 'react';
 import LibraryLocation from 'components/library-location';
+import { getVisibleLocations } from 'lib/helpers';
 
 const Library = React.createClass( {
   propTypes: {
     locations: React.PropTypes.array,
-    visibleLocations: React.PropTypes.array,
     predictions: React.PropTypes.array,
+    searchString: React.PropTypes.string,
     onAddToTrip: React.PropTypes.func.isRequired,
     onDrop: React.PropTypes.func.isRequired,
     onEditLocation: React.PropTypes.func.isRequired,
@@ -16,7 +17,7 @@ const Library = React.createClass( {
   getDefaultProps() {
     return {
       locations: [],
-      visibleLocations: [],
+      searchString: '',
       predictions: [],
       selectedLocation: 0,
       lastTripLocationId: null,
@@ -25,10 +26,11 @@ const Library = React.createClass( {
 
   renderLocations() {
     if ( this.props.locations.length < 1 ) return;
-    if ( ! this.props.visibleLocations.length && ! this.props.predictions.length ) {
+    const visibleLocations = getVisibleLocations( this.props.locations, this.props.searchString );
+    if ( ! visibleLocations.length && ! this.props.predictions.length ) {
       return <div className="alert alert-info">No matches for that search.</div>;
     }
-    const allLocations = this.props.visibleLocations.concat( this.props.predictions );
+    const allLocations = visibleLocations.concat( this.props.predictions );
     return <ul>{ allLocations.map( this.renderLocation ) }</ul>;
   },
 
