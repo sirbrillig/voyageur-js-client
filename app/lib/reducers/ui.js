@@ -5,6 +5,10 @@ export default function auth( state = initialState, action ) {
       return Object.assign( {}, state, { isShowingTrip: true } );
     case 'TRIP_HIDE':
       return Object.assign( {}, state, { isShowingTrip: false } );
+    case 'TRIP_CLEAR':
+      return Object.assign( {}, state, { searchString: '' } );
+    case 'TRIP_ADD_LOCATION':
+      return Object.assign( {}, state, { searchString: '' } );
     case 'LIBRARY_GOT_NEW_LOCATION':
       return Object.assign( {}, state, { isShowingAddLocation: false, addingAddress: null } );
     case 'LIBRARY_HIDE_ADD_LOCATION':

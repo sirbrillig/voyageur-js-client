@@ -37,7 +37,7 @@ class Main extends React.Component {
         </div>
         <div className="main__library">
           { ! props.isShowingTrip && <MainQuestion trip={ props.trip } /> }
-          { ! props.isShowingTrip && <LocationSearch onChange={ props.searchLocationsAndAddressFor } /> }
+          { ! props.isShowingTrip && <LocationSearch onChange={ props.searchLocationsAndAddressFor } searchString={ props.searchString } /> }
           { ! props.isShowingTrip && <Library
             locations={ props.library }
             visibleLocations={ props.visibleLocations }
@@ -71,6 +71,7 @@ function mapStateToProps( state ) {
     predictions: state.library.predictions,
     selectedLocation: state.ui.selectedLocation,
     isShowingTrip: state.ui.isShowingTrip,
+    searchString: state.ui.searchString,
   };
 }
 
