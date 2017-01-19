@@ -368,17 +368,19 @@ ul {
 .trip {
   margin-top: 2.3em;
   max-width: 480px;
+  width: 480px;
   flex: 1;
-  display: none;
+  position: absolute;
+  top: -1000px;
 }
 
 .trip--visible {
-  display: block;
+  position: static;
 }
 
 @media( min-width: 1000px ) {
   .trip {
-    display: block;
+    position: static;
   }
 }
 
