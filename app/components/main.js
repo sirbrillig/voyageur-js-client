@@ -17,6 +17,7 @@ import {
   hideTrip,
   addToTrip,
   removeTripLocation,
+  moveTripLocation,
 } from 'lib/actions/trip';
 
 class Main extends React.Component {
@@ -28,7 +29,6 @@ class Main extends React.Component {
   render() {
     const props = this.props;
     const lastTripLocationId = ( props.trip.length > 0 ? props.trip[ props.trip.length - 1 ].id : null );
-    const noop = () => null;
     return (
       <div className="main">
         <div className="main__header">
@@ -56,7 +56,7 @@ class Main extends React.Component {
           library={ props.library }
           onRemoveTripLocation={ props.removeTripLocation }
           clearTrip={ props.clearTrip }
-          onDrop={ noop }
+          onDrop={ props.moveTripLocation }
           /> }
       </div>
     );
@@ -84,6 +84,7 @@ const actions = {
   showAddLocation,
   moveLibraryLocation,
   removeTripLocation,
+  moveTripLocation,
 };
 
 export default connect( mapStateToProps, actions )( Main );
