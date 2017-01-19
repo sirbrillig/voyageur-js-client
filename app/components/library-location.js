@@ -76,7 +76,8 @@ const dragSpec = {
     if ( result.trip ) return props.onAddToTrip( source );
     const target = result.location;
     if ( source === target ) return;
-    props.onDrop( source, target );
+    if ( ! source.id || ! target.id ) return console.warn( 'Cannot drag that item' );
+    props.onDrop( source.id, target.id );
   }
 };
 

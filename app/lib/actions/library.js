@@ -3,6 +3,9 @@ import * as api from 'lib/api/locations';
 import { reorderModels } from 'lib/helpers';
 import { searchAutocompleteFor } from 'lib/google';
 import { Promise } from 'es6-promise';
+import debugFactory from 'debug';
+
+const debug = debugFactory( 'voyageur:library-actions' );
 
 export function importLocations( data ) {
   return function( dispatch, getState ) {
@@ -122,10 +125,10 @@ export function gotDeletedLocation( location ) {
 
 export function moveLibraryLocation( locationId, targetLocationId ) {
   return function( dispatch, getState ) {
+    debug( 'moveLibraryLocation', locationId, targetLocationId );
     const newLibrary = reorderModels( getState().library.locations, locationId, targetLocationId );
     if ( ! newLibrary ) return dispatch( gotError( 'Could not find location data to move it' ) );
 
-    // TODO: this needs to work sans-_id
     api.reorderLibrary( getState().auth.token, newLibrary.map( x => x._id ) )
     .then( updatedLocations => dispatch( gotLibrary( updatedLocations ) ) )
     .catch( err => dispatch( gotError( err ) ) );
