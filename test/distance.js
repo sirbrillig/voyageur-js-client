@@ -13,12 +13,21 @@ chai.use( chaiEnzyme() );
 const expect = chai.expect;
 
 const defaultProps = {
-  addresses: [],
+  trip: [],
+  library: [],
   cachedDistances: {},
-  fetchDistanceBetween: () => null,
   useMiles: false,
+  fetchDistanceBetween: () => null,
   changeUnits: () => null,
 };
+
+function makeTripLoc( address ) {
+  return { address };
+}
+
+function makeTrip( addrs ) {
+  return addrs.map( makeTripLoc );
+}
 
 describe( '<Distance />', function() {
   it( 'renders a 0 distance with no addresses', function() {
@@ -28,7 +37,7 @@ describe( '<Distance />', function() {
   } );
 
   it( 'renders a 0 distance with one address', function() {
-    const component = React.createElement( Distance, { ...defaultProps, addresses: [ '123 Home Drive, Chicago, IL, USA' ] } );
+    const component = React.createElement( Distance, { ...defaultProps, trip: makeTrip( [ '123 Home Drive, Chicago, IL, USA' ] ) } );
     const wrapper = shallow( component );
     expect( wrapper ).to.contain( <DistanceNumber meters={ 0 } useMiles={ false } /> );
   } );
@@ -41,7 +50,7 @@ describe( '<Distance />', function() {
       [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt: now },
       [ getKeyForAddresses( addresses[ 1 ], 'foo' ) ]: { distance: 2000, lastUpdatedAt: now },
     };
-    const component = React.createElement( Distance, { ...defaultProps, addresses, cachedDistances } );
+    const component = React.createElement( Distance, { ...defaultProps, trip: makeTrip( addresses ), cachedDistances } );
     const wrapper = shallow( component );
     expect( wrapper ).to.contain( <DistanceNumber meters={ 0 } useMiles={ false } /> );
   } );
@@ -54,7 +63,7 @@ describe( '<Distance />', function() {
       [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt: now },
       [ getKeyForAddresses( addresses[ 1 ], 'foo' ) ]: { distance: 2000, lastUpdatedAt: now },
     };
-    const component = React.createElement( Distance, { ...defaultProps, addresses, cachedDistances } );
+    const component = React.createElement( Distance, { ...defaultProps, trip: makeTrip( addresses ), cachedDistances } );
     const wrapper = shallow( component );
     expect( wrapper ).to.contain( <DistanceNumber meters={ 5000 } useMiles={ false } /> );
   } );
@@ -67,7 +76,7 @@ describe( '<Distance />', function() {
       [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt: now },
       [ getKeyForAddresses( addresses[ 0 ], addresses[ 2 ] ) ]: { distance: 2000, lastUpdatedAt: now },
     };
-    const component = React.createElement( Distance, { ...defaultProps, addresses, cachedDistances } );
+    const component = React.createElement( Distance, { ...defaultProps, trip: makeTrip( addresses ), cachedDistances } );
     const wrapper = shallow( component );
     expect( wrapper ).to.contain( <DistanceNumber meters={ 8000 } useMiles={ false } /> );
   } );
@@ -79,7 +88,7 @@ describe( '<Distance />', function() {
       [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt: now },
       [ getKeyForAddresses( addresses[ 0 ], 'foo' ) ]: { distance: 2000, lastUpdatedAt: now },
     };
-    const component = React.createElement( Distance, { ...defaultProps, addresses, cachedDistances } );
+    const component = React.createElement( Distance, { ...defaultProps, trip: makeTrip( addresses ), cachedDistances } );
     const wrapper = shallow( component );
     expect( wrapper ).to.contain( <DistanceNumber meters={ 3000 } useMiles={ false } /> );
   } );
@@ -93,7 +102,7 @@ describe( '<Distance />', function() {
       [ getKeyForAddresses( addresses[ 2 ], addresses[ 3 ] ) ]: { distance: 1000, lastUpdatedAt: now },
       [ getKeyForAddresses( addresses[ 1 ], addresses[ 3 ] ) ]: { distance: 2000, lastUpdatedAt: now },
     };
-    const component = React.createElement( Distance, { ...defaultProps, addresses, cachedDistances } );
+    const component = React.createElement( Distance, { ...defaultProps, trip: makeTrip( addresses ), cachedDistances } );
     const wrapper = shallow( component );
     expect( wrapper ).to.contain( <DistanceNumber meters={ 9000 } useMiles={ false } /> );
   } );
@@ -107,7 +116,7 @@ describe( '<Distance />', function() {
       [ getKeyForAddresses( addresses[ 2 ], addresses[ 3 ] ) ]: { distance: 1000, lastUpdatedAt: now },
       [ getKeyForAddresses( addresses[ 1 ], addresses[ 3 ] ) ]: { distance: 2000, lastUpdatedAt: now },
     };
-    const component = React.createElement( Distance, { ...defaultProps, addresses, cachedDistances } );
+    const component = React.createElement( Distance, { ...defaultProps, trip: makeTrip( addresses ), cachedDistances } );
     const wrapper = shallow( component );
     expect( wrapper ).to.contain( <DistanceNumber meters={ 9000 } useMiles={ false } /> );
   } );
@@ -119,7 +128,7 @@ describe( '<Distance />', function() {
       [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt: now },
       [ getKeyForAddresses( addresses[ 1 ], addresses[ 3 ] ) ]: { distance: 2000, lastUpdatedAt: now },
     };
-    const component = React.createElement( Distance, { ...defaultProps, addresses, cachedDistances } );
+    const component = React.createElement( Distance, { ...defaultProps, trip: makeTrip( addresses ), cachedDistances } );
     const wrapper = shallow( component );
     expect( wrapper ).to.contain( <DistanceNumber meters={ null } useMiles={ false } /> );
   } );
@@ -133,7 +142,7 @@ describe( '<Distance />', function() {
       [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt: now },
       [ getKeyForAddresses( addresses[ 1 ], addresses[ 3 ] ) ]: { distance: 2000, lastUpdatedAt: now },
     };
-    const component = React.createElement( Distance, { ...defaultProps, addresses, cachedDistances } );
+    const component = React.createElement( Distance, { ...defaultProps, trip: makeTrip( addresses ), cachedDistances } );
     const wrapper = shallow( component );
     expect( wrapper ).to.contain( <DistanceNumber meters={ null } useMiles={ false } /> );
   } );
@@ -146,7 +155,7 @@ describe( '<Distance />', function() {
       [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 2000, lastUpdatedAt: now },
     };
     const fetchDistanceBetween = sinon.spy();
-    const component = React.createElement( Distance, { ...defaultProps, addresses, cachedDistances, fetchDistanceBetween } );
+    const component = React.createElement( Distance, { ...defaultProps, trip: makeTrip( addresses ), cachedDistances, fetchDistanceBetween } );
     shallow( component );
     expect( fetchDistanceBetween ).to.not.have.been.called;
   } );
@@ -155,7 +164,7 @@ describe( '<Distance />', function() {
     const addresses = [ '123 Home Drive, Chicago, IL, USA', '123 Home Drive, Chicago, IL, USA' ];
     const cachedDistances = {};
     const fetchDistanceBetween = sinon.spy();
-    const component = React.createElement( Distance, { ...defaultProps, addresses, cachedDistances, fetchDistanceBetween } );
+    const component = React.createElement( Distance, { ...defaultProps, trip: makeTrip( addresses ), cachedDistances, fetchDistanceBetween } );
     shallow( component );
     expect( fetchDistanceBetween ).to.not.have.been.called;
   } );
@@ -168,7 +177,7 @@ describe( '<Distance />', function() {
       [ getKeyForAddresses( addresses[ 1 ], 'foo' ) ]: { distance: 2000, lastUpdatedAt: now },
     };
     const fetchDistanceBetween = sinon.spy();
-    const component = React.createElement( Distance, { ...defaultProps, addresses, cachedDistances, fetchDistanceBetween } );
+    const component = React.createElement( Distance, { ...defaultProps, trip: makeTrip( addresses ), cachedDistances, fetchDistanceBetween } );
     shallow( component );
     expect( fetchDistanceBetween ).to.have.been.calledWith( addresses[ 0 ], addresses[ 1 ] );
   } );
@@ -183,7 +192,7 @@ describe( '<Distance />', function() {
       [ getKeyForAddresses( addresses[ 1 ], 'foo' ) ]: { distance: 2000, lastUpdatedAt: now },
     };
     const fetchDistanceBetween = sinon.spy();
-    const component = React.createElement( Distance, { ...defaultProps, addresses, cachedDistances, fetchDistanceBetween } );
+    const component = React.createElement( Distance, { ...defaultProps, trip: makeTrip( addresses ), cachedDistances, fetchDistanceBetween } );
     shallow( component );
     expect( fetchDistanceBetween ).to.have.been.calledWith( addresses[ 0 ], addresses[ 1 ] );
   } );
