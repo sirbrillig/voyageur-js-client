@@ -35,10 +35,10 @@ class Main extends React.Component {
           <Distance />
           <button className="btn btn-sm btn-primary main__clear-trip" onClick={ props.clearTrip }>Clear trip</button>
         </div>
-        <div className="main__library">
-          { ! props.isShowingTrip && <MainQuestion trip={ props.trip } /> }
-          { ! props.isShowingTrip && <LocationSearch onChange={ props.searchLocationsAndAddressFor } searchString={ props.searchString } /> }
-          { ! props.isShowingTrip && <Library
+        { ! props.isShowingTrip && <div className="main__library">
+         <MainQuestion trip={ props.trip } />
+         <LocationSearch onChange={ props.searchLocationsAndAddressFor } searchString={ props.searchString } />
+          <Library
             locations={ props.library }
             searchString={ props.searchString }
             predictions={ props.predictions }
@@ -48,8 +48,8 @@ class Main extends React.Component {
             onDrop={ props.moveLibraryLocation }
             selectedLocation={ props.selectedLocation }
             lastTripLocationId={ lastTripLocationId }
-            /> }
-        </div>
+            />
+        </div> }
         { <Trip
           isVisible={ props.isShowingTrip }
           tripLocations={ props.trip }
