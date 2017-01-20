@@ -360,6 +360,18 @@ ul {
 .main__library {
   max-width: 490px;
   width: 480px;
+  position: static;
+}
+
+.main--trip .main__library {
+  position: absolute;
+  left: -1000px;
+}
+
+@media( min-width: 1000px ) {
+  .main--trip .main__library {
+    position: static;
+  }
 }
 
 /**
