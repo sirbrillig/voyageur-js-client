@@ -9,7 +9,7 @@
     "prebuild": "mkdirp build",
     "postbuild": "echo Build complete",
     "stats": "webpack --env production --profile --json > stats.json",
-    "build:dist": "webpack --env production --optimize-minimize --optimize-dedupe",
+    "build:dist": "webpack -p",
     "prebuild:dist": "mkdirp dist",
     "clean:dist": "rimraf dist",
     "clean": "npm run clean:dist",
