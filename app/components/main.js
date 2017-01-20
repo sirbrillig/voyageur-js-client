@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import { connect } from 'react-redux';
 import Library from 'components/library';
 import Distance from 'components/distance';
@@ -30,7 +31,7 @@ class Main extends React.Component {
     const props = this.props;
     const lastTripLocationId = ( props.trip.length > 0 ? props.trip[ props.trip.length - 1 ].id : null );
     return (
-      <div className="main">
+      <div className={ classNames( 'main', { 'main--trip': props.isShowingTrip } ) }>
         <div className="main__header">
           <Distance />
           <button className="btn btn-sm btn-primary main__clear-trip" onClick={ props.clearTrip }>Clear trip</button>

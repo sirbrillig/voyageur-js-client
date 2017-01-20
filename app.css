@@ -374,7 +374,7 @@ ul {
   top: -1000px;
 }
 
-.trip--visible {
+.main--trip .trip {
   position: static;
 }
 

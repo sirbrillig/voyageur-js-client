@@ -7,7 +7,6 @@ import { getAddressForTripLocation, getNameForTripLocation } from 'lib/helpers';
 
 const Trip = React.createClass( {
   propTypes: {
-    isVisible: React.PropTypes.bool,
     tripLocations: React.PropTypes.array,
     onRemoveTripLocation: React.PropTypes.func.isRequired,
     onDrop: React.PropTypes.func.isRequired,
@@ -19,7 +18,6 @@ const Trip = React.createClass( {
 
   getDefaultProps() {
     return {
-      isVisible: true,
       tripLocations: [],
       library: [],
       isOver: false,
@@ -44,7 +42,7 @@ const Trip = React.createClass( {
   },
 
   render() {
-    const tripClassNames = classNames( 'trip', { 'trip--droppable': this.props.isOver, 'trip--visible': this.props.isVisible } );
+    const tripClassNames = classNames( 'trip', { 'trip--droppable': this.props.isOver } );
     return this.props.connectDropTarget(
       <div className={ tripClassNames }>
         <button className="btn btn-sm btn-primary trip__clear-trip" onClick={ this.props.clearTrip }>Clear trip</button>
