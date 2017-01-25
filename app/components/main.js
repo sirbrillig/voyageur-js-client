@@ -36,28 +36,30 @@ class Main extends React.Component {
           <Distance />
           <button className="btn btn-sm btn-primary main__clear-trip" onClick={ props.clearTrip }>Clear trip</button>
         </div>
-        <div className="main__library">
-          <MainQuestion trip={ props.trip } />
-          <LocationSearch onChange={ props.searchLocationsAndAddressFor } searchString={ props.searchString } />
-          <Library
-            locations={ props.library }
-            searchString={ props.searchString }
-            predictions={ props.predictions }
-            onAddToTrip={ props.addToTrip }
-            onEditLocation={ props.startEditLocation }
-            onAddLocation={ props.showAddLocation }
-            onDrop={ props.moveLibraryLocation }
-            selectedLocation={ props.selectedLocation }
-            lastTripLocationId={ lastTripLocationId }
+        <div className="main__content">
+          <div className="main__library">
+            <MainQuestion trip={ props.trip } />
+            <LocationSearch onChange={ props.searchLocationsAndAddressFor } searchString={ props.searchString } />
+            <Library
+              locations={ props.library }
+              searchString={ props.searchString }
+              predictions={ props.predictions }
+              onAddToTrip={ props.addToTrip }
+              onEditLocation={ props.startEditLocation }
+              onAddLocation={ props.showAddLocation }
+              onDrop={ props.moveLibraryLocation }
+              selectedLocation={ props.selectedLocation }
+              lastTripLocationId={ lastTripLocationId }
+            />
+          </div>
+          <Trip
+            tripLocations={ props.trip }
+            library={ props.library }
+            onRemoveTripLocation={ props.removeTripLocation }
+            clearTrip={ props.clearTrip }
+            onDrop={ props.moveTripLocation }
           />
         </div>
-        <Trip
-          tripLocations={ props.trip }
-          library={ props.library }
-          onRemoveTripLocation={ props.removeTripLocation }
-          clearTrip={ props.clearTrip }
-          onDrop={ props.moveTripLocation }
-        />
       </div>
     );
   }

@@ -326,10 +326,22 @@ ul {
 }
 
 .main {
+  margin-top: 0.8em;
+}
+
+@media (min-width: 1000px) {
+  .main {
+    display: flex;
+    justify-content: space-around;
+    flex-flow: row wrap;
+  }
+}
+
+.main__content {
   display: flex;
   justify-content: space-around;
-  flex-flow: row wrap;
-  margin-top: 0.8em;
+  width: 100%;
+  max-width: 1200px;
 }
 
 .main__header {
@@ -359,8 +371,14 @@ ul {
 
 .main__library {
   max-width: 490px;
-  width: 480px;
+  width: 100%;
   position: static;
+}
+
+@media( min-width: 490px ) {
+  .main__library {
+    min-width: 490px;
+  }
 }
 
 .main--trip .main__library {
@@ -379,11 +397,17 @@ ul {
  */
 .trip {
   margin-top: 2.3em;
-  max-width: 480px;
-  width: 480px;
+  max-width: 490px;
+  width: 100%;
   flex: 1;
   position: absolute;
   top: -1000px;
+}
+
+@media( min-width: 490px ) {
+  .trip {
+    min-width: 490px;
+  }
 }
 
 .main--trip .trip {
