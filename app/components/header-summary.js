@@ -10,9 +10,9 @@ const HeaderLogo = () => <Link to="/"><img className="header-logo" src="/assets/
 const HeaderSummary = ( props ) => {
   return (
     <div className="header-summary">
-      <button className="btn log-out-button" onClick={ props.logOut }>Log out</button>
-      <HeaderLogo />
       <TripCount isShowingTrip={ props.isShowingTrip } hideTrip={ props.hideTrip } showTrip={ props.showTrip } trip={ props.trip } />
+      <HeaderLogo />
+      <button className="btn log-out-button" onClick={ props.logOut }>Log out</button>
     </div>
   );
 };
