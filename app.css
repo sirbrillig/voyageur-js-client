@@ -580,12 +580,6 @@ ul {
   box-shadow: 0px 1px 10px 3px rgba(0, 0, 0, 0.2);
 }
 
-.header-summary__main {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
 .header-summary-toggle {
   display: flex;
   margin-top: 10px;
@@ -619,4 +613,6 @@ ul {
   color: #EBF5EE;
   font-size: 1.5rem;
   padding: 0;
+  position: absolute;
+  right: 0.5em;
 }
