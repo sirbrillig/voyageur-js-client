@@ -2,12 +2,14 @@ import React from 'react';
 import classNames from 'classnames';
 import { DragSource, DropTarget } from 'react-dnd';
 import flow from 'lodash.flow';
+import { buildTripLocationFromLocation } from 'lib/helpers';
 
 const LibraryLocation = React.createClass( {
   propTypes: {
     location: React.PropTypes.object.isRequired,
     onAddToTrip: React.PropTypes.func.isRequired,
     onEditLocation: React.PropTypes.func.isRequired,
+    onAddLocation: React.PropTypes.func.isRequired,
     isSelected: React.PropTypes.bool,
     connectDragSource: React.PropTypes.func.isRequired,
     isDragging: React.PropTypes.bool.isRequired,
@@ -29,30 +31,33 @@ const LibraryLocation = React.createClass( {
     if ( this.props.location.isLoading ) {
       return <span className="library-location__loading glyphicon glyphicon-refresh glyphicon-spin" />;
     }
-    return (
-      <div className="btn-group btn-group-sm" role="group">
-        <button className="btn btn-default" onClick={ () => this.props.onEditLocation( this.props.location ) }>Edit</button>
-        <button disabled={ this.props.isDisabled } className="btn btn-primary" onClick={ () => this.props.onAddToTrip( this.props.location ) }>Add <span className="glyphicon glyphicon-arrow-right" /></button>
-      </div>
-    );
+    const editLocation = () => this.props.onEditLocation( this.props.location );
+    const saveLocation = () => this.props.onAddLocation( this.props.location.description );
+    if ( ! this.props.location.name && ! this.props.location._id ) {
+      return <button className="btn btn-default btn-sm" onClick={ saveLocation }>Save</button>;
+    }
+    return <button className="btn btn-default btn-sm" onClick={ editLocation }>Edit</button>;
   },
 
   render() {
+    const addToTrip = () => this.props.onAddToTrip( buildTripLocationFromLocation( this.props.location ) );
     const locationClassNames = classNames( 'library-location row well well-sm', {
       'library-location--selected': this.props.isSelected,
       'library-location--droppable': this.props.isOver,
     } );
+    const saveRef = el => this.domElement = el;
     return this.props.connectDropTarget( this.props.connectDragSource(
-      <li className={ locationClassNames } ref={ el => this.domElement = el }>
-        <div className="library-location__description col-xs-8" >
+      <li className={ locationClassNames } ref={ saveRef }>
+        <div className="library-location__description col-xs-9" >
           <h3 className="library-location__description__name">{ this.props.location.name }</h3>
-          <p className="library-location__description__address">{ this.props.location.address }</p>
+          <p className="library-location__description__address">{ this.props.location.address || this.props.location.description }</p>
         </div>
-        <div className="col-xs-4" >
+        <div className="col-xs-3" >
           <div className="library-location__controls" >
             { this.renderControls() }
           </div>
         </div>
+        <button disabled={ this.props.isDisabled } className="btn btn-primary btn-block library-location__add" onClick={ addToTrip }>Add to trip <span className="glyphicon glyphicon-arrow-right" /></button>
       </li>
     ) );
   }
@@ -60,18 +65,19 @@ const LibraryLocation = React.createClass( {
 
 const dragSpec = {
   beginDrag( props ) {
-    return { location: props.location._id };
+    return { location: buildTripLocationFromLocation( props.location ) };
   },
 
   endDrag( props, monitor ) {
-    const source = props.location._id;
+    const source = buildTripLocationFromLocation( props.location );
     const result = monitor.getDropResult();
     if ( ! result ) return;
     if ( ! source ) return console.warn( 'Could not find drag source information from', props );
     if ( result.trip ) return props.onAddToTrip( source );
     const target = result.location;
     if ( source === target ) return;
-    props.onDrop( source, target );
+    if ( ! source.id || ! target.id ) return console.warn( 'Cannot drag that item' );
+    props.onDrop( source.id, target.id );
   }
 };
 
@@ -79,12 +85,12 @@ function collectDrag( connect, monitor ) {
   return {
     connectDragSource: connect.dragSource(),
     isDragging: monitor.isDragging()
-  }
+  };
 }
 
 const dropSpec = {
   drop( props ) {
-    return { location: props.location._id };
+    return { location: buildTripLocationFromLocation( props.location ) };
   }
 };
 
@@ -92,7 +98,7 @@ function collectDrop( connect, monitor ) {
   return {
     connectDropTarget: connect.dropTarget(),
     isOver: monitor.isOver()
-  }
+  };
 }
 
 export default flow(

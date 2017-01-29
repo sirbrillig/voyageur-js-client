@@ -1,6 +1,6 @@
 import React from 'react';
-import moment from 'moment';
 import { connect } from 'react-redux';
+import timeago from 'lib/timeago';
 import { fetchEvents } from 'lib/actions/admin.js';
 import classNames from 'classnames';
 import debugFactory from 'debug';
@@ -11,16 +11,17 @@ const AdminDashboard = React.createClass( {
   propTypes: {
     events: React.PropTypes.array.isRequired,
     isAdmin: React.PropTypes.bool,
+    fetchEvents: React.PropTypes.func.isRequired,
   },
 
   componentWillMount() {
-    this.props.dispatch( fetchEvents() );
+    this.props.fetchEvents();
   },
 
   onChangePage() {
     const page = parseInt( this.pageField.value, 10 ) - 1;
     if ( page < 0 ) return;
-    this.props.dispatch( fetchEvents( { page } ) );
+    this.props.fetchEvents( { page } );
   },
 
   renderEvent( event ) {
@@ -35,7 +36,7 @@ const AdminDashboard = React.createClass( {
     debug( 'showing log event', event );
     return (
       <tr key={ event._id } className={ classes }>
-        <td>{ moment( eventDate ).fromNow() }</td>
+        <td>{ timeago( eventDate ) }</td>
         <td>{ event.userId }</td>
         <td>{ event.userName }</td>
         <td>{ event.ip }</td>
@@ -70,11 +71,12 @@ const AdminDashboard = React.createClass( {
   },
 
   renderEventControls() {
+    const addRef = i => this.pageField = i;
     return (
       <div className="form-inline">
         <div className="form-group">
           <label htmlFor="eventPage" className="control-label admin-controls__label">Page</label>
-          <input type="number" min={ 1 } className="form-control" id="eventPage" ref={ i => this.pageField = i } onChange={ this.onChangePage } defaultValue={ 1 } />
+          <input type="number" min={ 1 } className="form-control" id="eventPage" ref={ addRef } onChange={ this.onChangePage } defaultValue={ 1 } />
         </div>
       </div>
     );
@@ -98,4 +100,4 @@ function mapStateToProps( state ) {
   return { isAdmin: ( state.auth.user && state.auth.user.role === 'admin' ), events: state.admin.events };
 }
 
-export default connect( mapStateToProps )( AdminDashboard );
+export default connect( mapStateToProps, { fetchEvents } )( AdminDashboard );

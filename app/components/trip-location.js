@@ -5,7 +5,9 @@ import flow from 'lodash.flow';
 
 const TripLocation = React.createClass( {
   propTypes: {
-    tripLocation: React.PropTypes.object.isRequired,
+    address: React.PropTypes.string.isRequired,
+    name: React.PropTypes.string,
+    isLoading: React.PropTypes.bool,
     index: React.PropTypes.number.isRequired,
     onRemoveTripLocation: React.PropTypes.func.isRequired,
     connectDragSource: React.PropTypes.func.isRequired,
@@ -16,12 +18,13 @@ const TripLocation = React.createClass( {
   },
 
   renderControls() {
-    if ( this.props.tripLocation.isLoading ) {
+    if ( this.props.isLoading ) {
       return <span className="trip-location__loading glyphicon glyphicon-refresh glyphicon-spin" />;
     }
+    const onRemove = () => this.props.onRemoveTripLocation( this.props.index );
     return (
       <div className="btn-group btn-group-sm" role="group">
-        <button className="btn btn-default" onClick={ () => this.props.onRemoveTripLocation( this.props.index ) }>Remove</button>
+        <button className="btn btn-default" onClick={ onRemove }>Remove</button>
       </div>
     );
   },
@@ -33,7 +36,7 @@ const TripLocation = React.createClass( {
     return this.props.connectDropTarget( this.props.connectDragSource(
       <li className={ locationClassNames } >
         <div className="trip-location__description col-xs-8" >
-          <h3 className="trip-location__description__name">{ this.props.tripLocation.name }</h3>
+          <h3 className="trip-location__description__name">{ this.props.name || this.props.address }</h3>
         </div>
         <div className="col-xs-4" >
           <div className="trip-location__controls" >
@@ -64,7 +67,7 @@ function collectDrag( connect, monitor ) {
   return {
     connectDragSource: connect.dragSource(),
     isDragging: monitor.isDragging()
-  }
+  };
 }
 
 const dropSpec = {
@@ -77,7 +80,7 @@ function collectDrop( connect, monitor ) {
   return {
     connectDropTarget: connect.dropTarget(),
     isOver: monitor.isOver()
-  }
+  };
 }
 
 export default flow(

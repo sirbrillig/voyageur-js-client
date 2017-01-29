@@ -15,5 +15,6 @@ module.exports = {
 		'camelcase': 0,
 		'indent': [ 'error', 2, { 'SwitchCase': 1 } ],
 		'curly': 0,
+		'no-console': 0,
 	}
 };

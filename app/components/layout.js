@@ -1,43 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { clearNotices } from 'lib/actions/general';
-import { logOut } from 'lib/actions/auth';
-import Header from 'components/header';
 
-const Footer = () => <div className="footer">Made by <a href="http://foolord.com/">Payton</a>. Code on <a href="https://github.com/sirbrillig/voyageur-js-client">GitHub</a>. Logo by <a href="http://colemcdermott.co/">Cole</a>.</div>;
+const Footer = () => <div className="footer">Made&nbsp;by&nbsp;<a href="http://foolord.com/">Payton</a>. Code&nbsp;on&nbsp;<a href="https://github.com/sirbrillig/voyageur-js-client">GitHub</a>. Logo&nbsp;by&nbsp;<a href="http://colemcdermott.co/">Cole</a>.</div>;
 
-const LoggedIn = React.createClass( {
-  propTypes: {
-    isAdmin: React.PropTypes.bool,
-    notices: React.PropTypes.object,
-  },
+const Layout = ( props ) => (
+  <div className="layout">
+    { props.children }
+    <Footer />
+  </div>
+);
 
-  onClearNotices() {
-    this.props.dispatch( clearNotices() );
-  },
-
-  onLogOut() {
-    this.props.dispatch( logOut() );
-  },
-
-  renderMain() {
-    return (
-      <div className="layout">
-        { this.props.children }
-      </div>
-    );
-  },
-
-  render() {
-    return (
-      <div className="logged-in">
-        <Header errors={ this.props.notices.errors } onClearNotices={ this.onClearNotices } onLogOut={ this.onLogOut } isAdmin={ this.props.isAdmin } />
-          { this.renderMain() }
-        <Footer />
-      </div>
-    );
-  }
-} );
+Layout.propTypes = {
+  isAdmin: React.PropTypes.bool,
+  notices: React.PropTypes.object,
+  clearNotices: React.PropTypes.func.isRequired,
+};
 
 function mapStateToProps( state ) {
   const { auth, notices } = state;
@@ -47,5 +25,5 @@ function mapStateToProps( state ) {
   };
 }
 
-export default connect( mapStateToProps )( LoggedIn );
+export default connect( mapStateToProps, { clearNotices } )( Layout );
 

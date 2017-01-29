@@ -1,7 +1,11 @@
 import { gotError } from 'lib/actions/general';
 import * as api from 'lib/api/locations';
 import { reorderModels } from 'lib/helpers';
+import { searchAutocompleteFor } from 'lib/google';
 import { Promise } from 'es6-promise';
+import debugFactory from 'debug';
+
+const debug = debugFactory( 'voyageur:library-actions' );
 
 export function importLocations( data ) {
   return function( dispatch, getState ) {
@@ -33,8 +37,8 @@ export function hideAddLocation() {
   return { type: 'LIBRARY_HIDE_ADD_LOCATION' };
 }
 
-export function showAddLocation() {
-  return { type: 'LIBRARY_SHOW_ADD_LOCATION' };
+export function showAddLocation( addingAddress = null ) {
+  return { type: 'LIBRARY_SHOW_ADD_LOCATION', addingAddress };
 }
 
 export function fetchLibrary() {
@@ -55,6 +59,20 @@ export function gotLibrary( library ) {
 
 export function searchLocationsFor( searchString ) {
   return { type: 'LIBRARY_SEARCH_FOR', searchString };
+}
+
+export function gotPredictions( predictions ) {
+  return { type: 'LIBRARY_GOT_PREDICTIONS', predictions };
+}
+
+export function searchLocationsAndAddressFor( searchString ) {
+  return function( dispatch ) {
+    dispatch( searchLocationsFor( searchString ) );
+    searchAutocompleteFor( searchString )
+    .then( ( predictions ) => dispatch( gotPredictions( predictions ) ) )
+    // Mostly silent errors because sometimes we just have no results
+    .catch( ( err ) => console.error( `No autocomplete results for "${ searchString }"; error: `, err ) );
+  };
 }
 
 export function selectNextLocation( max ) {
@@ -107,6 +125,7 @@ export function gotDeletedLocation( location ) {
 
 export function moveLibraryLocation( locationId, targetLocationId ) {
   return function( dispatch, getState ) {
+    debug( 'moveLibraryLocation', locationId, targetLocationId );
     const newLibrary = reorderModels( getState().library.locations, locationId, targetLocationId );
     if ( ! newLibrary ) return dispatch( gotError( 'Could not find location data to move it' ) );
 

@@ -1,10 +1,12 @@
 import React from 'react';
 import LibraryLocation from 'components/library-location';
+import { getVisibleLocations } from 'lib/helpers';
 
 const Library = React.createClass( {
   propTypes: {
     locations: React.PropTypes.array,
-    visibleLocations: React.PropTypes.array,
+    predictions: React.PropTypes.array,
+    searchString: React.PropTypes.string,
     onAddToTrip: React.PropTypes.func.isRequired,
     onDrop: React.PropTypes.func.isRequired,
     onEditLocation: React.PropTypes.func.isRequired,
@@ -15,29 +17,30 @@ const Library = React.createClass( {
   getDefaultProps() {
     return {
       locations: [],
-      visibleLocations: [],
+      searchString: '',
+      predictions: [],
       selectedLocation: 0,
       lastTripLocationId: null,
     };
   },
 
-  renderHelpBox() {
-    if ( this.props.locations.length === 0 ) return <div className="help-box alert alert-info animated bounceIn">No locations added yet! Add one with the link above. <span className="animated pulse glyphicon glyphicon-hand-up" /></div>;
-    if ( this.props.locations.length === 1 ) return <div className="help-box alert alert-info animated pulse">Add another location to start getting distances! <span className="animated pulse glyphicon glyphicon-hand-up" /></div>;
-  },
-
   renderLocations() {
     if ( this.props.locations.length < 1 ) return;
-    if ( this.props.visibleLocations.length > 0 ) return <ul>{ this.props.visibleLocations.map( this.renderLocation ) }</ul>;
-    return <div className="alert alert-info">No matches for that search.</div>;
+    const visibleLocations = getVisibleLocations( this.props.locations, this.props.searchString );
+    if ( ! visibleLocations.length && ! this.props.predictions.length ) {
+      return <div className="alert alert-info">No matches for that search.</div>;
+    }
+    const allLocations = visibleLocations.concat( this.props.predictions );
+    return <ul>{ allLocations.map( this.renderLocation ) }</ul>;
   },
 
   renderLocation( location, index ) {
     return (
       <LibraryLocation
-        key={ location._id }
+        key={ location._id || location.id }
         location={ location }
         onEditLocation={ this.props.onEditLocation }
+        onAddLocation={ this.props.onAddLocation }
         onAddToTrip={ this.props.onAddToTrip }
         onDrop={ this.props.onDrop }
         isSelected={ this.props.selectedLocation === index }
@@ -50,7 +53,6 @@ const Library = React.createClass( {
     return (
       <div className="library">
         { this.renderLocations() }
-        { this.renderHelpBox() }
       </div>
     );
   }

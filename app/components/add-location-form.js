@@ -1,15 +1,17 @@
 import React from 'react';
 import WideButton from 'components/wide-button';
 
-export default React.createClass( {
+const AddLocationForm = React.createClass( {
   propTypes: {
     onAddLocation: React.PropTypes.func.isRequired,
     onCancelAddLocation: React.PropTypes.func.isRequired,
+    initialAddress: React.PropTypes.string,
   },
 
   getInitialState() {
     return {
       name: '',
+      address: this.props.initialAddress || '',
     };
   },
 
@@ -17,21 +19,18 @@ export default React.createClass( {
     this.setState( { name: event.target.value } );
   },
 
+  onChangeAddress( event ) {
+    this.setState( { address: event.target.value } );
+  },
+
   onAddLocation() {
-    const { name } = this.state;
-    const address = this.addressField.value;
+    const { name, address } = this.state;
     this.props.onAddLocation( { name, address } );
   },
 
   focusInput( input ) {
     if ( ! input ) return;
     input.focus();
-  },
-
-  attachAutocomplete( input ) {
-    if ( ! input || ! window ) return;
-    this.addressField = input;
-    this.autocomplete = new window.google.maps.places.Autocomplete( input );
   },
 
   render() {
@@ -46,7 +45,7 @@ export default React.createClass( {
         <div className="form-group">
           <label htmlFor="inputAddLocationAddress" className="col-sm-2 control-label">Address</label>
           <div className="col-sm-10">
-            <input type="text" className="form-control" id="inputAddLocationAddress" placeholder="Address" ref={ this.attachAutocomplete } />
+            <input type="text" className="form-control" id="inputAddLocationAddress" placeholder="Address" onChange={ this.onChangeAddress } value={ this.state.address } />
           </div>
         </div>
         <div className="form-group">
@@ -60,3 +59,4 @@ export default React.createClass( {
   }
 } );
 
+export default AddLocationForm;
