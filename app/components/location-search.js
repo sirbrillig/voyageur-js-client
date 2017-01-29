@@ -31,7 +31,7 @@ class LocationSearch extends React.Component {
     const onChange = event => this.props.onChange( event.target.value );
     return (
       <div className="location-search">
-        <input ref={ inputWasMounted } value={ this.props.searchString } className="form-control" type="text" placeholder="Search" onChange={ onChange } />
+        <input ref={ inputWasMounted } value={ this.props.searchString } className="form-control" type="search" placeholder="Search" onChange={ onChange } />
         <div className="location-search__help alert">Press '/' to Search, up/down to select, 'enter' to add, shift-esc to clear trip.</div>
       </div>
     );
