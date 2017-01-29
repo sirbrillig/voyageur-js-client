@@ -22,8 +22,8 @@ const HeaderSummaryToggle = ( props ) => {
   const count = props.trip.length || '';
   return (
     <div className="header-summary-toggle btn-group">
-      <button className="btn btn-xs" disabled={ ! props.isShowingTrip } onClick={ props.hideTrip }>Search</button>
-      <button className="btn btn-xs" disabled={ props.isShowingTrip } onClick={ props.showTrip }>Trip <span className="badge">{ count }</span></button>
+      <button className="btn btn-default btn-xs" disabled={ ! props.isShowingTrip } onClick={ props.hideTrip }>Search</button>
+      <button className="btn btn-default btn-xs" disabled={ props.isShowingTrip } onClick={ props.showTrip }>Trip <span className="badge">{ count }</span></button>
     </div>
   );
 };
