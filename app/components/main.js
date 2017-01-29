@@ -5,6 +5,7 @@ import Library from 'components/library';
 import Distance from 'components/distance';
 import Trip from 'components/trip';
 import MainQuestion from 'components/main-question';
+import HeaderSummary from 'components/header-summary';
 import LocationSearch from 'components/location-search';
 import {
   startEditLocation,
@@ -32,6 +33,7 @@ class Main extends React.Component {
     const lastTripLocationId = ( props.trip.length > 0 ? props.trip[ props.trip.length - 1 ].id : null );
     return (
       <div className={ classNames( 'main', { 'main--trip': props.isShowingTrip } ) }>
+        <HeaderSummary />
         <div className="main__header">
           <Distance />
           <button className="btn btn-sm btn-primary main__clear-trip" onClick={ props.clearTrip }>Clear trip</button>
