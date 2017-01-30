@@ -1,37 +1,32 @@
 import React from 'react';
 import WideButton from 'components/wide-button';
 
-const AddLocationForm = React.createClass( {
-  propTypes: {
-    onAddLocation: React.PropTypes.func.isRequired,
-    onCancelAddLocation: React.PropTypes.func.isRequired,
-    initialAddress: React.PropTypes.string,
-  },
-
-  getInitialState() {
-    return {
+class AddLocationForm extends React.Component {
+  constructor( props ) {
+    super( props );
+    this.state = {
       name: '',
-      address: this.props.initialAddress || '',
+      address: props.initialAddress || '',
     };
-  },
+  }
 
-  onChangeName( event ) {
+  onChangeName = ( event ) => {
     this.setState( { name: event.target.value } );
-  },
+  }
 
-  onChangeAddress( event ) {
+  onChangeAddress = ( event ) => {
     this.setState( { address: event.target.value } );
-  },
+  }
 
-  onAddLocation() {
+  onAddLocation = () => {
     const { name, address } = this.state;
     this.props.onAddLocation( { name, address } );
-  },
+  }
 
-  focusInput( input ) {
+  focusInput = ( input ) => {
     if ( ! input ) return;
     input.focus();
-  },
+  }
 
   render() {
     return (
@@ -57,6 +52,12 @@ const AddLocationForm = React.createClass( {
       </div>
     );
   }
-} );
+}
+
+AddLocationForm.propTypes = {
+  onAddLocation: React.PropTypes.func.isRequired,
+  onCancelAddLocation: React.PropTypes.func.isRequired,
+  initialAddress: React.PropTypes.string,
+};
 
 export default AddLocationForm;
