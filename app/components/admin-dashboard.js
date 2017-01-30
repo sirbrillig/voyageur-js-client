@@ -7,24 +7,18 @@ import debugFactory from 'debug';
 
 const debug = debugFactory( 'voyageur:admin-dashboard' );
 
-const AdminDashboard = React.createClass( {
-  propTypes: {
-    events: React.PropTypes.array.isRequired,
-    isAdmin: React.PropTypes.bool,
-    fetchEvents: React.PropTypes.func.isRequired,
-  },
-
-  componentWillMount() {
+class AdminDashboard extends React.Component {
+  componentDidMount() {
     this.props.fetchEvents();
-  },
+  }
 
-  onChangePage() {
+  onChangePage = () => {
     const page = parseInt( this.pageField.value, 10 ) - 1;
     if ( page < 0 ) return;
     this.props.fetchEvents( { page } );
-  },
+  }
 
-  renderEvent( event ) {
+  renderEvent = ( event ) => {
     const method = event.event.toLowerCase();
     const classes = classNames( {
       info: ( method === 'get' ),
@@ -46,9 +40,9 @@ const AdminDashboard = React.createClass( {
         <td>{ event.msg }</td>
       </tr>
     );
-  },
+  }
 
-  renderEventLog() {
+  renderEventLog = () => {
     return (
       <table className="table table-condensed">
         <thead>
@@ -68,9 +62,9 @@ const AdminDashboard = React.createClass( {
         </tbody>
       </table>
     );
-  },
+  }
 
-  renderEventControls() {
+  renderEventControls = () => {
     const addRef = i => this.pageField = i;
     return (
       <div className="form-inline">
@@ -80,7 +74,7 @@ const AdminDashboard = React.createClass( {
         </div>
       </div>
     );
-  },
+  }
 
   render() {
     if ( ! this.props.isAdmin ) return <h1>Unauthorized</h1>;
@@ -94,7 +88,13 @@ const AdminDashboard = React.createClass( {
       </div>
     );
   }
-} );
+}
+
+AdminDashboard.propTypes = {
+  events: React.PropTypes.array.isRequired,
+  isAdmin: React.PropTypes.bool,
+  fetchEvents: React.PropTypes.func.isRequired,
+};
 
 function mapStateToProps( state ) {
   return { isAdmin: ( state.auth.user && state.auth.user.role === 'admin' ), events: state.admin.events };
