@@ -22,55 +22,26 @@ import flow from 'lodash.flow';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
-const LoggedIn = React.createClass( {
-  propTypes: {
-    isLoading: React.PropTypes.bool,
-    library: React.PropTypes.array,
-    predictions: React.PropTypes.array,
-    trip: React.PropTypes.array,
-    searchString: React.PropTypes.string,
-    isShowingAddLocation: React.PropTypes.bool,
-    editingLocation: React.PropTypes.object,
-    addingAddress: React.PropTypes.string,
-    selectedLocation: React.PropTypes.number,
-    isLoadingTrip: React.PropTypes.bool,
-    fetchLibrary: React.PropTypes.func.isRequired,
-    selectNextLocation: React.PropTypes.func.isRequired,
-    selectPreviousLocation: React.PropTypes.func.isRequired,
-    addToTrip: React.PropTypes.func.isRequired,
-    hideAddLocation: React.PropTypes.func.isRequired,
-    addLocation: React.PropTypes.func.isRequired,
-    clearTrip: React.PropTypes.func.isRequired,
-    searchLocationsAndAddressFor: React.PropTypes.func.isRequired,
-    hideEditLocation: React.PropTypes.func.isRequired,
-    saveLocation: React.PropTypes.func.isRequired,
-    deleteLocation: React.PropTypes.func.isRequired,
-  },
-
-  componentWillMount() {
-    this.props.fetchLibrary();
-  },
-
+class LoggedIn extends React.Component {
   componentDidMount() {
-    if ( ! window ) return;
-    window.document.body.addEventListener( 'keydown', this.mainKeyListener );
-  },
+    this.props.fetchLibrary();
+    if ( window ) window.document.body.addEventListener( 'keydown', this.mainKeyListener );
+  }
 
   componentWillUnmount() {
-    if ( ! window ) return;
-    window.document.body.removeEventListener( 'keydown', this.mainKeyListener );
-  },
+    if ( window ) window.document.body.removeEventListener( 'keydown', this.mainKeyListener );
+  }
 
-  mainKeyListener( evt ) {
+  mainKeyListener = ( evt ) => {
     if ( this.props.isShowingAddLocation || this.props.editingLocation ) return;
     switch ( evt.keyCode ) {
       case 40:
         // pressing up and down changes the selected location
         evt.preventDefault();
-        return this.moveSelectDown();
+        return this.props.selectNextLocation( this.getVisibleLocations().length - 1 );
       case 38:
         evt.preventDefault();
-        return this.moveSelectUp();
+        return this.props.selectPreviousLocation();
       case 27:
         // pressing shift-esc clears the trip
         if ( evt.shiftKey ) {
@@ -83,21 +54,13 @@ const LoggedIn = React.createClass( {
         evt.preventDefault();
         return this.addSelectedLocationToTrip();
     }
-  },
+  }
 
-  getVisibleLocations() {
+  getVisibleLocations = () => {
     return getVisibleLocations( this.props.library, this.props.searchString ).concat( this.props.predictions );
-  },
+  }
 
-  moveSelectDown() {
-    this.props.selectNextLocation( this.getVisibleLocations().length - 1 );
-  },
-
-  moveSelectUp() {
-    this.props.selectPreviousLocation();
-  },
-
-  addSelectedLocationToTrip() {
+  addSelectedLocationToTrip = () => {
     const location = this.getVisibleLocations()[ this.props.selectedLocation ];
     if ( ! location ) return;
     const lastTripLocation = ( this.props.trip.length > 0 ? this.props.trip[ this.props.trip.length - 1 ] : null );
@@ -107,15 +70,7 @@ const LoggedIn = React.createClass( {
       if ( nextAddress === lastAddress ) return; // Don't allow adding the same address twice
     }
     this.props.addToTrip( buildTripLocationFromLocation( location ) );
-  },
-
-  renderEditLocationForm() {
-    if ( this.props.editingLocation ) return <EditLocationForm key="edit-location-form" location={ this.props.editingLocation } onSaveLocation={ this.props.saveLocation } onCancelEditLocation={ this.props.hideEditLocation } onDeleteLocation={ this.props.deleteLocation } />;
-  },
-
-  renderAddLocationForm() {
-    if ( this.props.isShowingAddLocation ) return <AddLocationForm key="add-location-form" onAddLocation={ this.props.addLocation } onCancelAddLocation={ this.props.hideAddLocation } initialAddress={ this.props.addingAddress } />;
-  },
+  }
 
   render() {
     return (
@@ -124,15 +79,39 @@ const LoggedIn = React.createClass( {
           { this.props.isLoading ? <LoadingPanel /> : <Main /> }
         </div>
         <ReactCSSTransitionGroup transitionName="add-location-form-container" transitionEnterTimeout={ 300 } transitionLeaveTimeout={ 300 }>
-          { this.renderAddLocationForm() }
+          { this.props.isShowingAddLocation && <AddLocationForm key="add-location-form" onAddLocation={ this.props.addLocation } onCancelAddLocation={ this.props.hideAddLocation } initialAddress={ this.props.addingAddress } /> }
         </ReactCSSTransitionGroup>
         <ReactCSSTransitionGroup transitionName="add-location-form-container" transitionEnterTimeout={ 300 } transitionLeaveTimeout={ 300 }>
-          { this.renderEditLocationForm() }
+          { this.props.editingLocation && <EditLocationForm key="edit-location-form" location={ this.props.editingLocation } onSaveLocation={ this.props.saveLocation } onCancelEditLocation={ this.props.hideEditLocation } onDeleteLocation={ this.props.deleteLocation } /> }
         </ReactCSSTransitionGroup>
       </ReactCSSTransitionGroup>
     );
   }
-} );
+}
+
+LoggedIn.propTypes = {
+  isLoading: React.PropTypes.bool,
+  library: React.PropTypes.array,
+  predictions: React.PropTypes.array,
+  trip: React.PropTypes.array,
+  searchString: React.PropTypes.string,
+  isShowingAddLocation: React.PropTypes.bool,
+  editingLocation: React.PropTypes.object,
+  addingAddress: React.PropTypes.string,
+  selectedLocation: React.PropTypes.number,
+  isLoadingTrip: React.PropTypes.bool,
+  fetchLibrary: React.PropTypes.func.isRequired,
+  selectNextLocation: React.PropTypes.func.isRequired,
+  selectPreviousLocation: React.PropTypes.func.isRequired,
+  addToTrip: React.PropTypes.func.isRequired,
+  hideAddLocation: React.PropTypes.func.isRequired,
+  addLocation: React.PropTypes.func.isRequired,
+  clearTrip: React.PropTypes.func.isRequired,
+  searchLocationsAndAddressFor: React.PropTypes.func.isRequired,
+  hideEditLocation: React.PropTypes.func.isRequired,
+  saveLocation: React.PropTypes.func.isRequired,
+  deleteLocation: React.PropTypes.func.isRequired,
+};
 
 function mapStateToProps( state ) {
   return {
