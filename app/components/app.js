@@ -5,42 +5,38 @@ import { doAuthWithPassword, parseAuthToken, getProfile } from 'lib/actions/auth
 import Layout from 'components/layout';
 import LogInBox from 'components/log-in-box';
 
-const App = React.createClass( {
-  propTypes: {
-    auth: React.PropTypes.object.isRequired,
-  },
-
+class App extends React.Component {
   componentWillMount() {
     if ( ! this.props.auth.token ) {
       this.props.parseAuthToken();
     }
-  },
+  }
 
   componentDidMount() {
-    this.getUserInfo();
-  },
+    this.getUserInfo( this.props );
+  }
 
   componentDidUpdate() {
-    this.getUserInfo();
-  },
+    this.getUserInfo( this.props );
+  }
 
-  getUserInfo() {
-    if ( this.props.auth.token && ! this.props.auth.user ) {
-      this.props.getProfile();
+  getUserInfo( props ) {
+    if ( props.auth.token && ! props.auth.user ) {
+      props.getProfile();
     }
-  },
-
-  showAuthWithPassword() {
-    this.props.doAuthWithPassword();
-  },
+  }
 
   render() {
     if ( this.props.auth.token ) {
       return ( <Layout children={ this.props.children } /> );
     }
-    return ( <LogInBox showAuth={ this.showAuthWithPassword } /> );
+    return ( <LogInBox showAuth={ this.props.doAuthWithPassword } /> );
   }
-} );
+}
+
+App.propTypes = {
+  auth: React.PropTypes.object.isRequired,
+};
 
 function mapStateToProps( state ) {
   const { auth } = state;
