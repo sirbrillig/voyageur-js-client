@@ -23,7 +23,7 @@ TripLocationControls.propTypes = {
 
 const TripLocation = ( props ) => {
   const locationClassNames = classNames( 'trip-location row well well-sm', {
-    'trip-location--droppable': this.props.isOver,
+    'trip-location--droppable': props.isOver,
   } );
   return props.connectDropTarget( props.connectDragSource(
     <li className={ locationClassNames } >
