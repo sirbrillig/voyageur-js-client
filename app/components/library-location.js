@@ -4,40 +4,32 @@ import { DragSource, DropTarget } from 'react-dnd';
 import flow from 'lodash.flow';
 import { buildTripLocationFromLocation } from 'lib/helpers';
 
-const LibraryLocation = React.createClass( {
-  propTypes: {
-    location: React.PropTypes.object.isRequired,
-    onAddToTrip: React.PropTypes.func.isRequired,
-    onEditLocation: React.PropTypes.func.isRequired,
-    onAddLocation: React.PropTypes.func.isRequired,
-    isSelected: React.PropTypes.bool,
-    connectDragSource: React.PropTypes.func.isRequired,
-    isDragging: React.PropTypes.bool.isRequired,
-    connectDropTarget: React.PropTypes.func.isRequired,
-    isOver: React.PropTypes.bool.isRequired,
-    onDrop: React.PropTypes.func.isRequired,
-    isDisabled: React.PropTypes.bool,
-  },
+const LibraryLocationControls = ( props ) => {
+  if ( props.location.isLoading ) {
+    return <span className="library-location__loading glyphicon glyphicon-refresh glyphicon-spin" />;
+  }
+  const editLocation = () => props.onEditLocation( props.location );
+  const saveLocation = () => props.onAddLocation( props.location.description );
+  if ( ! props.location.name && ! props.location._id ) {
+    return <button className="btn btn-default btn-sm" onClick={ saveLocation }>Save</button>;
+  }
+  return <button className="btn btn-default btn-sm" onClick={ editLocation }>Edit</button>;
+};
 
+LibraryLocationControls.propTypes = {
+  location: React.PropTypes.object.isRequired,
+  onAddLocation: React.PropTypes.func.isRequired,
+  onEditLocation: React.PropTypes.func.isRequired,
+};
+
+class LibraryLocation extends React.Component {
   componentDidUpdate() {
-    if ( this.props.isSelected ) this.scrollIntoView();
-  },
+    if ( this.props.isSelected ) this.scrollIntoView( this.domElement );
+  }
 
-  scrollIntoView() {
-    if ( window && this.domElement ) window.scrollTo( 0, this.domElement.offsetTop - ( window.innerHeight / 2 ) );
-  },
-
-  renderControls() {
-    if ( this.props.location.isLoading ) {
-      return <span className="library-location__loading glyphicon glyphicon-refresh glyphicon-spin" />;
-    }
-    const editLocation = () => this.props.onEditLocation( this.props.location );
-    const saveLocation = () => this.props.onAddLocation( this.props.location.description );
-    if ( ! this.props.location.name && ! this.props.location._id ) {
-      return <button className="btn btn-default btn-sm" onClick={ saveLocation }>Save</button>;
-    }
-    return <button className="btn btn-default btn-sm" onClick={ editLocation }>Edit</button>;
-  },
+  scrollIntoView( domElement ) {
+    if ( window && domElement ) window.scrollTo( 0, domElement.offsetTop - ( window.innerHeight / 2 ) );
+  }
 
   render() {
     const addToTrip = () => this.props.onAddToTrip( buildTripLocationFromLocation( this.props.location ) );
@@ -54,14 +46,28 @@ const LibraryLocation = React.createClass( {
         </div>
         <div className="col-xs-3" >
           <div className="library-location__controls" >
-            { this.renderControls() }
+            <LibraryLocationControls location={ location } onEditLocation={ this.props.onEditLocation } onAddLocation={ this.props.onAddLocation } />
           </div>
         </div>
         <button disabled={ this.props.isDisabled } className="btn btn-primary btn-block library-location__add" onClick={ addToTrip }>Add to trip <span className="glyphicon glyphicon-arrow-right" /></button>
       </li>
     ) );
   }
-} );
+}
+
+LibraryLocation.propTypes = {
+  location: React.PropTypes.object.isRequired,
+  onAddToTrip: React.PropTypes.func.isRequired,
+  onEditLocation: React.PropTypes.func.isRequired,
+  onAddLocation: React.PropTypes.func.isRequired,
+  isSelected: React.PropTypes.bool,
+  connectDragSource: React.PropTypes.func.isRequired,
+  isDragging: React.PropTypes.bool.isRequired,
+  connectDropTarget: React.PropTypes.func.isRequired,
+  isOver: React.PropTypes.bool.isRequired,
+  onDrop: React.PropTypes.func.isRequired,
+  isDisabled: React.PropTypes.bool,
+};
 
 const dragSpec = {
   beginDrag( props ) {
