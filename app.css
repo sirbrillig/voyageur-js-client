@@ -1,70 +1,16 @@
 body {
   font-family: "proxima-nova", sans-serif;
   text-align: center;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 100;
   background-color: #F6F7EB;
-}
-h1,
-h2,
-h3 {
-  font-weight: 100;
+  margin: 0;
+  line-height: 1.42857143;
 }
 
 ul {
   padding: 0;
   margin: 0;
-}
-
-/**
- * LogInBox
- */
-.log-in-box {
-  height: 100vh;
-  width: 100vw;
-  background-color: #fff;
-  display: flex;
-  margin-left: -15px;
-  justify-content: center;
-  align-items: center;
-  background-image: url( 'assets/map-full.jpeg' );
-}
-
-.log-in-box__title {
-  display: none;
-}
-
-.log-in-box__subtitle {
-  font-size: 3rem;
-  font-weight: 400;
-  color: #fff;
-  margin: 20px;
-}
-
-.log-in-box__button {
-  font-size: 140%;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  border: 0;
-  color: white;
-}
-
-.log-in-box__button:hover {
-  background-color: #44C7F4;
-}
-
-.log-in-box__button:focus {
-  outline: none !important;
-}
-
-.log-in-box__button.btn-lg {
-  padding: 20px 50px;
-}
-
-@media( min-width: 755px ) {
-  .log-in-box__button {
-    margin: auto;
-  }
 }
 
 .notices {
