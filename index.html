@@ -12,8 +12,8 @@ return t?d=t:(r=(f.body||f.getElementsByTagName("head")[0]).childNodes,d=r[r.len
 setTimeout(function(){l(e)})},s.addEventListener&&s.addEventListener("load",function(){this.media=u}),s.onloadcssdefined=l,l(function(){s.media!==u&&(s.media=u)}),s}
 "undefined"!=typeof exports?exports.loadCSS=n:e.loadCSS=n}("undefined"!=typeof global?global:this)
         </script>
-        <script>
-loadCSS( '//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css' )
+        <script id="loadcss">
+loadCSS( './assets/bootstrap.css', document.getElementById( 'loadcss' ) )
 loadCSS( 'app.css' )
 loadCSS( '/assets/animate.css' )
         </script>
