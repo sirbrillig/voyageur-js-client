@@ -16,18 +16,6 @@ ul {
   margin: 0;
 }
 
-.btn-primary:focus, .btn-primary.active.focus, .btn-primary.active:focus, .btn-primary.active:hover, .btn-primary:active.focus, .btn-primary:active:focus, .btn-primary:active:hover, .btn-primary:hover, .btn-primary.active, .btn-primary:active, .btn-primary {
-  background-color: #59cd90;
-  border-color: #53bd85;
-  color: #EBF5EE;
-}
-
-.btn-primary.disabled.focus, .btn-primary.disabled:focus, .btn-primary.disabled:hover, .btn-primary[disabled].focus, .btn-primary[disabled]:focus, .btn-primary[disabled]:hover, fieldset[disabled] .btn-primary.focus, fieldset[disabled] .btn-primary:focus, fieldset[disabled] .btn-primary:hover {
-  background-color: #53bd85;
-  border-color: #393d3f;
-  color: #EBF5EE;
-}
-
 /**
  * LogInBox
  */
