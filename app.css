@@ -127,12 +127,16 @@ ul {
   list-style: none;
   text-align: left;
   margin: 4px 0px;
-  border-width: 2px;
   min-height: 75px;
   overflow: hidden;
-  padding: 0;
+  padding: 0px;
   background-color: inherit;
-  box-shadow: none;
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid #e3e3e3;
+  border-width: 2px;
+  border-radius: 3px;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.05)
 }
 
 .library-location--selected {
@@ -148,10 +152,16 @@ ul {
   justify-content: center;
   align-items: center;
   height: 64px;
+  width: 25%;
 }
 
 .library-location__loading {
   color: #999;
+}
+
+.library-location__description {
+  width: 75%;
+  padding: 2px 15px;
 }
 
 .library-location__description__name {
@@ -367,6 +377,12 @@ ul {
   border-width: 2px;
   min-height: 35px;
   overflow: hidden;
+  display: flex;
+  background-color: #f5f5f5;
+  border: 1px solid #e3e3e3;
+  border-width: 2px;
+  border-radius: 3px;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.05)
 }
 
 .trip-location--droppable {
@@ -377,10 +393,16 @@ ul {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 25%;
 }
 
 .trip-location__loading {
   color: #999;
+}
+
+.trip-location__description {
+  width: 75%;
+  padding: 2px 15px;
 }
 
 .trip-location__description__name {
