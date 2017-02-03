@@ -1,6 +1,6 @@
 import { gotError } from 'lib/actions/general';
 import * as api from 'lib/api/locations';
-import { reorderModels } from 'lib/helpers';
+import { reorderModels, getHashFor } from 'lib/helpers';
 import { searchAutocompleteFor } from 'lib/google';
 import { Promise } from 'es6-promise';
 import debugFactory from 'debug';
@@ -24,7 +24,7 @@ export function addLocation( params ) {
     api.createNewLocation( getState().auth.token, params )
     .then( () => dispatch( fetchLibrary() ) )
     .catch( ( err ) => dispatch( gotError( err ) ) );
-    const location = Object.assign( { _id: 'new-location_' + Date.now(), isLoading: true }, params );
+    const location = Object.assign( { _id: 'new-location_' + getHashFor( params.name + params.address ), isLoading: true }, params );
     dispatch( gotNewLocation( location ) );
   };
 }
