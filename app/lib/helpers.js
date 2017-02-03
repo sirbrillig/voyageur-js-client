@@ -71,7 +71,7 @@ export function sumUnlessNull( a, b ) {
 
 export function isCacheExpired( cache ) {
   const maxDistanceAge = 7 * 24 * 60 * 60 * 1000;
-  const now = Date.now();
+  const now = performance.now();
   return ( ( now - cache.lastUpdatedAt || 0 ) > maxDistanceAge );
 }
 
