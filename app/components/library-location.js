@@ -11,9 +11,9 @@ const LibraryLocationControls = ( props ) => {
   const editLocation = () => props.onEditLocation( props.location );
   const saveLocation = () => props.onAddLocation( props.location.description );
   if ( ! props.location.name && ! props.location._id ) {
-    return <button className="btn btn-default btn-sm" onClick={ saveLocation }>Save</button>;
+    return <button className="library-location-controls btn btn-default btn-sm" onClick={ saveLocation }>Save</button>;
   }
-  return <button className="btn btn-default btn-sm" onClick={ editLocation }>Edit</button>;
+  return <button className="library-location-controls btn btn-default btn-sm" onClick={ editLocation }>Edit</button>;
 };
 
 LibraryLocationControls.propTypes = {
@@ -45,7 +45,7 @@ class LibraryLocation extends React.Component {
           <p className="library-location__description__address">{ this.props.location.address || this.props.location.description }</p>
         </div>
         <div className="library-location__controls" >
-          <LibraryLocationControls location={ location } onEditLocation={ this.props.onEditLocation } onAddLocation={ this.props.onAddLocation } />
+          <LibraryLocationControls location={ this.props.location } onEditLocation={ this.props.onEditLocation } onAddLocation={ this.props.onAddLocation } />
         </div>
         <button disabled={ this.props.isDisabled } className="btn btn-primary btn-block library-location__add" onClick={ addToTrip }>Add to trip <span className="glyphicon glyphicon-arrow-right" /></button>
       </li>
