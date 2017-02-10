@@ -33,21 +33,19 @@ class LibraryLocation extends React.Component {
 
   render() {
     const addToTrip = () => this.props.onAddToTrip( buildTripLocationFromLocation( this.props.location ) );
-    const locationClassNames = classNames( 'library-location row well well-sm', {
+    const locationClassNames = classNames( 'library-location', {
       'library-location--selected': this.props.isSelected,
       'library-location--droppable': this.props.isOver,
     } );
     const saveRef = el => this.domElement = el;
     return this.props.connectDropTarget( this.props.connectDragSource(
       <li className={ locationClassNames } ref={ saveRef }>
-        <div className="library-location__description col-xs-9" >
+        <div className="library-location__description" >
           <h3 className="library-location__description__name">{ this.props.location.name }</h3>
           <p className="library-location__description__address">{ this.props.location.address || this.props.location.description }</p>
         </div>
-        <div className="col-xs-3" >
-          <div className="library-location__controls" >
-            <LibraryLocationControls location={ location } onEditLocation={ this.props.onEditLocation } onAddLocation={ this.props.onAddLocation } />
-          </div>
+        <div className="library-location__controls" >
+          <LibraryLocationControls location={ location } onEditLocation={ this.props.onEditLocation } onAddLocation={ this.props.onAddLocation } />
         </div>
         <button disabled={ this.props.isDisabled } className="btn btn-primary btn-block library-location__add" onClick={ addToTrip }>Add to trip <span className="glyphicon glyphicon-arrow-right" /></button>
       </li>

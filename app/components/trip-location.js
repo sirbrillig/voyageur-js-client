@@ -22,18 +22,16 @@ TripLocationControls.propTypes = {
 };
 
 const TripLocation = ( props ) => {
-  const locationClassNames = classNames( 'trip-location row well well-sm', {
+  const locationClassNames = classNames( 'trip-location', {
     'trip-location--droppable': props.isOver,
   } );
   return props.connectDropTarget( props.connectDragSource(
     <li className={ locationClassNames } >
-      <div className="trip-location__description col-xs-8" >
+      <div className="trip-location__description" >
         <h3 className="trip-location__description__name">{ props.name || props.address }</h3>
       </div>
-      <div className="col-xs-4" >
-        <div className="trip-location__controls" >
-          <TripLocationControls isLoading={ props.isLoading } index={ props.index } onRemoveTripLocation={ props.onRemoveTripLocation } />
-        </div>
+      <div className="trip-location__controls" >
+        <TripLocationControls isLoading={ props.isLoading } index={ props.index } onRemoveTripLocation={ props.onRemoveTripLocation } />
       </div>
     </li>
   ) );

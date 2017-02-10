@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import { hideTrip, showTrip } from 'lib/actions/trip';
 import { logOut } from 'lib/actions/auth';
 
-const HeaderLogo = () => <Link to="/"><img className="header-logo" src="/assets/logo-small.png" /></Link>;
+const HeaderLogo = () => <Link to="/"><img className="header-logo" alt="Voyageur logo" src="/assets/logo-small.png" /></Link>;
 
 const HeaderSummary = ( props ) => {
   return (

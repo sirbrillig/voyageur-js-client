@@ -13,7 +13,7 @@
     "prebuild:dist": "mkdirp dist",
     "clean:dist": "rimraf dist",
     "clean": "npm run clean:dist",
-    "copy:dist": "cp -a build index.html 200.html assets app.css dist/",
+    "copy:dist": "cp -a build index.html 200.html assets fonts app.css dist/",
     "setname:dist": "cp CNAME dist/CNAME",
     "setname:stage": "cp CNAME-stage dist/CNAME",
     "dist": "npm-run-all clean:dist build:dist copy:dist setname:dist",

@@ -3,12 +3,123 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-        <link href="app.css" rel="stylesheet">
-        <link href="/assets/animate.css" rel="stylesheet">
+        <meta name="theme-color" content="#db5945">
+        <script>
+// https://github.com/filamentgroup/loadCSS
+!function(e){"use strict"
+var n=function(n,t,o){function i(e){return f.body?e():void setTimeout(function(){i(e)})}var d,r,a,l,f=e.document,s=f.createElement("link"),u=o||"all"
+return t?d=t:(r=(f.body||f.getElementsByTagName("head")[0]).childNodes,d=r[r.length-1]),a=f.styleSheets,s.rel="stylesheet",s.href=n,s.media="only x",i(function(){d.parentNode.insertBefore(s,t?d:d.nextSibling)}),l=function(e){for(var n=s.href,t=a.length;t--;)if(a[t].href===n)return e()
+setTimeout(function(){l(e)})},s.addEventListener&&s.addEventListener("load",function(){this.media=u}),s.onloadcssdefined=l,l(function(){s.media!==u&&(s.media=u)}),s}
+"undefined"!=typeof exports?exports.loadCSS=n:e.loadCSS=n}("undefined"!=typeof global?global:this)
+        </script>
+<style>
+.log-in-box {
+  height: 100vh;
+  width: 100vw;
+  background-color: #4e4e4e;
+  display: flex;
+  margin-left: -15px;
+  justify-content: center;
+  align-items: center;
+  background-image: url( 'assets/map-full.jpeg' );
+}
+.log-in-box__title {
+  display: none;
+}
+.log-in-box__subtitle {
+  font-size: 3rem;
+  font-weight: 400;
+  color: #fff;
+  margin: 20px;
+}
+.log-in-box__button {
+  font-size: 140%;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: 0;
+  color: white;
+}
+.log-in-box__button:hover {
+  background-color: #44C7F4;
+}
+.log-in-box__button:focus {
+  outline: none !important;
+}
+.log-in-box__button.btn-lg {
+  padding: 20px 50px;
+}
+@media( min-width: 755px ) {
+  .log-in-box__button {
+    margin: auto;
+  }
+}
+.container-fluid {
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: "proxima-nova", sans-serif;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 100;
+  line-height: 1.42857143;
+  background-color: #F6F7EB;
+  margin: 0;
+}
+h1,
+h2,
+h3 {
+  font-weight: 100;
+}
+html {
+  font-size: 10px;
+}
+.btn {
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  border-radius: 4px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.btn-primary {
+  color: #ebf5ee;
+  background-color: #59cd90;
+  border-color: #45c783;
+}
+.btn-lg {
+  font-size: 18px;
+  line-height: 1.3333333;
+  border-radius: 6px;
+}
+</style>
+        <script id="loadcss">
+loadCSS( './assets/bootstrap.css', document.getElementById( 'loadcss' ) )
+loadCSS( 'app.css' )
+loadCSS( '/assets/animate.css' )
+        </script>
     </head>
     <body class="home">
         <div class="container-fluid" id="container">
+          <div class="log-in-box"><div class="log-in-box__content"><img class="log-in-box__logo" alt="Voyageur logo" src="/assets/logo-medium-smooth.png"><h1 class="log-in-box__title">Voyageur</h1><p class="log-in-box__subtitle">How far do you go?</p><a class="log-in-box__button btn btn-primary btn-lg">Let's find out!</a></div></div>
         </div>
         <script defer type='text/javascript' src='//maps.googleapis.com/maps/api/js?key=AIzaSyBNDQ3-gE2fMeBUN_X1ELPoMxm8AQiYQOo&libraries=places'></script>
         <script defer src="http://cdn.auth0.com/js/lock/10.9.2/lock.min.js"></script>

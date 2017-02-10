@@ -5,7 +5,7 @@ export default function distances( state = {}, action ) {
     case 'TRIP_GOT_DISTANCE_BETWEEN':
       return Object.assign( {}, state, {
         [ getKeyForAddresses( action.start, action.dest ) ]:
-        { lastUpdatedAt: Date.now(), distance: action.distance }
+        { lastUpdatedAt: performance.now(), distance: action.distance }
       } );
   }
   return state;
