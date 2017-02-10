@@ -75,7 +75,8 @@ ul {
 }
 
 .library-location--selected {
-  border: 2px solid #59cd90;
+  border: 2px solid #415f4f;
+  box-shadow: 3px 3px #415f4f;
 }
 
 .library-location--droppable {
