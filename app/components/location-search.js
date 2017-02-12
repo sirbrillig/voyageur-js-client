@@ -12,6 +12,7 @@ class LocationSearch extends React.Component {
   }
 
   searchKeyListener = ( evt ) => {
+    if ( this.props.isShowingModal ) return;
     // pressing forward slash focuses the search field
     if ( evt.keyCode === 191 ) this.focusSearchField();
     // pressing escape clears the search field
@@ -41,6 +42,7 @@ class LocationSearch extends React.Component {
 LocationSearch.propTypes = {
   onChange: React.PropTypes.func.isRequired,
   searchString: React.PropTypes.string,
+  isShowingModal: React.PropTypes.bool,
 };
 
 export default LocationSearch;

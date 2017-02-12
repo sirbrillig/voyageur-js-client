@@ -31,6 +31,7 @@ class Main extends React.Component {
   render() {
     const props = this.props;
     const lastTripLocationId = ( props.trip.length > 0 ? props.trip[ props.trip.length - 1 ].id : null );
+    const isShowingModal = props.isShowingAddLocation || props.editingLocation;
     return (
       <div className={ classNames( 'main', { 'main--trip': props.isShowingTrip } ) }>
         <HeaderSummary />
@@ -41,7 +42,7 @@ class Main extends React.Component {
         <div className="main__content">
           <div className="main__library">
             <MainQuestion trip={ props.trip } />
-            <LocationSearch onChange={ props.searchLocationsAndAddressFor } searchString={ props.searchString } />
+            <LocationSearch onChange={ props.searchLocationsAndAddressFor } searchString={ props.searchString } isShowingModal={ isShowingModal } />
             <Library
               locations={ props.library }
               searchString={ props.searchString }
@@ -75,6 +76,8 @@ function mapStateToProps( state ) {
     selectedLocation: state.ui.selectedLocation,
     isShowingTrip: state.ui.isShowingTrip,
     searchString: state.ui.searchString,
+    isShowingAddLocation: state.ui.isShowingAddLocation,
+    editingLocation: state.ui.editingLocation,
   };
 }
 
