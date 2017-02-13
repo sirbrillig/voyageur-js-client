@@ -23,11 +23,6 @@ import {
 } from 'lib/actions/trip';
 
 class Main extends React.Component {
-  componentWillReceiveProps( nextProps ) {
-    // Hide trip if empty
-    if ( nextProps.isShowingTrip && nextProps.trip.length < 1 ) this.props.hideTrip();
-  }
-
   render() {
     const props = this.props;
     const lastTripLocationId = ( props.trip.length > 0 ? props.trip[ props.trip.length - 1 ].id : null );
