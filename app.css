@@ -193,7 +193,7 @@ ul {
   }
 }
 
-@media (min-width: 1000px) {
+@media (min-width: 830px) {
   .main {
     display: flex;
     justify-content: space-around;
@@ -216,7 +216,13 @@ ul {
 
 .main__clear-trip {
   width: 100%;
-  max-width: 480px;
+  max-width: 490px;
+}
+
+@media( min-width: 830px ) and ( max-width: 1100px ) {
+  .main__clear-trip {
+    max-width: 390px;
+  }
 }
 
 .trip__clear-trip {
@@ -224,7 +230,7 @@ ul {
   display: none;
 }
 
-@media( min-width: 1000px ) {
+@media( min-width: 830px ) {
   .main__clear-trip {
     display: none;
   }
@@ -240,18 +246,18 @@ ul {
   position: static;
 }
 
-@media( min-width: 490px ) {
-  .main__library {
-    min-width: 490px;
-  }
-}
-
 .main--trip .main__library {
   position: absolute;
   left: -1000px;
 }
 
-@media( min-width: 1000px ) {
+@media( min-width: 830px ) and ( max-width: 1100px ) {
+  .main__library {
+    max-width: 390px;
+  }
+}
+
+@media( min-width: 830px ) {
   .main--trip .main__library {
     position: static;
   }
@@ -261,7 +267,7 @@ ul {
  * Trip
  */
 .trip {
-  margin-top: 2.3em;
+  margin-top: 2.5em;
   max-width: 490px;
   width: 100%;
   flex: 1;
@@ -269,17 +275,17 @@ ul {
   top: -1000px;
 }
 
-@media( min-width: 490px ) {
-  .trip {
-    min-width: 490px;
-  }
-}
-
 .main--trip .trip {
   position: static;
 }
 
-@media( min-width: 1000px ) {
+@media( min-width: 830px ) and ( max-width: 1100px ) {
+  .trip {
+    max-width: 390px;
+  }
+}
+
+@media( min-width: 830px ) {
   .trip {
     position: static;
   }
@@ -387,7 +393,7 @@ ul {
   margin: 0.5em;
 }
 
-@media( min-width: 1000px ) {
+@media( min-width: 830px ) {
   .trip-buttons__toggle {
     display: none;
   }
@@ -468,7 +474,7 @@ ul {
   margin-top: 10px;
 }
 
-@media ( min-width: 1000px ) {
+@media ( min-width: 830px ) {
   .header-summary-toggle {
     display: none;
   }
@@ -482,7 +488,7 @@ ul {
   width: 40px;
 }
 
-@media  ( min-width: 1000px ) {
+@media  ( min-width: 830px ) {
   .header-logo {
     width: 70px;
   }
