@@ -286,8 +286,11 @@ ul {
 }
 
 .trip__empty-notice {
-  margin: 0.5em;
+  margin: 0.5em 0;
   display: block;
+  font-size: 1.2em;
+  background-color: #fff;
+  padding: 10px;
 }
 
 .trip--droppable:before {
