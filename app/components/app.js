@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { clearNotices } from 'lib/actions/general';
 import { doAuthWithPassword, parseAuthToken, getProfile } from 'lib/actions/auth';
 import Layout from 'components/layout';
 import LogInBox from 'components/log-in-box';
@@ -30,7 +31,7 @@ class App extends React.Component {
     if ( this.props.auth.token ) {
       return ( <Layout children={ this.props.children } /> );
     }
-    return ( <LogInBox showAuth={ this.props.doAuthWithPassword } /> );
+    return ( <LogInBox showAuth={ this.props.doAuthWithPassword } errors={ this.props.errors } onClearNotices={ this.props.clearNotices } /> );
   }
 }
 
@@ -39,8 +40,8 @@ App.propTypes = {
 };
 
 function mapStateToProps( state ) {
-  const { auth } = state;
-  return { auth };
+  const { auth, notices } = state;
+  return { auth, errors: notices.errors };
 }
 
-export default connect( mapStateToProps, { doAuthWithPassword, getProfile, parseAuthToken } )( App );
+export default connect( mapStateToProps, { doAuthWithPassword, getProfile, parseAuthToken, clearNotices } )( App );

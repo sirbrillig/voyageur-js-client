@@ -7,7 +7,7 @@ const debug = debugFactory( 'voyageur:trip-map' );
 
 function getGoogleMaps() {
   if ( window && window.google && window.google.maps ) return window.google.maps;
-  return {};
+  return null;
 }
 
 function LatLng( x, y ) {
