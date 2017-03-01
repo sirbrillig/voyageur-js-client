@@ -90,6 +90,7 @@
     "mocha": "^3.2.0",
     "npm-run-all": "^3.1.0",
     "onchange": "^3.0.2",
+    "performance-now": "^2.1.0",
     "react-addons-test-utils": "^15.4.2",
     "rimraf": "^2.5.4",
     "sinon": "^1.17.7",

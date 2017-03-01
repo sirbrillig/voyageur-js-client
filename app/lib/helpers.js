@@ -1,5 +1,11 @@
 import findWhere from 'lodash.findwhere';
 import crypto from 'crypto';
+import nowPolyfill from 'performance-now';
+
+export function now() {
+  if ( typeof window !== 'undefined' && window.performance ) return window.performance.now();
+  return nowPolyfill();
+}
 
 export function reorderArray( ids, sourceIndex, targetIndex ) {
   if ( sourceIndex === -1 || targetIndex === -1 ) return null;
@@ -69,10 +75,16 @@ export function sumUnlessNull( a, b ) {
   return a + b;
 }
 
+export function getMaxDistanceAge() {
+  return 7 * 24 * 60 * 60 * 1000;
+}
+
+export function getCacheAge( cache ) {
+  return now() - ( cache.lastUpdatedAt || 0 );
+}
+
 export function isCacheExpired( cache ) {
-  const maxDistanceAge = 7 * 24 * 60 * 60 * 1000;
-  const now = performance.now();
-  return ( ( now - cache.lastUpdatedAt || 0 ) > maxDistanceAge );
+  return ( getCacheAge( cache ) > getMaxDistanceAge() );
 }
 
 export function getCachedDistanceForPair( pair, cachedDistances ) {

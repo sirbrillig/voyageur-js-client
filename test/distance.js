@@ -5,7 +5,7 @@ import sinonChai from 'sinon-chai';
 import chaiEnzyme from 'chai-enzyme';
 import { shallow } from 'enzyme';
 import { Distance } from 'components/distance';
-import { getKeyForAddresses } from 'lib/helpers';
+import { getKeyForAddresses, now, getMaxDistanceAge } from 'lib/helpers';
 import DistanceNumber from 'components/distance-number';
 
 chai.use( sinonChai );
@@ -43,12 +43,12 @@ describe( '<Distance />', function() {
   } );
 
   it( 'renders a 0 distance with two duplicate addresses', function() {
-    const now = performance.now();
+    const lastUpdatedAt = now();
     const addresses = [ '123 Home Drive, Chicago, IL, USA', '123 Home Drive, Chicago, IL, USA' ];
     const cachedDistances = {
-      [ getKeyForAddresses( addresses[ 0 ], addresses[ 1 ] ) ]: { distance: 5000, lastUpdatedAt: now },
-      [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt: now },
-      [ getKeyForAddresses( addresses[ 1 ], 'foo' ) ]: { distance: 2000, lastUpdatedAt: now },
+      [ getKeyForAddresses( addresses[ 0 ], addresses[ 1 ] ) ]: { distance: 5000, lastUpdatedAt },
+      [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt },
+      [ getKeyForAddresses( addresses[ 1 ], 'foo' ) ]: { distance: 2000, lastUpdatedAt },
     };
     const component = React.createElement( Distance, { ...defaultProps, trip: makeTrip( addresses ), cachedDistances } );
     const wrapper = shallow( component );
@@ -56,12 +56,12 @@ describe( '<Distance />', function() {
   } );
 
   it( 'renders a total distance with two addresses and cached distances', function() {
-    const now = performance.now();
+    const lastUpdatedAt = now();
     const addresses = [ '123 Home Drive, Chicago, IL, USA', '321 State Street, Chicago, IL, USA' ];
     const cachedDistances = {
-      [ getKeyForAddresses( addresses[ 0 ], addresses[ 1 ] ) ]: { distance: 5000, lastUpdatedAt: now },
-      [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt: now },
-      [ getKeyForAddresses( addresses[ 1 ], 'foo' ) ]: { distance: 2000, lastUpdatedAt: now },
+      [ getKeyForAddresses( addresses[ 0 ], addresses[ 1 ] ) ]: { distance: 5000, lastUpdatedAt },
+      [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt },
+      [ getKeyForAddresses( addresses[ 1 ], 'foo' ) ]: { distance: 2000, lastUpdatedAt },
     };
     const component = React.createElement( Distance, { ...defaultProps, trip: makeTrip( addresses ), cachedDistances } );
     const wrapper = shallow( component );
@@ -69,12 +69,12 @@ describe( '<Distance />', function() {
   } );
 
   it( 'renders a total distance with three addresses and cached distances', function() {
-    const now = performance.now();
+    const lastUpdatedAt = now();
     const addresses = [ '123 Home Drive, Chicago, IL, USA', '321 State Street, Chicago, IL, USA', '345 Main Street, Chicago, IL, USA' ];
     const cachedDistances = {
-      [ getKeyForAddresses( addresses[ 0 ], addresses[ 1 ] ) ]: { distance: 5000, lastUpdatedAt: now },
-      [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt: now },
-      [ getKeyForAddresses( addresses[ 0 ], addresses[ 2 ] ) ]: { distance: 2000, lastUpdatedAt: now },
+      [ getKeyForAddresses( addresses[ 0 ], addresses[ 1 ] ) ]: { distance: 5000, lastUpdatedAt },
+      [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt },
+      [ getKeyForAddresses( addresses[ 0 ], addresses[ 2 ] ) ]: { distance: 2000, lastUpdatedAt },
     };
     const component = React.createElement( Distance, { ...defaultProps, trip: makeTrip( addresses ), cachedDistances } );
     const wrapper = shallow( component );
@@ -82,11 +82,11 @@ describe( '<Distance />', function() {
   } );
 
   it( 'renders a total distance ignoring duplicate adjacent addresses', function() {
-    const now = performance.now();
+    const lastUpdatedAt = now();
     const addresses = [ '123 Home Drive, Chicago, IL, USA', '123 Home Drive, Chicago, IL, USA', '345 Main Street, Chicago, IL, USA' ];
     const cachedDistances = {
-      [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt: now },
-      [ getKeyForAddresses( addresses[ 0 ], 'foo' ) ]: { distance: 2000, lastUpdatedAt: now },
+      [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt },
+      [ getKeyForAddresses( addresses[ 0 ], 'foo' ) ]: { distance: 2000, lastUpdatedAt },
     };
     const component = React.createElement( Distance, { ...defaultProps, trip: makeTrip( addresses ), cachedDistances } );
     const wrapper = shallow( component );
@@ -94,13 +94,13 @@ describe( '<Distance />', function() {
   } );
 
   it( 'renders a total distance with four addresses and cached distances', function() {
-    const now = performance.now();
+    const lastUpdatedAt = now();
     const addresses = [ '123 Home Drive, Chicago, IL, USA', '321 State Street, Chicago, IL, USA', '345 Main Street, Chicago, IL, USA', '10 Short Street, Chicago, IL, USA' ];
     const cachedDistances = {
-      [ getKeyForAddresses( addresses[ 0 ], addresses[ 1 ] ) ]: { distance: 5000, lastUpdatedAt: now },
-      [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt: now },
-      [ getKeyForAddresses( addresses[ 2 ], addresses[ 3 ] ) ]: { distance: 1000, lastUpdatedAt: now },
-      [ getKeyForAddresses( addresses[ 1 ], addresses[ 3 ] ) ]: { distance: 2000, lastUpdatedAt: now },
+      [ getKeyForAddresses( addresses[ 0 ], addresses[ 1 ] ) ]: { distance: 5000, lastUpdatedAt },
+      [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt },
+      [ getKeyForAddresses( addresses[ 2 ], addresses[ 3 ] ) ]: { distance: 1000, lastUpdatedAt },
+      [ getKeyForAddresses( addresses[ 1 ], addresses[ 3 ] ) ]: { distance: 2000, lastUpdatedAt },
     };
     const component = React.createElement( Distance, { ...defaultProps, trip: makeTrip( addresses ), cachedDistances } );
     const wrapper = shallow( component );
@@ -108,13 +108,13 @@ describe( '<Distance />', function() {
   } );
 
   it( 'renders a total distance with four addresses including one repeated address', function() {
-    const now = performance.now();
+    const lastUpdatedAt = now();
     const addresses = [ '123 Home Drive, Chicago, IL, USA', '321 State Street, Chicago, IL, USA', '345 Main Street, Chicago, IL, USA', '123 Home Drive, Chicago, IL, USA' ];
     const cachedDistances = {
-      [ getKeyForAddresses( addresses[ 0 ], addresses[ 1 ] ) ]: { distance: 5000, lastUpdatedAt: now },
-      [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt: now },
-      [ getKeyForAddresses( addresses[ 2 ], addresses[ 3 ] ) ]: { distance: 1000, lastUpdatedAt: now },
-      [ getKeyForAddresses( addresses[ 1 ], addresses[ 3 ] ) ]: { distance: 2000, lastUpdatedAt: now },
+      [ getKeyForAddresses( addresses[ 0 ], addresses[ 1 ] ) ]: { distance: 5000, lastUpdatedAt },
+      [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt },
+      [ getKeyForAddresses( addresses[ 2 ], addresses[ 3 ] ) ]: { distance: 1000, lastUpdatedAt },
+      [ getKeyForAddresses( addresses[ 1 ], addresses[ 3 ] ) ]: { distance: 2000, lastUpdatedAt },
     };
     const component = React.createElement( Distance, { ...defaultProps, trip: makeTrip( addresses ), cachedDistances } );
     const wrapper = shallow( component );
@@ -122,11 +122,11 @@ describe( '<Distance />', function() {
   } );
 
   it( 'renders no distance if there is an uncached distance needed', function() {
-    const now = performance.now();
+    const lastUpdatedAt = now();
     const addresses = [ '123 Home Drive, Chicago, IL, USA', '321 State Street, Chicago, IL, USA', '345 Main Street, Chicago, IL, USA' ];
     const cachedDistances = {
-      [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt: now },
-      [ getKeyForAddresses( addresses[ 1 ], addresses[ 3 ] ) ]: { distance: 2000, lastUpdatedAt: now },
+      [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt },
+      [ getKeyForAddresses( addresses[ 1 ], addresses[ 3 ] ) ]: { distance: 2000, lastUpdatedAt },
     };
     const component = React.createElement( Distance, { ...defaultProps, trip: makeTrip( addresses ), cachedDistances } );
     const wrapper = shallow( component );
@@ -134,13 +134,13 @@ describe( '<Distance />', function() {
   } );
 
   it( 'renders no distance if there is an expired cached distance needed', function() {
-    const now = performance.now();
+    const lastUpdatedAt = now();
     const addresses = [ '123 Home Drive, Chicago, IL, USA', '321 State Street, Chicago, IL, USA', '345 Main Street, Chicago, IL, USA' ];
-    const maxDistanceAge = 7 * 24 * 60 * 60 * 1000;
+    const maxDistanceAge = getMaxDistanceAge();
     const cachedDistances = {
-      [ getKeyForAddresses( addresses[ 0 ], addresses[ 1 ] ) ]: { distance: 5000, lastUpdatedAt: now - maxDistanceAge - 10 },
-      [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt: now },
-      [ getKeyForAddresses( addresses[ 1 ], addresses[ 3 ] ) ]: { distance: 2000, lastUpdatedAt: now },
+      [ getKeyForAddresses( addresses[ 0 ], addresses[ 1 ] ) ]: { distance: 5000, lastUpdatedAt: lastUpdatedAt - maxDistanceAge - 10 },
+      [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt },
+      [ getKeyForAddresses( addresses[ 1 ], addresses[ 3 ] ) ]: { distance: 2000, lastUpdatedAt },
     };
     const component = React.createElement( Distance, { ...defaultProps, trip: makeTrip( addresses ), cachedDistances } );
     const wrapper = shallow( component );
@@ -148,11 +148,11 @@ describe( '<Distance />', function() {
   } );
 
   it( 'does not fetch distance if all needed distances are cached', function() {
-    const now = performance.now();
+    const lastUpdatedAt = now();
     const addresses = [ '123 Home Drive, Chicago, IL, USA', '321 State Street, Chicago, IL, USA' ];
     const cachedDistances = {
-      [ getKeyForAddresses( addresses[ 0 ], addresses[ 1 ] ) ]: { distance: 3000, lastUpdatedAt: now },
-      [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 2000, lastUpdatedAt: now },
+      [ getKeyForAddresses( addresses[ 0 ], addresses[ 1 ] ) ]: { distance: 3000, lastUpdatedAt },
+      [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 2000, lastUpdatedAt },
     };
     const fetchDistanceBetween = sinon.spy();
     const component = React.createElement( Distance, { ...defaultProps, trip: makeTrip( addresses ), cachedDistances, fetchDistanceBetween } );
@@ -170,11 +170,11 @@ describe( '<Distance />', function() {
   } );
 
   it( 'fetches each uncached distance if there is an uncached distance needed', function() {
-    const now = performance.now();
+    const lastUpdatedAt = now();
     const addresses = [ '123 Home Drive, Chicago, IL, USA', '321 State Street, Chicago, IL, USA', '345 Main Street, Chicago, IL, USA' ];
     const cachedDistances = {
-      [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt: now },
-      [ getKeyForAddresses( addresses[ 1 ], 'foo' ) ]: { distance: 2000, lastUpdatedAt: now },
+      [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt },
+      [ getKeyForAddresses( addresses[ 1 ], 'foo' ) ]: { distance: 2000, lastUpdatedAt },
     };
     const fetchDistanceBetween = sinon.spy();
     const component = React.createElement( Distance, { ...defaultProps, trip: makeTrip( addresses ), cachedDistances, fetchDistanceBetween } );
@@ -183,13 +183,13 @@ describe( '<Distance />', function() {
   } );
 
   it( 'fetches each expired distance if there is an expired cached distance needed', function() {
-    const now = performance.now();
+    const lastUpdatedAt = now();
     const addresses = [ '123 Home Drive, Chicago, IL, USA', '321 State Street, Chicago, IL, USA', '345 Main Street, Chicago, IL, USA' ];
-    const maxDistanceAge = 7 * 24 * 60 * 60 * 1000;
+    const maxDistanceAge = getMaxDistanceAge();
     const cachedDistances = {
-      [ getKeyForAddresses( addresses[ 0 ], addresses[ 1 ] ) ]: { distance: 5000, lastUpdatedAt: now - maxDistanceAge - 10 },
-      [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt: now },
-      [ getKeyForAddresses( addresses[ 1 ], 'foo' ) ]: { distance: 2000, lastUpdatedAt: now },
+      [ getKeyForAddresses( addresses[ 0 ], addresses[ 1 ] ) ]: { distance: 5000, lastUpdatedAt: lastUpdatedAt - maxDistanceAge - 10 },
+      [ getKeyForAddresses( addresses[ 1 ], addresses[ 2 ] ) ]: { distance: 3000, lastUpdatedAt },
+      [ getKeyForAddresses( addresses[ 1 ], 'foo' ) ]: { distance: 2000, lastUpdatedAt },
     };
     const fetchDistanceBetween = sinon.spy();
     const component = React.createElement( Distance, { ...defaultProps, trip: makeTrip( addresses ), cachedDistances, fetchDistanceBetween } );
