@@ -4,7 +4,7 @@ import Notices from 'components/notices';
 const LogInBox = ( props ) => {
   return (
     <div className="log-in-box">
-      <Notices errors={ props.errors } onClearNotices={ props.clearNotices } />
+      <Notices errors={ props.errors } onClearNotices={ props.onClearNotices } />
       <div className="log-in-box__content">
         <img className="log-in-box__logo" alt="Voyageur logo" src="/assets/logo-medium-smooth.png" />
         <h1 className="log-in-box__title">Voyageur</h1>
