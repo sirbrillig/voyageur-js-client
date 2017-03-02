@@ -3,6 +3,9 @@ export default function auth( state = initialState, action ) {
   switch ( action.type ) {
     case 'ERROR':
       let text = action.error.response ? action.error.response.text : action.error.toString();
+      if ( text.match( /expired|unauthorized/i ) ) {
+        return state;
+      }
       if ( text.match( /ZERO/i ) ) {
         text += '; Maybe check that your addresses are valid?';
       }
