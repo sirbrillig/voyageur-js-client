@@ -5,8 +5,10 @@ export default function auth( state = initialState, action ) {
   switch ( action.type ) {
     case 'ERROR':
       const text = get( action, 'error.response.text', '' );
-      if ( text.match( /expired|unauthorized/i ) ) {
+      if ( text.match( /Expired token/i ) ) {
         return Object.assign( {}, state, { expiredToken: true } );
+      } else if ( text.match( /unauthorized/i ) ) {
+        return initialState;
       }
       break;
     case 'AUTH_IGNORE_EXPIRED_TOKEN':
