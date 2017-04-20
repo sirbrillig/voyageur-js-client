@@ -9,6 +9,8 @@ export default function auth( state = initialState, action ) {
         return Object.assign( {}, state, { expiredToken: true } );
       }
       break;
+    case 'AUTH_IGNORE_EXPIRED_TOKEN':
+      return Object.assign( {}, state, { expiredToken: false } );
     case 'AUTH_GOT_TOKEN':
       return Object.assign( {}, state, { token: action.token, expiredToken: false } );
     case 'AUTH_GOT_USER':
