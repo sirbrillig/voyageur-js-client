@@ -6,7 +6,7 @@ export default function auth( state = initialState, action ) {
     case 'ERROR':
       const text = get( action, 'error.response.text', '' );
       if ( text.match( /expired|unauthorized/i ) ) {
-        return Object.assign( {}, initialState );
+        return initialState;
       }
       break;
     case 'AUTH_GOT_TOKEN':
