@@ -27,7 +27,7 @@ class Main extends React.Component {
   render() {
     const props = this.props;
     const lastTripLocationId = ( props.trip.length > 0 ? props.trip[ props.trip.length - 1 ].id : null );
-    const isShowingModal = props.isShowingAddLocation || props.editingLocation;
+    const isShowingModal = props.isShowingAddLocation || props.editingLocation || props.auth.expiredToken;
     return (
       <div className={ classNames( 'main', { 'main--trip': props.isShowingTrip } ) }>
         <HeaderSummary />
