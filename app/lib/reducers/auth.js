@@ -3,6 +3,8 @@ import get from 'lodash.get';
 const initialState = { token: null, user: null, expiredToken: false };
 export default function auth( state = initialState, action ) {
   switch ( action.type ) {
+    case 'AUTH_SET_EXPIRED_TOKEN':
+      return Object.assign( {}, state, { expiredToken: true } );
     case 'ERROR':
       const text = get( action, 'error.response.text', '' );
       if ( text.match( /Expired token/i ) ) {
