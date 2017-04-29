@@ -59,3 +59,7 @@ export function gotProfile( allUserData ) {
 export function logOut() {
   return { type: 'AUTH_LOG_OUT' };
 }
+
+export function ignoreExpiredToken() {
+	return { type: 'AUTH_IGNORE_EXPIRED_TOKEN' };
+}

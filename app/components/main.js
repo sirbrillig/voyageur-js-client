@@ -7,6 +7,7 @@ import Trip from 'components/trip';
 import MainQuestion from 'components/main-question';
 import HeaderSummary from 'components/header-summary';
 import LocationSearch from 'components/location-search';
+import RelogInBox from 'components/relog-in-box';
 import {
   startEditLocation,
   showAddLocation,
@@ -26,7 +27,7 @@ class Main extends React.Component {
   render() {
     const props = this.props;
     const lastTripLocationId = ( props.trip.length > 0 ? props.trip[ props.trip.length - 1 ].id : null );
-    const isShowingModal = props.isShowingAddLocation || props.editingLocation;
+    const isShowingModal = props.isShowingAddLocation || props.editingLocation || props.auth.expiredToken;
     return (
       <div className={ classNames( 'main', { 'main--trip': props.isShowingTrip } ) }>
         <HeaderSummary />
@@ -58,6 +59,7 @@ class Main extends React.Component {
             onDrop={ props.moveTripLocation }
           />
         </div>
+        { props.auth.expiredToken && <RelogInBox /> }
       </div>
     );
   }
@@ -73,6 +75,7 @@ function mapStateToProps( state ) {
     searchString: state.ui.searchString,
     isShowingAddLocation: state.ui.isShowingAddLocation,
     editingLocation: state.ui.editingLocation,
+    auth: state.auth,
   };
 }
 

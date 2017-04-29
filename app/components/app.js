@@ -8,7 +8,7 @@ import LogInBox from 'components/log-in-box';
 
 class App extends React.Component {
   componentWillMount() {
-    if ( ! this.props.auth.token ) {
+    if ( ! this.props.auth.token || this.props.auth.expiredToken ) {
       this.props.parseAuthToken();
     }
   }
@@ -22,7 +22,7 @@ class App extends React.Component {
   }
 
   getUserInfo( props ) {
-    if ( props.auth.token && ! props.auth.user ) {
+    if ( props.auth.token && ! props.auth.user && ! props.auth.expiredToken ) {
       props.getProfile();
     }
   }

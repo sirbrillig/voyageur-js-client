@@ -33,7 +33,7 @@ class LoggedIn extends React.Component {
   }
 
   mainKeyListener = ( evt ) => {
-    if ( this.props.isShowingAddLocation || this.props.editingLocation ) return;
+    if ( this.props.isShowingAddLocation || this.props.editingLocation || this.props.auth.expiredToken ) return;
     switch ( evt.keyCode ) {
       case 40:
         // pressing up and down changes the selected location
@@ -94,6 +94,7 @@ LoggedIn.propTypes = {
   library: React.PropTypes.array,
   predictions: React.PropTypes.array,
   trip: React.PropTypes.array,
+  auth: React.PropTypes.object,
   searchString: React.PropTypes.string,
   isShowingAddLocation: React.PropTypes.bool,
   editingLocation: React.PropTypes.object,
@@ -124,6 +125,7 @@ function mapStateToProps( state ) {
     editingLocation: state.ui.editingLocation,
     addingAddress: state.ui.addingAddress,
     searchString: state.ui.searchString,
+    auth: state.auth,
   };
 }
 
