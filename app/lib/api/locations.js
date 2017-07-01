@@ -4,20 +4,6 @@ import authVars from 'auth0-variables';
 
 const baseUrl = `${authVars.VOYAGEUR_API_SERVER}`;
 
-export function listLocations( token ) {
-  return new Promise( ( resolve, reject ) => {
-    const listLocationsUrl = `${baseUrl}/secured/locations`;
-    request.get( listLocationsUrl )
-    .set( 'Authorization', `Bearer ${token}` )
-    .end( ( err, res ) => {
-      if ( err ) return reject( err );
-      const data = res.body;
-      if ( ! data ) return reject( 'No data found in response' );
-      return resolve( data );
-    } );
-  } );
-}
-
 export function createNewLocation( token, params ) {
   return new Promise( ( resolve, reject ) => {
     const url = `${baseUrl}/secured/locations`;

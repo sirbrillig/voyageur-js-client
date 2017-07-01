@@ -24,7 +24,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 
 class LoggedIn extends React.Component {
   componentDidMount() {
-    this.props.fetchLibrary();
+    this.props.fetchLibrary( this.props.auth.token );
     if ( window ) window.document.body.addEventListener( 'keydown', this.mainKeyListener );
   }
 

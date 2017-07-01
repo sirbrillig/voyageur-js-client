@@ -13,7 +13,7 @@ export default function library( state = initialState, action ) {
     case 'LIBRARY_GOT_PREDICTIONS':
       return Object.assign( {}, state, { predictions: action.predictions } );
     case 'LIBRARY_GOT_LOCATIONS':
-      return Object.assign( {}, { locations: action.library, isLoading: false } );
+      return Object.assign( {}, { locations: action.payload, isLoading: false } );
     case 'LIBRARY_GOT_NEW_LOCATION': {
       const locations = [ ...state.locations, action.location ];
       return Object.assign( {}, { locations } );

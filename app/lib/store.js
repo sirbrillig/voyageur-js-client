@@ -4,10 +4,12 @@ import persistState from 'redux-localstorage';
 import reducers from 'lib/reducers';
 import Debug from 'redux-debug';
 import debugFactory from 'debug';
+import { apiMiddleware } from 'redux-api-middleware';
 
 const debug = debugFactory( 'voyageur:store' );
 
 const createStoreWithMiddleware = compose(
+  applyMiddleware( apiMiddleware ),
   applyMiddleware( thunk ),
   applyMiddleware( Debug( debug ) ),
   persistState( [ 'auth', 'prefs', 'distances', 'trip', 'library' ], { key: 'voyageur' } ),

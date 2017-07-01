@@ -4,15 +4,18 @@ import { reorderModels, getHashFor } from 'lib/helpers';
 import { searchAutocompleteFor } from 'lib/google';
 import { Promise } from 'es6-promise';
 import debugFactory from 'debug';
+import authVars from 'auth0-variables';
+import { CALL_API } from 'redux-api-middleware';
 
 const debug = debugFactory( 'voyageur:library-actions' );
+const baseUrl = `${ authVars.VOYAGEUR_API_SERVER }`;
 
 export function importLocations( data ) {
   return function( dispatch, getState ) {
     const locations = JSON.parse( data );
     if ( ! locations.map ) return dispatch( gotError( 'Only an array of Location objects can be submitted' ) );
     Promise.all( locations.map( params => api.createNewLocation( getState().auth.token, params ) ) )
-    .then( () => dispatch( fetchLibrary() ) )
+    .then( () => dispatch( fetchLibrary( getState().auth.token ) ) )
     .then( () => gotError( 'Import complete!' ) )
     .catch( err => dispatch( gotError( err ) ) );
   };
@@ -22,7 +25,7 @@ export function addLocation( params ) {
   return function( dispatch, getState ) {
     if ( ! params.name || ! params.address ) return dispatch( gotError( 'Locations must have a name and an address' ) );
     api.createNewLocation( getState().auth.token, params )
-    .then( () => dispatch( fetchLibrary() ) )
+    .then( () => dispatch( fetchLibrary( getState().auth.token ) ) )
     .catch( ( err ) => dispatch( gotError( err ) ) );
     const location = Object.assign( { _id: 'new-location_' + getHashFor( params.name + params.address ), isLoading: true }, params );
     dispatch( gotNewLocation( location ) );
@@ -41,20 +44,19 @@ export function showAddLocation( addingAddress = null ) {
   return { type: 'LIBRARY_SHOW_ADD_LOCATION', addingAddress };
 }
 
-export function fetchLibrary() {
-  return function( dispatch, getState ) {
-    api.listLocations( getState().auth.token )
-    .then( ( locations ) => {
-      dispatch( gotLibrary( locations ) );
-    } )
-    .catch( ( err ) => {
-      dispatch( gotError( err ) );
-    } );
+export function fetchLibrary( token ) {
+  return {
+    [ CALL_API ]: {
+      endpoint: `${ baseUrl }/secured/locations`,
+      method: 'GET',
+      headers: { Authorization: `Bearer ${ token }` },
+      types: [ 'LIBRARY_FETCH_BEGIN', 'LIBRARY_GOT_LOCATIONS', 'ERROR' ],
+    }
   };
 }
 
 export function gotLibrary( library ) {
-  return { type: 'LIBRARY_GOT_LOCATIONS', library };
+  return { type: 'LIBRARY_GOT_LOCATIONS', payload: library };
 }
 
 export function searchLocationsFor( searchString ) {
@@ -95,7 +97,7 @@ export function saveLocation( location, params ) {
   return function( dispatch, getState ) {
     if ( ! params.name || ! params.address ) return dispatch( gotError( 'Locations must have a name and an address' ) );
     api.updateLocationParams( getState().auth.token, location, params )
-    .then( () => dispatch( fetchLibrary() ) )
+    .then( () => dispatch( fetchLibrary( getState().auth.token ) ) )
     .catch( ( err ) => dispatch( gotError( err ) ) );
     const updated = Object.assign( {}, location, { isLoading: true }, params );
     dispatch( gotUpdatedLocation( updated ) );
@@ -111,7 +113,7 @@ export function deleteLocation( location ) {
   return function( dispatch, getState ) {
     api.deleteLocationFromLibrary( getState().auth.token, location )
     .then( () => {
-      dispatch( fetchLibrary() );
+      dispatch( fetchLibrary( getState.auth.token ) );
     } )
     .catch( ( err ) => dispatch( gotError( err ) ) );
     dispatch( gotDeletedLocation( location ) );
