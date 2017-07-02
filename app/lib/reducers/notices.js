@@ -2,6 +2,7 @@ const initialState = { errors: [] };
 export default function auth( state = initialState, action ) {
   switch ( action.type ) {
     case 'ERROR':
+      // TODO: support Flux Standard Action errors
       let text = action.error.response ? action.error.response.text : action.error.toString();
       if ( text.match( /expired|unauthorized/i ) ) {
         return state;
