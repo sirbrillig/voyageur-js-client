@@ -37,9 +37,11 @@ export function gotAuthToken( token ) {
 }
 
 export function getProfile() {
-  return function( dispatch ) {
+  return function( dispatch, getState ) {
     const auth = new Auth();
-    auth.getProfile()
+    const token = getState().auth.token;
+    debug( 'fetching profile from service' );
+    auth.getProfile( token )
       .then( profile => {
         debug( 'got profile from service' );
         dispatch( gotProfile( profile ) );

@@ -33,11 +33,9 @@ export default class Auth {
     return new Promise( ( resolve, reject ) => {
       this.auth0.parseHash( ( err, authResult ) => {
         if ( authResult && authResult.accessToken && authResult.idToken ) {
-          console.log( 'login successful' );
           this.setSession( authResult );
           resolve( authResult );
         } else if ( err ) {
-          console.log( err );
           reject( err );
         }
       } );
@@ -66,7 +64,6 @@ export default class Auth {
         this.setSession( authResult );
       } else if ( err ) {
         this.logout();
-        console.log( err );
         alert( `Could not get a new token (${ err.error }: ${ err.error_description }).` );
       }
     } );
@@ -86,10 +83,11 @@ export default class Auth {
     return new Date().getTime() < expiresAt;
   }
 
-  getProfile() {
+  getProfile( token ) {
     return new Promise( ( resolve, reject ) => {
-      this.auth0.client.userInfo( this.accessToken, ( err, profile ) => {
+      this.auth0.client.userInfo( token, ( err, profile ) => {
         if ( err ) {
+          console.log( err );
           return reject( err );
         }
         this.userProfile = profile;
