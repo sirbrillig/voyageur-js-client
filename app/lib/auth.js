@@ -6,7 +6,7 @@ export default class Auth {
   auth0 = new auth0.WebAuth( {
     domain: authVars.AUTH0_DOMAIN,
     clientID: authVars.AUTH0_CLIENT_ID,
-    redirectUri: 'http://localhost:3000/',
+    redirectUri: authVars.AUTH0_CALLBACK_URL,
     responseType: 'token id_token',
     scope: 'openid role name email nickname profile',
     icon: 'https://cldup.com/iu86nhnHUS.png',
