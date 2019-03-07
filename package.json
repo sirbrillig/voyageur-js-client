@@ -46,6 +46,8 @@
   "author": "Payton Swick <payton@foolord.com>",
   "license": "MIT",
   "dependencies": {
+    "@babel/polyfill": "^7.2.5",
+    "auth0-js": "^9.10.0",
     "classnames": "^2.2.3",
     "debug": "^4.1.1",
     "es6-promise": "^3.0.2",
@@ -71,7 +73,11 @@
     "superagent": "^3.7.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
     "babel-core": "^6.26.3",
+    "babel-eslint": "^10.0.1",
     "babel-loader": "^6.2.10",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.20.2",
@@ -82,8 +88,9 @@
     "chai": "^3.5.0",
     "chai-enzyme": "^0.6.1",
     "enzyme": "^2.7.0",
-    "eslint": "^3.12.2",
+    "eslint": "^3.19.0",
     "eslint-config-wpcalypso": "^0.6.0",
+    "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-wpcalypso": "^3.0.2",
     "local-web-server": "^2.6.1",
     "mkdirp": "^0.5.1",
