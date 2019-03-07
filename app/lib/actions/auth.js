@@ -37,12 +37,14 @@ export function gotAuthToken( token ) {
 }
 
 export function getProfile() {
-  return function( dispatch, getState ) {
-    // const lock = new Auth0Lock( authVars.AUTH0_CLIENT_ID, authVars.AUTH0_DOMAIN );
-    // lock.getProfile( getState().auth.token, ( err, profile ) => {
-    //   if ( err ) return dispatch( gotError( err ) );
-    //   dispatch( gotProfile( profile ) );
-    // } );
+  return function( dispatch ) {
+    const auth = new Auth();
+    auth.getProfile()
+      .then( profile => {
+        debug( 'got profile from service' );
+        dispatch( gotProfile( profile ) );
+      } )
+      .catch( err => dispatch( gotError( err ) ) );
   };
 }
 

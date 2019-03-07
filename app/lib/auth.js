@@ -8,7 +8,7 @@ export default class Auth {
     clientID: authVars.AUTH0_CLIENT_ID,
     redirectUri: 'http://localhost:3000/',
     responseType: 'token id_token',
-    scope: 'openid role name email nickname',
+    scope: 'openid role name email nickname profile',
     icon: 'https://cldup.com/iu86nhnHUS.png',
     socialButtonStyle: 'big',
     connections: [ 'facebook' ],
@@ -26,6 +26,7 @@ export default class Auth {
     this.getAccessToken = this.getAccessToken.bind( this );
     this.getIdToken = this.getIdToken.bind( this );
     this.renewSession = this.renewSession.bind( this );
+    this.getProfile = this.getProfile.bind( this );
   }
 
   handleAuthentication() {
@@ -83,5 +84,17 @@ export default class Auth {
     // access token's expiry time
     const expiresAt = this.expiresAt;
     return new Date().getTime() < expiresAt;
+  }
+
+  getProfile() {
+    return new Promise( ( resolve, reject ) => {
+      this.auth0.client.userInfo( this.accessToken, ( err, profile ) => {
+        if ( err ) {
+          return reject( err );
+        }
+        this.userProfile = profile;
+        resolve( profile );
+      } );
+    } );
   }
 }
