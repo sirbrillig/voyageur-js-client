@@ -9,7 +9,7 @@
     "prebuild": "mkdirp build",
     "postbuild": "echo Build complete",
     "stats": "webpack --env production --profile --json > stats.json",
-    "build:dist": "webpack -p",
+    "build:dist": "webpack --env production",
     "prebuild:dist": "mkdirp dist",
     "clean:dist": "rimraf dist",
     "clean": "npm run clean:dist",
@@ -103,6 +103,6 @@
     "sinon": "^1.17.7",
     "sinon-chai": "^2.8.0",
     "surge": "^0.20.1",
-    "webpack": "^2.2.0"
+    "webpack": "^2.7.0"
   }
 }
