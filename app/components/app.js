@@ -22,7 +22,7 @@ class App extends React.Component {
   }
 
   getUserInfo( props ) {
-    if ( props.auth.token && ! props.auth.user && ! props.auth.expiredToken ) {
+    if ( props.auth.token && ! props.auth.user && ! props.auth.expiredToken && ! props.errors.length ) {
       props.getProfile();
     }
   }
