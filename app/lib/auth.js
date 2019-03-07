@@ -87,7 +87,9 @@ export default class Auth {
     return new Promise( ( resolve, reject ) => {
       this.auth0.client.userInfo( token, ( err, profile ) => {
         if ( err ) {
-          console.log( err );
+          if ( err.original && err.original.message ) {
+            err = err.original.message;
+          }
           return reject( err );
         }
         this.userProfile = profile;
