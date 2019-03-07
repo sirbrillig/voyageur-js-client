@@ -4,13 +4,12 @@ function reloadPage() {
   if ( typeof window !== 'undefined' ) window.location.reload();
 }
 
-const ErrorNotice = ( { error, key } ) => {
-  return <div key={ 'notices__error__' + key } className="notices__notice alert alert-warning" role="alert">{ error }</div>;
+const ErrorNotice = ( { error } ) => {
+  return <div className="notices__notice alert alert-warning" role="alert">{ error }</div>;
 };
 
 ErrorNotice.propTypes = {
   error: React.PropTypes.string.isRequired,
-  key: React.PropTypes.number.isRequired,
 };
 
 const Notices = ( { errors, onClearNotices } ) => {
