@@ -1,28 +1,36 @@
 /* globals module */
+
+const webpack = require( 'webpack' );
 const path = require( 'path' );
 
-module.exports = {
+const config = {
+  entry: './app/boot.js',
+  output: {
+    path: path.resolve( __dirname, 'build' ),
+    filename: 'bundle.js'
+  },
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: [ 'babel-loader' ],
-      },
-    ],
+        test: /\.(js|jsx)$/,
+        use: 'babel-loader',
+        exclude: /node_modules/
+      }
+    ]
   },
   resolve: {
     modules: [
       path.resolve( './app' ),
       'node_modules',
+    ],
+    extensions: [
+      '.js',
+      '.jsx'
     ]
   },
-  entry: {
-    app: './app/boot.js',
-  },
-  output: {
-    path: './build',
-    filename: 'bundle.js'
+  devServer: {
+    contentBase: './dist'
   }
 };
 
+module.exports = config;

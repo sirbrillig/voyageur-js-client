@@ -22,8 +22,9 @@ class App extends React.Component {
   }
 
   getUserInfo( props ) {
-    if ( props.auth.token && ! props.auth.user && ! props.auth.expiredToken ) {
-      props.getProfile();
+    if ( props.auth.token && ! props.auth.user && ! props.auth.expiredToken && ! props.errors.length ) {
+      // FIXME: the token is always invalid for some reason
+      // props.getProfile();
     }
   }
 

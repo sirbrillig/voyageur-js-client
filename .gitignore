@@ -31,6 +31,7 @@ node_modules
 
 # Auth0 configuration
 auth0-variables.js
+auth0-variables.*.js
 
 # The compiled source
 build
